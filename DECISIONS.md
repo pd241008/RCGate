@@ -47,3 +47,34 @@ One line per judgment call. Newest at the bottom. M0 entries come first.
 A0 numeric 0.478 < 0.65 and A0 entity 0.858 > 0.85: **gate met.**
 
 **Flag for the human (reviewer attack 1, "is this just metadata leakage?"):** A4 reaches 0.942 on numeric against A7's expected ~0.85. A gradient-boosted tree given claim type and generator identity can learn the per-cell interaction directly, which is precisely the function the gate is supposed to provide. This is an honest negative for H2 on synthetic data and must be reported, not tuned around. It does not refute H1 or H3, and it predicts that on real data, where metadata is coarser and evidence quality varies within a cell, A4 should degrade faster than A7.
+
+## M3 — RC-Gate
+
+- A7 has **229 trainable parameters** (A5 141, A6 149), against the ~50k cap. Gate input is exactly 8-d as specified: two 4-d embeddings, `MLP(8 -> 16 -> 2)` with ReLU.
+- Signals are **not** standardised before the experts. All six already live in [0,1], so the spec's unscaled `Linear(3 -> 1)` is the literal reading. `standardize_signals` exists in config but defaults to off.
+- `tau` is a fixed config value, not learned. A learnable temperature would let the model flatten its own weights toward uniform, which is the collapse H3 is meant to rule out.
+- `standardize_signals` / `fusion_bias` / `dropout` are exposed in config but left at spec defaults; no staged-training ablation was built, since A3 already serves as the flat-blend control and staging is listed as optional.
+- Trained end to end with BCE on `P`, Adam, early stopping on validation AUROC, best-state restore. `unk_dropout=0.1` sends the generator to the reserved `UNK` embedding row during training.
+- The signal tables are left unscaled in the loader, so the expert input is the raw triple. Confirmed by test: perturbing one family moves only its own expert logit.
+- **Tests that guard the method's central claim**: `test_weights_do_not_depend_on_signal_values` perturbs the signals and asserts the gate weights do not move, while `test_signals_do_change_the_experts_and_the_probability` asserts they do change the output. Together these fail if anyone ever wires the signals into the gate.
+
+### M3 acceptance result (5 tables x 5 seeds, mean test AUROC)
+
+| variant | numeric | entity | extractive | abstractive | all | params |
+|---------|---------|--------|------------|-------------|-----|--------|
+| A0 flat LR | 0.478 | 0.858 | 0.837 | 0.805 | 0.756 | - |
+| A2 evidence only | 0.833 | 0.608 | 0.696 | 0.613 | 0.692 | - |
+| A3 static alpha | 0.470 | 0.860 | 0.837 | 0.807 | 0.756 | - |
+| A4 flat GBM + metadata | **0.942** | **0.927** | **0.911** | **0.922** | **0.929** | - |
+| A5 gate on claim type | 0.834 | 0.932 | 0.913 | 0.898 | 0.902 | 141 |
+| A6 gate on generator | 0.640 | 0.884 | 0.800 | 0.851 | 0.804 | 149 |
+| A7 full RC-Gate | 0.855 | 0.870 | 0.867 | 0.841 | 0.875 | 229 |
+
+- **A7 beats A0 on numeric by +0.377** (0.855 vs 0.478), against a target of +0.15. Met.
+- **Mean `w_evid` on numeric = 0.809**, against a target of >0.7. Met.
+- **The gate did not collapse.** Cell-mean `w_cross` has a spread of 0.199 across (claim type, generator) cells, and claim type alone moves `w_cross` from 0.19 (numeric) to 0.68 (entity).
+- **A4 beats A7 on every claim type.** This is an honest negative for H2 on synthetic data and is reported as such. A gradient-boosted tree given claim type and generator can learn the per-cell reliability function directly; the gate's inductive bias is a constraint, not an advantage. Per the spec, A4 was not tuned down.
+- **Claim-type conditioning does nearly all the work; generator conditioning adds little.** A5 (claim type only) reaches 0.834 on numeric against A7's 0.855, and A6 (generator only) reaches only 0.640. So H1 is strongly supported for the claim-type half and barely supported for the generator half.
+- **The generator effect is weak and unstable.** The inverted generator (4) shifts `w_cross` down within a claim type by -0.060 (extractive) and -0.061 (abstractive), but per claim type the paired t-test over 5 seeds gives p = 0.08 to 0.33 and is not significant. Pooled across the four claim types the delta is -0.038 with p = 0.0053. Seed 3 gives a delta of exactly 0.000 (smallest embedding norms of any seed, a partial collapse), so the criterion "measurably different" is met only in aggregate, not per claim type. Reported as a partial pass rather than a pass.
+- **Two distinct solutions to the inverted-generator dilemma, across seeds.** Seeds 0, 2 and 4 learn `agree = +0.4..0.65, contra = -3.1..-3.4`; seed 1 learns the reverse sign assignment with `agree = -0.37, contra = +3.20`. The benchmark admits more than one correct weighting, which is worth saying out loud in a viva rather than presenting one seed's weights as "the" explanation.
+- `alpha` for A3 lands at ~0.03, i.e. almost pure evidence-family weighting overall. That is the point: A3 can only learn one global compromise, and on this table the compromise is evidence-first, which is exactly wrong for the three non-numeric types.
