@@ -37,7 +37,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--config", default="synthetic", help="config name in configs/ or a path")
     p.add_argument(
         "--variant",
-        default="A7",
+        default=None,
         choices=ALL_VARIANTS,
         help="single variant to train (default: A7, the proposed method)",
     )
@@ -69,7 +69,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     cfg = load_config_or_die(args.config)
-    variants = ALL_VARIANTS if args.all_variants else list(DEFAULT_VARIANTS)
+    if args.all_variants:
+        variants = ALL_VARIANTS
+    elif args.variant:
+        variants = [args.variant]
+    else:
+        variants = list(DEFAULT_VARIANTS)
     seeds = resolve_seeds(args, cfg)
 
     from .pipeline import RunContext, train_variant

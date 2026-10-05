@@ -10,7 +10,8 @@ data:
   claim_rate: 0.42
   label_noise: 0.04
   n_seeds_for_table: 1
-  table: data/signal_tables/smoke.parquet
+  table: "data/signal_tables/smoke.parquet"
+  table_seeds: [0]
 
 model:
   n_generators: 4

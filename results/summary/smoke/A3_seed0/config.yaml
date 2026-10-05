@@ -1,0 +1,71 @@
+# resolved config, written by rcgate at run time
+baselines:
+  a0_class_weight: null
+  a1_class_weight: null
+  a2_class_weight: null
+  a4_learning_rate: 0.08
+  a4_max_iter: 300
+  a4_max_leaf_nodes: 31
+budget:
+  dry_run: true
+  max_calls: 400
+  max_usd: 2.0
+data:
+  benchmark: synthetic
+  claim_rate: 0.42
+  dropout_generator_fractions: []
+  label_noise: 0.04
+  n_generators: 4
+  n_questions: 220
+  n_seeds_for_table: 1
+  table: data/signal_tables/smoke.parquet
+  table_seeds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+eval:
+  ece_bins: 10
+  group_by:
+  - claim_type
+  - generator_id
+  logo: true
+  n_bootstrap: 50
+  n_seeds: 1
+  threshold_quantile: 0.5
+model:
+  claim_type_emb_dim: 4
+  dropout: 0.0
+  fusion_input: logit
+  gate_hidden: 16
+  gate_temp: 1.0
+  generator_emb_dim: 4
+  n_generators: 4
+  see_signals_in_gate: false
+  unk_dropout: 0.1
+paths:
+  raw_dir: data/raw
+  tables_dir: data/signal_tables
+pricing:
+  bm25: 0.0
+  claude-haiku: 0.0008
+  gpt-4.1-mini: 0.0004
+  gpt-4o-mini: 0.00015
+  local-scorer: 0.0
+report:
+  out_dir: results/summary
+  save_checkpoint: true
+  save_config: true
+  tag: smoke
+seed: 0
+train:
+  batch_size: 64
+  device: cpu
+  epochs: 2
+  grad_clip: 1.0
+  lr: 0.01
+  max_parameters: 50000
+  patience: 2
+  val_metric: auroc
+  weight_decay: 0.0001

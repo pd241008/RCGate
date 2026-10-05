@@ -68,7 +68,15 @@ def test_different_seeds_give_different_tables():
     assert not a["agree"].equals(b["agree"])
 
 
-# -- planted structure: cross-model family -----------------------------------
+# -- planted structure: the two conflict cells ------------------------------
+#
+# The design (see the header table in configs/planted.yaml) is:
+#   numeric      - evidence trustworthy, cross-model family ANTI-informative
+#   entity /     - cross-model family trustworthy, evidence weak
+#   extractive /
+#   abstractive  -
+# These tests assert both directions, because a table where either family works
+# everywhere makes flat fusion succeed and the gate untestable.
 
 
 def test_numeric_agree_carries_no_information(table):
@@ -81,29 +89,55 @@ def test_numeric_cross_family_is_anti_informative(table):
     """Correlated-error mechanism: all generators copy the same wrong number, so
     cross-model contradiction is *lower* when the claim is wrong."""
     contra = single_signal_auroc(table, "contra", NUMERIC)
-    assert contra < 0.35, f"contra should be anti-informative for numeric, got {contra:.3f}"
+    assert contra < 0.20, f"contra should be strongly anti-informative for numeric, got {contra:.3f}"
 
 
 def test_numeric_evidence_family_is_informative(table):
-    assert single_signal_auroc(table, "support", NUMERIC) < 0.25
-    assert single_signal_auroc(table, "conflict", NUMERIC) > 0.80
+    """The arithmetic check makes numeric claims verifiable, so evidence works."""
+    support = single_signal_auroc(table, "support", NUMERIC)
+    conflict = single_signal_auroc(table, "conflict", NUMERIC)
+    assert support < 0.28, f"support should carry the numeric cell, got {support:.3f}"
+    assert conflict > 0.62, f"conflict should carry the numeric cell, got {conflict:.3f}"
 
 
-def test_entity_claims_are_informed_by_both_families(table):
-    assert single_signal_auroc(table, "agree", ENTITY) < 0.45
-    assert single_signal_auroc(table, "support", ENTITY) < 0.35
+def test_numeric_has_no_usable_cross_signal_but_does_have_usable_evidence(table):
+    """The asymmetry that makes the gate worth building.
+
+    On numeric claims, no cross-model signal points the right way, while the evidence
+    family does. A gate that down-weights cross for numeric claims therefore gains a lot,
+    and a flat model cannot get there because it must carry cross weight for the other
+    three claim types.
+    """
+    best_cross = max(single_signal_auroc(table, s, NUMERIC) for s in ("agree", "contra", "sem_dist"))
+    best_evid = max(
+        single_signal_auroc(table, s, NUMERIC) for s in ("support", "src_quality", "conflict")
+    )
+    assert best_cross < 0.52, f"some cross signal still helps on numeric: {best_cross:.3f}"
+    assert best_evid > 0.60, f"no evidence signal helps on numeric: {best_evid:.3f}"
 
 
-def test_extractive_support_is_strong_and_agree_is_weak(table):
-    support = single_signal_auroc(table, "support", EXTRACTIVE)
-    agree = single_signal_auroc(table, "agree", EXTRACTIVE)
-    assert support < 0.25, f"support should be the strong signal, got {support:.3f}"
-    assert 0.35 < agree < 0.65, f"agree should be weak on extractive, got {agree:.3f}"
+@pytest.mark.parametrize("claim_type", [ENTITY, EXTRACTIVE, ABSTRACTIVE])
+def test_cross_family_carries_the_non_numeric_types(table, claim_type):
+    contra = single_signal_auroc(table, "contra", claim_type)
+    assert contra > 0.80, f"contra should be strong on type {claim_type}, got {contra:.3f}"
 
 
-def test_abstractive_is_informed_by_both_families(table):
-    assert single_signal_auroc(table, "agree", ABSTRACTIVE) < 0.50
-    assert single_signal_auroc(table, "support", ABSTRACTIVE) < 0.35
+def test_evidence_family_is_weak_off_numeric(table):
+    """If evidence worked everywhere, a flat model would ignore cross-model signals and
+    score ~0.91 on numeric. The M2 gate depends on this being true."""
+    for claim_type in (ENTITY, EXTRACTIVE, ABSTRACTIVE):
+        auc = single_signal_auroc(table, "support", claim_type)
+        assert 0.30 < auc < 0.48, f"support should be weak on type {claim_type}, got {auc:.3f}"
+
+
+def test_extractive_agree_is_weaker_than_entity_agree(table):
+    """Spec M1: `agree` is weak for extractive claims and strong for entity claims."""
+    entity = single_signal_auroc(table, "agree", ENTITY)
+    extractive = single_signal_auroc(table, "agree", EXTRACTIVE)
+    assert entity < 0.45
+    assert abs(0.5 - extractive) < abs(0.5 - entity), (
+        f"agree is not weaker on extractive ({extractive:.3f}) than entity ({entity:.3f})"
+    )
 
 
 # -- planted structure: the inverted generator family -----------------------
@@ -133,10 +167,17 @@ def test_inverted_generator_is_opposite_to_the_standard_ones(table):
 
 
 def test_inversion_does_not_touch_the_evidence_family(table):
-    """The inverted decoder hurts agreement only; evidence signals keep their sign."""
+    """The inverted decoder hurts agreement only; evidence keeps its planted sign."""
     inverted = int(load_planted().get("inverted_generators", [4])[0])
-    for claim_type in range(4):
-        assert single_signal_auroc(table, "support", claim_type, generator=inverted) < 0.40
+    for claim_type in (NUMERIC, EXTRACTIVE):
+        plain = single_signal_auroc(table, "support", claim_type)
+        flipped = single_signal_auroc(table, "support", claim_type, generator=inverted)
+        # both directions preserved: numeric stays informative, the rest stays weak
+        if claim_type == NUMERIC:
+            assert flipped < 0.30, f"numeric support should stay informative, got {flipped:.3f}"
+        else:
+            assert flipped > 0.30, f"extractive support should stay weak, got {flipped:.3f}"
+        assert (plain < 0.30) == (flipped < 0.30)
 
 
 # -- label-free signals and clustering --------------------------------------

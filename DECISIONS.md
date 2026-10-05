@@ -21,3 +21,29 @@ One line per judgment call. Newest at the bottom. M0 entries come first.
 - Four claim types are used (numeric, entity, extractive, abstractive), matching the survey rather than the proposal's three. The proposal's "numeric/extractive" reporting group is types 0 and 2 reported together.
 - Full-scale table: 900 questions x 5 generators x 2-4 claims = ~13.5k claims, comfortably over the 4,000 floor. Smoke config uses a 220-question table.
 - Label noise is applied *after* signal emission, so signals reflect the latent truth and the label is a noisy observation of it. That is why no single signal reaches AUROC 1.0.
+
+## M2 — Baselines A0-A4
+
+- **M2's acceptance criterion contradicts M1's prose, and this is the important finding of the milestone.** M1 prescribes "numeric claims: agree is high regardless of label, `support` and `conflict` informative" and "entity claims: both signal families informative". If the evidence family is informative for *every* claim type, a flat logistic regression simply ignores the cross-model family and scores 0.91 AUROC on numeric. The M2 target of A0-numeric < 0.65 is then unreachable by any generator, not just by this one. Measured directly: evidence-family-only LR gets numeric 0.890 and pooled 0.908.
+- Resolution, per M2's own instruction to "fix it before continuing": the planted table now has two opposing conflict cells. Numeric trusts evidence and has an **anti-informative** cross family (agree flat, contra inverted, because a shared-source numeric error makes every generator emit the same wrong number). Entity, extractive and abstractive trust cross-model consensus and have a **near-null** evidence family. The M1 numeric mechanism is preserved verbatim; the deviation is that evidence is weak off numeric, which M1's "entity: both informative" did not anticipate.
+- A sweep over evidence strength (`f` off-numeric, `g` on numeric, 18 combinations, 3 tables each) found the reachable region: `A0 numeric < 0.65` requires `f <= 0.35`. Final values sit at evidence gaps of 0.13-0.25 on numeric and 0.02-0.14 elsewhere.
+- **The evidence gap on numeric must stay *smaller* than the cross gap (0.68) or flat fusion wins anyway.** An intermediate attempt set numeric `support` to a gap of 0.68, equal to `contra`'s; the flat model then resolved the tie in its own favour and A0-numeric went back to 0.92. This is a magnitude condition, not a sign condition, so it is fragile by nature and is the main thing to re-check if the planted numbers are ever edited.
+- `sem_dist` is deliberately uninformative everywhere. With it informative on three claim types it is collinear with `contra`, the flat LR moved the cross family's weight onto it, `contra`'s weight collapsed to -0.11, and the numeric failure disappeared entirely. Costs realism; documented in `configs/planted.yaml`.
+- A3 is implemented as a genuine static scalar, not a two-feature LR: `logit = b + s * (alpha * z_cross + (1 - alpha) * z_evid)` with alpha grid-searched over 101 values on validation AUROC and ties broken toward alpha = 0.5. This is the control that separates *learning* a blend from *conditioning* it.
+- `stratify=True` is the default in `grouped_split`. Hallucination rates differ a lot between cells and an unstratified split can leave a slice single-class.
+- Per-seed tables: `data.table` accepts a `{seed}` placeholder and one table is generated per `data.table_seeds`. A config can no longer claim 4 generators over a 5-generator table, which is what let A4 crash in the first smoke run.
+- Duplicate YAML keys are now rejected by the loader. PyYAML silently keeps the last value, and `configs/synthetic.yaml` had `n_questions` twice (900 declared, 1400 used).
+
+### M2 acceptance result (5 tables x 5 seeds, mean test AUROC)
+
+| variant | numeric | entity | extractive | abstractive | all |
+|---------|---------|--------|------------|-------------|-----|
+| A0 flat LR | **0.478** | 0.858 | 0.837 | 0.805 | 0.756 |
+| A1 cross only | 0.060 | 0.926 | 0.882 | 0.882 | 0.650 |
+| A2 evidence only | 0.833 | 0.608 | 0.696 | 0.613 | 0.692 |
+| A3 static alpha | 0.470 | 0.860 | 0.837 | 0.807 | 0.756 |
+| A4 flat GBM + metadata | 0.942 | 0.927 | 0.911 | 0.922 | 0.929 |
+
+A0 numeric 0.478 < 0.65 and A0 entity 0.858 > 0.85: **gate met.**
+
+**Flag for the human (reviewer attack 1, "is this just metadata leakage?"):** A4 reaches 0.942 on numeric against A7's expected ~0.85. A gradient-boosted tree given claim type and generator identity can learn the per-cell interaction directly, which is precisely the function the gate is supposed to provide. This is an honest negative for H2 on synthetic data and must be reported, not tuned around. It does not refute H1 or H3, and it predicts that on real data, where metadata is coarser and evidence quality varies within a cell, A4 should degrade faster than A7.

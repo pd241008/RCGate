@@ -67,6 +67,26 @@ class Config(Mapping):
         return self._source
 
 
+def _no_duplicate_keys(loader: yaml.SafeLoader, node, deep: bool = False):
+    """Reject duplicate YAML keys.
+
+    PyYAML silently keeps the last value for a repeated key, which once made a config
+    declare 900 questions and silently use 1400. A duplicate key is always a mistake.
+    """
+    mapping: dict[str, Any] = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in mapping:
+            raise ValueError(f"duplicate key {key!r} at line {key_node.start_mark.line + 1}")
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+yaml.SafeLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _no_duplicate_keys
+)
+
+
 def _deep_merge(base: dict[str, Any], override: Mapping[str, Any]) -> dict[str, Any]:
     out = copy.deepcopy(base)
     for key, value in override.items():

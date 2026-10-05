@@ -1,0 +1,36 @@
+{
+  "config": "smoke.yaml",
+  "fit_info": {
+    "val_auroc": 0.9446726491405462
+  },
+  "git": "1b75aaa",
+  "seed": 0,
+  "skipped": null,
+  "split_seed": 0,
+  "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/smoke.parquet",
+  "test": {
+    "auroc": 0.9581,
+    "auroc_ci_hi": null,
+    "auroc_ci_lo": null,
+    "ece": 0.0427,
+    "f1": 0.9243,
+    "mean_prob": 0.348,
+    "n": 534,
+    "positive_rate": 0.3521,
+    "precision": 0.9396,
+    "recall": 0.9096,
+    "seed": 0,
+    "slice": "A4:test",
+    "variant": "A4"
+  },
+  "threshold": 0.737358,
+  "timing": {
+    "api_calls": 0,
+    "api_usd": 0.0,
+    "predict_s": 0.009,
+    "train_s": 0.95,
+    "wall_s": 1.092
+  },
+  "val_auroc": 0.9447,
+  "variant": "A4"
+}

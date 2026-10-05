@@ -15,7 +15,8 @@ report:
 
 # ---- data -------------------------------------------------------------------
 data:
-  table: data/signal_tables/synthetic.parquet
+  # May contain {seed}; one table is built per entry in table_seeds.
+  table: "data/signal_tables/synthetic_s{seed}.parquet"
   benchmark: synthetic
   n_generators: 3
   # A0-A4 need G to one-hot-encode generator_id; RC-Gate learns its own embedding.

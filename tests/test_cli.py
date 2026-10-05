@@ -19,8 +19,12 @@ def test_train_help_exits_zero(capsys):
 
 def test_parser_defaults_to_full_rcgate():
     args = build_parser().parse_args([])
-    assert args.variant == "A7"
+    assert args.variant is None, "no explicit variant means the default list is used"
     assert args.config == "synthetic"
+
+
+def test_explicit_variant_is_respected():
+    assert build_parser().parse_args(["--variant", "A0"]).variant == "A0"
 
 
 def test_every_variant_is_documented():

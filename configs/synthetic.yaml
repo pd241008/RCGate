@@ -5,13 +5,14 @@ report:
 
 data:
   benchmark: synthetic
+  table: "data/signal_tables/synthetic_s{seed}.parquet"
+  # 900 questions x 5 generators x 2-4 claims is ~13.5k claims per table, comfortably
+  # over the 4,000-claim floor from M1.
+  n_questions: 900
   n_generators: 5
-  # 5 generators x >=1000 claims each comfortably clears the >=4000-claim floor (M1).
-  n_questions: 1400
   claims_per_answer: 3
   label_noise: 0.05
   table_seeds: [0, 1, 2, 3, 4]
-  n_seeds_for_table: 5
   # Generator 4 is the planted "inverted" family from M1 (see data/synthetic.py).
   inverted_generators: [4]
 

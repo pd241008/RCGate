@@ -68,3 +68,23 @@ def test_every_variant_relevant_key_is_defined_in_base():
         "budget.dry_run",
     ]:
         cfg.get(key)
+
+
+def test_duplicate_yaml_keys_are_rejected(tmp_path):
+    """PyYAML silently keeps the last value; a duplicate key is always a mistake."""
+    bad = tmp_path / "bad.yaml"
+    bad.write_text("model:\n  gate_hidden: 16\n  gate_hidden: 99\n")
+    with pytest.raises(ValueError, match="duplicate key 'gate_hidden'"):
+        load_config(bad)
+
+
+def test_all_shipped_configs_load():
+    """budget.yaml and generators.yaml are leaf configs; only model configs carry data."""
+    from rcgate.config import available_configs
+
+    for name in available_configs():
+        cfg = load_named(name)
+        assert len(cfg) > 0, name
+        if name in ("base", "synthetic", "smoke"):
+            assert cfg.get("data.table")
+            assert cfg.get("model.gate_hidden")
