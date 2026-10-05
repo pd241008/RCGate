@@ -30,6 +30,14 @@ import json
 import sys
 from pathlib import Path
 
+if __package__ in {None, ""}:
+    # `streamlit run rcgate/demo/app.py` and Streamlit's AppTest execute this file as a
+    # bare script, so the package-relative imports below would fail with "attempted
+    # relative import with no known parent package". Put the project root on sys.path and
+    # declare the package; `python -m rcgate.demo.app` skips this branch entirely.
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    __package__ = "rcgate.demo"
+
 import pandas as pd
 
 from ..claims.claim_type import classify
