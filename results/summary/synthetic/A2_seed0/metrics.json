@@ -1,0 +1,48 @@
+{
+  "config": "synthetic.yaml",
+  "fit_info": {
+    "coef": [
+      [
+        -0.717,
+        -0.055,
+        0.247
+      ]
+    ],
+    "columns": [
+      "support",
+      "src_quality",
+      "conflict"
+    ],
+    "val_auroc": 0.6979911658579072
+  },
+  "git": "b7b5889",
+  "seed": 0,
+  "skipped": null,
+  "split_seed": 0,
+  "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/synthetic_s0.parquet",
+  "test": {
+    "auroc": 0.6895,
+    "auroc_ci_hi": null,
+    "auroc_ci_lo": null,
+    "ece": 0.0234,
+    "f1": 0.5603,
+    "mean_prob": 0.3603,
+    "n": 2696,
+    "positive_rate": 0.3642,
+    "precision": 0.4869,
+    "recall": 0.6599,
+    "seed": 0,
+    "slice": "A2:test",
+    "variant": "A2"
+  },
+  "threshold": 0.338672,
+  "timing": {
+    "api_calls": 0,
+    "api_usd": 0.0,
+    "predict_s": 0.001,
+    "train_s": 0.008,
+    "wall_s": 0.918
+  },
+  "val_auroc": 0.698,
+  "variant": "A2"
+}

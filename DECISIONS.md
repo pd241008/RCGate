@@ -78,3 +78,41 @@ A0 numeric 0.478 < 0.65 and A0 entity 0.858 > 0.85: **gate met.**
 - **The generator effect is weak and unstable.** The inverted generator (4) shifts `w_cross` down within a claim type by -0.060 (extractive) and -0.061 (abstractive), but per claim type the paired t-test over 5 seeds gives p = 0.08 to 0.33 and is not significant. Pooled across the four claim types the delta is -0.038 with p = 0.0053. Seed 3 gives a delta of exactly 0.000 (smallest embedding norms of any seed, a partial collapse), so the criterion "measurably different" is met only in aggregate, not per claim type. Reported as a partial pass rather than a pass.
 - **Two distinct solutions to the inverted-generator dilemma, across seeds.** Seeds 0, 2 and 4 learn `agree = +0.4..0.65, contra = -3.1..-3.4`; seed 1 learns the reverse sign assignment with `agree = -0.37, contra = +3.20`. The benchmark admits more than one correct weighting, which is worth saying out loud in a viva rather than presenting one seed's weights as "the" explanation.
 - `alpha` for A3 lands at ~0.03, i.e. almost pure evidence-family weighting overall. That is the point: A3 can only learn one global compromise, and on this table the compromise is evidence-first, which is exactly wrong for the three non-numeric types.
+
+## M4 — Evaluation harness
+
+- One command produces everything: `python -m rcgate.evaluate --config synthetic --bootstrap 1000` writes `results/summary/synthetic.md`, a `.json` twin, and a gate-weight heatmap PNG. Full run is 9 variants x 5 tables x 5 seeds and takes ~17 min on CPU.
+- The report leads with a **SYNTHETIC DATA** banner naming H1-H3 as out of scope, and every commit of a summary table must carry that label (constraint C8).
+- Bootstrap CIs are computed per seed and then averaged, rather than pooling claims across seeds. Pooling would resample the same claim ids repeatedly under five different splits and report an interval that is too narrow.
+- **The headline H2 test is a paired bootstrap, not a difference of two CIs.** A7 and A0 are scored on identical test rows with one shared resample per replicate. Per-claim-type CIs in the main tables are claim-level resamples; `metrics.bootstrap_auroc_ci_grouped` provides a question-clustered variant that ignores within-question correlation, and is the more conservative choice when there is time to run it.
+- `auroc_fast` (rank form via `scipy.stats.rankdata`) replaced sklearn's `roc_auc_score` inside the bootstrap loops, ~10x faster; `tests/test_metrics.py` asserts the two agree. 1,000-resample CIs on ~2,700-row slices are otherwise not affordable.
+- Per-cell (claim type x generator) tables are point estimates only: 20 cells x 5 seeds x 9 variants with CIs would dominate the runtime for little extra information.
+- Every run records wall clock and API accounting in the report's cost table, so reviewer attack 3 (latency and cost) is answered from the artefacts rather than from memory.
+
+### M4 acceptance result (synthetic, 5 tables x 5 seeds)
+
+Overall AUROC: A0 0.756, A1 0.650, A2 0.692, A3 0.756, A4 **0.929**, A5 0.902, A6 0.804, A7 0.874.
+
+Paired bootstrap, A7 minus A0:
+
+| slice | delta AUROC | 95% CI | p(A7 better) |
+|---|---:|---|---:|
+| all | +0.118 | [0.102, 0.133] | 0.974 |
+| numeric | **+0.377** | [0.341, 0.414] | **1.000** |
+| entity | +0.011 | [-0.014, 0.037] | 0.800 |
+| extractive | +0.029 | [0.006, 0.053] | 0.800 |
+| abstractive | +0.036 | [0.008, 0.063] | 0.800 |
+
+H2 is supported on numeric and marginal on the other three types. A4 still beats A7 overall.
+
+**Leave-one-generator-out is the strongest result in the project.** Holding out generator 4, the planted *inverted* family, and scoring only the UNK rows:
+
+| held out | A0 UNK AUROC | A7 UNK AUROC | A0 seen | A7 seen |
+|---|---:|---:|---:|---:|
+| 0 | 0.742 | 0.891 | 0.743 | 0.908 |
+| 1 | 0.775 | 0.904 | 0.734 | 0.905 |
+| 2 | 0.749 | 0.908 | 0.740 | 0.904 |
+| 3 | 0.746 | 0.915 | 0.740 | 0.902 |
+| 4 (inverted) | **0.171** | **0.748** | 0.816 | 0.910 |
+
+A0 scores **0.171** on the unseen inverted generator -- worse than random, because the global coefficient it learned for `agree` has exactly the wrong sign there. A7 degrades to 0.748 and stays useful. This is the cleanest available answer to reviewer attack 2 ("does it generalise to unseen generators?"), and it is a stronger result than the in-distribution comparison.

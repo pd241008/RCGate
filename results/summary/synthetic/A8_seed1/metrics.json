@@ -1,0 +1,32 @@
+{
+  "config": "synthetic.yaml",
+  "fit_info": {},
+  "git": "b7b5889",
+  "seed": 1,
+  "skipped": "no judge outputs in the signal table; A8 skipped by design",
+  "split_seed": 1,
+  "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/synthetic_s1.parquet",
+  "test": {
+    "auroc": null,
+    "auroc_ci_hi": null,
+    "auroc_ci_lo": null,
+    "ece": null,
+    "f1": null,
+    "mean_prob": null,
+    "n": 0,
+    "positive_rate": NaN,
+    "precision": null,
+    "recall": null,
+    "slice": "A8"
+  },
+  "threshold": 0.5,
+  "timing": {
+    "api_calls": 0,
+    "api_usd": 0.0,
+    "predict_s": 0.0,
+    "train_s": 0.0,
+    "wall_s": 0.0
+  },
+  "val_auroc": null,
+  "variant": "A8"
+}

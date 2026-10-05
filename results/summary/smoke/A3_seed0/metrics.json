@@ -3,36 +3,36 @@
   "fit_info": {
     "alpha": 0.49,
     "n_grid": 101,
-    "val_auroc": 0.9315854275982695
+    "val_auroc": 0.9621145096056624
   },
-  "git": "1b75aaa",
+  "git": "b7b5889",
   "seed": 0,
   "skipped": null,
   "split_seed": 0,
   "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/smoke.parquet",
   "test": {
-    "auroc": 0.9382,
+    "auroc": 0.9601,
     "auroc_ci_hi": null,
     "auroc_ci_lo": null,
-    "ece": 0.0458,
-    "f1": 0.8896,
-    "mean_prob": 0.336,
-    "n": 904,
-    "positive_rate": 0.3429,
-    "precision": 0.8954,
-    "recall": 0.8839,
+    "ece": 0.0313,
+    "f1": 0.9284,
+    "mean_prob": 0.3583,
+    "n": 534,
+    "positive_rate": 0.3521,
+    "precision": 0.9259,
+    "recall": 0.9309,
     "seed": 0,
     "slice": "A3:test",
     "variant": "A3"
   },
-  "threshold": 0.373286,
+  "threshold": 0.524211,
   "timing": {
     "api_calls": 0,
     "api_usd": 0.0,
     "predict_s": 0.001,
-    "train_s": 0.448,
-    "wall_s": 0.675
+    "train_s": 0.386,
+    "wall_s": 0.467
   },
-  "val_auroc": 0.9316,
+  "val_auroc": 0.9621,
   "variant": "A3"
 }

@@ -21,10 +21,6 @@ data:
   table: data/signal_tables/smoke.parquet
   table_seeds:
   - 0
-  - 1
-  - 2
-  - 3
-  - 4
 eval:
   ece_bins: 10
   group_by:

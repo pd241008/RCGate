@@ -1,0 +1,245 @@
+{
+  "variant": "A7",
+  "seed": 0,
+  "git": "b7b5889",
+  "w_cross_by_type_generator": {
+    "g0": {
+      "abstractive": 0.002899999963119626,
+      "entity": 0.001500000013038516,
+      "extractive": 0.0006000000284984708,
+      "numeric": 9.999999747378752e-05
+    },
+    "g1": {
+      "abstractive": 0.002899999963119626,
+      "entity": 0.001500000013038516,
+      "extractive": 0.0005000000237487257,
+      "numeric": 9.999999747378752e-05
+    },
+    "g2": {
+      "abstractive": 0.004000000189989805,
+      "entity": 0.0019000000320374966,
+      "extractive": 0.000699999975040555,
+      "numeric": 9.999999747378752e-05
+    },
+    "g3": {
+      "abstractive": 0.01209999993443489,
+      "entity": 0.007799999788403511,
+      "extractive": 0.00419999985024333,
+      "numeric": 0.0010000000474974513
+    }
+  },
+  "w_evid_by_type_generator": {
+    "g0": {
+      "abstractive": 0.9970999956130981,
+      "entity": 0.9984999895095825,
+      "extractive": 0.9994000196456909,
+      "numeric": 0.9998999834060669
+    },
+    "g1": {
+      "abstractive": 0.9970999956130981,
+      "entity": 0.9984999895095825,
+      "extractive": 0.9994999766349792,
+      "numeric": 0.9998999834060669
+    },
+    "g2": {
+      "abstractive": 0.9959999918937683,
+      "entity": 0.9980999827384949,
+      "extractive": 0.9993000030517578,
+      "numeric": 0.9998999834060669
+    },
+    "g3": {
+      "abstractive": 0.9879000186920166,
+      "entity": 0.9922000169754028,
+      "extractive": 0.9958000183105469,
+      "numeric": 0.9990000128746033
+    }
+  },
+  "w_cross_by_generator": [
+    {
+      "index": "g0",
+      "w_cross_mean": 0.0012000000569969416,
+      "w_cross_std": 0.0010000000474974513,
+      "w_cross_min": 9.999999747378752e-05,
+      "w_cross_max": 0.002899999963119626
+    },
+    {
+      "index": "g1",
+      "w_cross_mean": 0.00139999995008111,
+      "w_cross_std": 0.0010999999940395355,
+      "w_cross_min": 9.999999747378752e-05,
+      "w_cross_max": 0.002899999963119626
+    },
+    {
+      "index": "g2",
+      "w_cross_mean": 0.001500000013038516,
+      "w_cross_std": 0.00139999995008111,
+      "w_cross_min": 9.999999747378752e-05,
+      "w_cross_max": 0.004000000189989805
+    },
+    {
+      "index": "g3",
+      "w_cross_mean": 0.006599999964237213,
+      "w_cross_std": 0.004100000020116568,
+      "w_cross_min": 0.0010000000474974513,
+      "w_cross_max": 0.01209999993443489
+    }
+  ],
+  "collapse_report": {
+    "spread_of_cell_means": 0.0032,
+    "range": [
+      0.0001,
+      0.0121
+    ],
+    "collapsed": true,
+    "verdict": "gate collapsed: metadata carries no signal in this dataset",
+    "n_cells": 16
+  },
+  "n_parameters": 225,
+  "gate_input_dim": 8,
+  "top_claims": [
+    {
+      "claim_id": "syn_q00166_g3_c0",
+      "claim_text": "In 2017, total output reached 227 units, a increase of 29 units.",
+      "claim_type": "numeric",
+      "generator": "g3",
+      "prob": 0.4097,
+      "w_cross": 0.001,
+      "w_evid": 0.999,
+      "z_cross": 0.074,
+      "z_evid": -0.7929,
+      "explanation": "numeric claim; likely supported (0.41); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00203_g3_c2",
+      "claim_text": "The report states total output of 695 megawatt-hours across all sites, up from 39 megawatt-hours in the prior period.",
+      "claim_type": "extractive",
+      "generator": "g3",
+      "prob": 0.407,
+      "w_cross": 0.0042,
+      "w_evid": 0.9958,
+      "z_cross": 0.1387,
+      "z_evid": -0.8185,
+      "explanation": "extractive claim; likely supported (0.41); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00064_g2_c1",
+      "claim_text": "In 2021, total output reached 381 tonnes, a increase of 33 tonnes.",
+      "claim_type": "numeric",
+      "generator": "g2",
+      "prob": 0.4034,
+      "w_cross": 0.0001,
+      "w_evid": 0.9999,
+      "z_cross": 0.1214,
+      "z_evid": -0.847,
+      "explanation": "numeric claim; likely supported (0.40); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00032_g3_c2",
+      "claim_text": "The Bellweather facility is operated from Calder by a regional contractor.",
+      "claim_type": "entity",
+      "generator": "g3",
+      "prob": 0.4031,
+      "w_cross": 0.0078,
+      "w_evid": 0.9922,
+      "z_cross": 0.127,
+      "z_evid": -0.8556,
+      "explanation": "entity claim; likely supported (0.40); evidence down-weighted (w_evid 0.01)"
+    },
+    {
+      "claim_id": "syn_q00032_g3_c0",
+      "claim_text": "The report states total output of 700 kilometres across all sites, up from 5 kilometres in the prior period.",
+      "claim_type": "extractive",
+      "generator": "g3",
+      "prob": 0.4021,
+      "w_cross": 0.0042,
+      "w_evid": 0.9958,
+      "z_cross": 0.0457,
+      "z_evid": -0.8613,
+      "explanation": "extractive claim; likely supported (0.40); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00041_g3_c2",
+      "claim_text": "The report states total output of 247 tonnes across all sites, up from 4 tonnes in the prior period.",
+      "claim_type": "extractive",
+      "generator": "g3",
+      "prob": 0.4019,
+      "w_cross": 0.0042,
+      "w_evid": 0.9958,
+      "z_cross": 0.1354,
+      "z_evid": -0.8638,
+      "explanation": "extractive claim; likely supported (0.40); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00080_g3_c0",
+      "claim_text": "In 2017, total output reached 829 units, a increase of 34 units.",
+      "claim_type": "numeric",
+      "generator": "g3",
+      "prob": 0.4017,
+      "w_cross": 0.001,
+      "w_evid": 0.999,
+      "z_cross": 0.1647,
+      "z_evid": -0.862,
+      "explanation": "numeric claim; likely supported (0.40); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00118_g3_c1",
+      "claim_text": "The report states total output of 445 megawatt-hours across all sites, up from 15 megawatt-hours in the prior period.",
+      "claim_type": "extractive",
+      "generator": "g3",
+      "prob": 0.401,
+      "w_cross": 0.0042,
+      "w_evid": 0.9958,
+      "z_cross": 0.1738,
+      "z_evid": -0.8711,
+      "explanation": "extractive claim; likely supported (0.40); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00062_g1_c1",
+      "claim_text": "In 2017, total output reached 900 megawatt-hours, a increase of 8 megawatt-hours.",
+      "claim_type": "numeric",
+      "generator": "g1",
+      "prob": 0.399,
+      "w_cross": 0.0001,
+      "w_evid": 0.9999,
+      "z_cross": 0.0306,
+      "z_evid": -0.8856,
+      "explanation": "numeric claim; likely supported (0.40); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00055_g3_c0",
+      "claim_text": "The Juniper facility is operated from Ironbridge by a regional contractor.",
+      "claim_type": "entity",
+      "generator": "g3",
+      "prob": 0.396,
+      "w_cross": 0.0078,
+      "w_evid": 0.9922,
+      "z_cross": 0.0634,
+      "z_evid": -0.9186,
+      "explanation": "entity claim; likely supported (0.40); evidence down-weighted (w_evid 0.01)"
+    },
+    {
+      "claim_id": "syn_q00016_g3_c1",
+      "claim_text": "The report states total output of 894 tonnes across all sites, up from 24 tonnes in the prior period.",
+      "claim_type": "extractive",
+      "generator": "g3",
+      "prob": 0.3945,
+      "w_cross": 0.0042,
+      "w_evid": 0.9958,
+      "z_cross": 0.0825,
+      "z_evid": -0.9283,
+      "explanation": "extractive claim; likely supported (0.39); evidence down-weighted (w_evid 0.00)"
+    },
+    {
+      "claim_id": "syn_q00069_g3_c3",
+      "claim_text": "The report states total output of 208 shares across all sites, up from 7 shares in the prior period.",
+      "claim_type": "extractive",
+      "generator": "g3",
+      "prob": 0.3903,
+      "w_cross": 0.0042,
+      "w_evid": 0.9958,
+      "z_cross": 0.1278,
+      "z_evid": -0.9661,
+      "explanation": "extractive claim; likely supported (0.39); evidence down-weighted (w_evid 0.00)"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{"id": "n001", "type": 0, "claim": "Total output reached 847 tonnes in 2019, up from 612 tonnes."}
+{"id": "n002", "type": 0, "claim": "Revenue rose by 12.4% year over year to $3.8 billion."}
+{"id": "n003", "type": 0, "claim": "The facility consumed 14,200 MWh of electricity annually."}
+{"id": "n004", "type": 0, "claim": "Operating margin improved to 18.2% from 15.1%."}
+{"id": "n005", "type": 0, "claim": "Headcount fell from 4,100 to 3,760 employees."}
+{"id": "n006", "type": 0, "claim": "Gross profit was 847 million dollars."}
+{"id": "n007", "type": 0, "claim": "The average ticket price is 42.50 dollars."}
+{"id": "n008", "type": 0, "claim": "Quarterly earnings per share were 1.24 dollars."}
+{"id": "n009", "type": 0, "claim": "Debt to equity stood at 2.3x at the end of the period."}
+{"id": "n010", "type": 0, "claim": "The portfolio returned 7.1% over three years."}
+{"id": "n011", "type": 0, "claim": "We shipped 1,204 units last quarter."}
+{"id": "n012", "type": 0, "claim": "Capacity is capped at 90,000 tonnes per year."}
+{"id": "n013", "type": 0, "claim": "Churn fell by 3 basis points to 1.4%."}
+{"id": "n014", "type": 0, "claim": "The balance sheet carried 620 million dollars of debt."}
+{"id": "n015", "type": 0, "claim": "Two thirds of respondents chose the cheaper plan."}
+{"id": "n016", "type": 0, "claim": "The ratio of losses to premiums was 0.41."}
+{"id": "n017", "type": 0, "claim": "Fuel costs fell to 3.4 dollars per gallon."}
+{"id": "n018", "type": 0, "claim": "About 12 million users signed up during the quarter."}
+{"id": "n019", "type": 0, "claim": "The mine yielded 240,000 ounces of silver."}
+{"id": "n020", "type": 0, "claim": "Net income doubled to 310 million dollars."}
+{"id": "n021", "type": 0, "claim": "Share count increased to 88.4 million."}
+{"id": "n022", "type": 0, "claim": "The index gained 240 basis points over six weeks."}
+{"id": "n023", "type": 0, "claim": "Delivery time averaged 4.2 days."}
+{"id": "n024", "type": 0, "claim": "Only 37 of 500 applicants were admitted."}
+{"id": "n025", "type": 0, "claim": "The loan carries an interest rate of 6.75 percent."}
+{"id": "e001", "type": 1, "claim": "The headquarters is located in Rotterdam."}
+{"id": "e002", "type": 1, "claim": "Marta Nowak served as chief financial officer until 2021."}
+{"id": "e003", "type": 1, "claim": "The plant is operated by Granville Holdings."}
+{"id": "e004", "type": 1, "claim": "Aurora Systems acquired Calder Ltd in March."}
+{"id": "e005", "type": 1, "claim": "The treaty was signed in Geneva by delegates from Norway."}
+{"id": "e006", "type": 1, "claim": "Professor Alvarez leads the Bellweather Institute."}
+{"id": "e007", "type": 1, "claim": "The bridge spans the River Kelvin near Dunmore."}
+{"id": "e008", "type": 1, "claim": "Everly Chemicals supplies Ironbridge Packaging."}
+{"id": "e009", "type": 1, "claim": "The award was given to Halstead for the Juniper archive."}
+{"id": "e010", "type": 1, "claim": "She was succeeded by Ravi Menon as head of Juniper."}
+{"id": "e011", "type": 1, "claim": "The species was first described by Linnaeus in 1758."}
+{"id": "e012", "type": 1, "claim": "Granite Bay borders Fairhaven to the north."}
+{"id": "e013", "type": 1, "claim": "Control of the company passed to the Fairhaven Trust."}
+{"id": "e014", "type": 1, "claim": "The base is hosted by the Norwegian Defence Research Establishment."}
+{"id": "e015", "type": 1, "claim": "Calder announced the closure of its Belfast depot."}
+{"id": "e016", "type": 1, "claim": "The treaty was ratified by the Icelandic parliament."}
+{"id": "e017", "type": 1, "claim": "Aurora Systems is listed on the Oslo exchange."}
+{"id": "e018", "type": 1, "claim": "Ironbridge employs about 900 people at Newport."}
+{"id": "e019", "type": 1, "claim": "The manuscript is held by the Bodleian Library."}
+{"id": "e020", "type": 1, "claim": "Halstead's successor firm was renamed Everly Group."}
+{"id": "e021", "type": 1, "claim": "The statute was drafted by Senator Priya Raghunathan."}
+{"id": "e022", "type": 1, "claim": "Juniper Software bought out its Dunmore subsidiary."}
+{"id": "e023", "type": 1, "claim": "The reactor is cooled by water from the Calder reservoir."}
+{"id": "e024", "type": 1, "claim": "Bellweather appointed Yusuf Karim as chief executive."}
+{"id": "e025", "type": 1, "claim": "The village lies inside the county of Ayrshire."}
+{"id": "x001", "type": 2, "claim": "The report states total output of 847 tonnes across all sites.", "context": "According to the Granville annual report, total output reached 847 tonnes across all sites, up from 612 tonnes in the prior period."}
+{"id": "x002", "type": 2, "claim": "Revenue increased to 3.8 billion dollars during the year.", "context": "Revenue increased to 3.8 billion dollars during the year, the company said in its filing."}
+{"id": "x003", "type": 2, "claim": "Operating margin improved to 18.2% from 15.1%.", "context": "Operating margin improved to 18.2% from 15.1%, according to the published accounts."}
+{"id": "x004", "type": 2, "claim": "The facility is located near Dunmore in the north of the country.", "context": "The facility is located near Dunmore in the north of the country and employs about 400 staff."}
+{"id": "x005", "type": 2, "claim": "Churn fell by 3 basis points to 1.4%.", "context": "Churn fell by 3 basis points to 1.4% year on year, the report notes."}
+{"id": "x006", "type": 2, "claim": "The company reported 12.4% revenue growth.", "context": "The company reported 12.4% revenue growth for the twelve months to December."}
+{"id": "x007", "type": 2, "claim": "Headcount fell from 4,100 to 3,760 employees.", "context": "Headcount fell from 4,100 to 3,760 employees, a decline of 8.3%."}
+{"id": "x008", "type": 2, "claim": "Earnings per share were 1.24 dollars.", "context": "Earnings per share were 1.24 dollars, compared with 0.98 dollars a year earlier."}
+{"id": "x009", "type": 2, "claim": "The debt to equity ratio stood at 2.3x.", "context": "The debt to equity ratio stood at 2.3x at the end of the reporting period."}
+{"id": "x010", "type": 2, "claim": "The mine yielded 240,000 ounces of silver.", "context": "The mine yielded 240,000 ounces of silver in the twelve months to June."}
+{"id": "x011", "type": 2, "claim": "The archive was transferred to the Juniper library.", "context": "The archive was transferred to the Juniper library following the merger."}
+{"id": "x012", "type": 2, "claim": "Net income doubled to 310 million dollars.", "context": "Net income doubled to 310 million dollars after a one-off gain."}
+{"id": "x013", "type": 2, "claim": "Average ticket price rose to 42.50 dollars.", "context": "Average ticket price rose to 42.50 dollars, up from 38.10 dollars."}
+{"id": "x014", "type": 2, "claim": "The bridge spans the River Kelvin near Dunmore.", "context": "The bridge spans the River Kelvin near Dunmore and carries two lanes of traffic."}
+{"id": "x015", "type": 2, "claim": "Fuel costs fell to 3.4 dollars per gallon.", "context": "Fuel costs fell to 3.4 dollars per gallon across the depot network."}
+{"id": "x016", "type": 2, "claim": "Delivery time averaged 4.2 days in the second quarter.", "context": "Delivery time averaged 4.2 days in the second quarter, improving on 5.1 days."}
+{"id": "x017", "type": 2, "claim": "Capacity is capped at 90,000 tonnes per year.", "context": "Capacity is capped at 90,000 tonnes per year under the current permit."}
+{"id": "x018", "type": 2, "claim": "The loan carries an interest rate of 6.75 percent.", "context": "The loan carries an interest rate of 6.75 percent until maturity in 2031."}
+{"id": "x019", "type": 2, "claim": "Twelve million users signed up during the quarter.", "context": "Twelve million users signed up during the quarter, a record for the platform."}
+{"id": "x020", "type": 2, "claim": "The index gained 240 basis points over six weeks.", "context": "The index gained 240 basis points over six weeks before correcting sharply."}
+{"id": "a001", "type": 3, "claim": "The company's financial position weakened considerably over the period."}
+{"id": "a002", "type": 3, "claim": "Overall, the evidence suggests the policy had only a modest effect."}
+{"id": "a003", "type": 3, "claim": "Management appears to have misjudged demand badly."}
+{"id": "a004", "type": 3, "claim": "It is widely believed that the treatment will be revised."}
+{"id": "a005", "type": 3, "claim": "The situation was more complex than the summary suggests."}
+{"id": "a006", "type": 3, "claim": "Costs were contained even as volumes fell sharply."}
+{"id": "a007", "type": 3, "claim": "The team struggled to meet the revised deadline."}
+{"id": "a008", "type": 3, "claim": "There were no reported incidents during the trial period."}
+{"id": "a009", "type": 3, "claim": "The reforms largely achieved what they set out to do."}
+{"id": "a010", "type": 3, "claim": "Demand outstripped supply throughout the summer."}
+{"id": "a011", "type": 3, "claim": "The proposal would probably have limited practical effect."}
+{"id": "a012", "type": 3, "claim": "Funding was extended for another two years."}
+{"id": "a013", "type": 3, "claim": "Performance improved markedly in the second half."}
+{"id": "a014", "type": 3, "claim": "The results were disappointing despite heavy investment."}
+{"id": "a015", "type": 3, "claim": "Most respondents supported keeping the existing arrangement."}
+{"id": "a016", "type": 3, "claim": "The process was slower and more costly than expected."}
+{"id": "a017", "type": 3, "claim": "Reliability has been the main constraint on growth."}
+{"id": "a018", "type": 3, "claim": "The company remains exposed to currency swings."}
+{"id": "a019", "type": 3, "claim": "Nothing in the filing explains the discrepancy."}
+{"id": "a020", "type": 3, "claim": "The approach failed to account for seasonal variation."}
+{"id": "a021", "type": 3, "claim": "Adoption remained slow throughout the following year."}
+{"id": "a022", "type": 3, "claim": "The trial produced a modest but real benefit."}
+{"id": "a023", "type": 3, "claim": "Risk was concentrated in a small number of counterparties."}
+{"id": "a024", "type": 3, "claim": "The committee recommended proceeding with caution."}
+{"id": "a025", "type": 3, "claim": "Costs are expected to stabilise over the coming year."}
+{"id": "x021", "type": 2, "claim": "The portfolio returned 7.1% over three years.", "context": "The portfolio returned 7.1% over three years, ahead of the benchmark index."}
+{"id": "x022", "type": 2, "claim": "The species is listed as vulnerable on the national register.", "context": "The species is listed as vulnerable on the national register of protected animals."}
+{"id": "x023", "type": 2, "claim": "Share count increased to 88.4 million after the issue.", "context": "Share count increased to 88.4 million after the issue, diluting existing holders."}
+{"id": "x024", "type": 2, "claim": "Marta Nowak served as chief financial officer until 2021.", "context": "Marta Nowak served as chief financial officer until 2021, when she left the board."}
+{"id": "x025", "type": 2, "claim": "The award was given to Halstead for the Juniper archive.", "context": "The award was given to Halstead for the Juniper archive, described as a model of preservation."}
+{"id": "x026", "type": 2, "claim": "Fuel consumption fell to 3.4 litres per hundred kilometres.", "context": "Fuel consumption fell to 3.4 litres per hundred kilometres across the revised fleet."}
+{"id": "x027", "type": 2, "claim": "Gross profit was 847 million dollars.", "context": "Gross profit was 847 million dollars, roughly a third of total revenue."}
+{"id": "x028", "type": 2, "claim": "The reactor is cooled by water from the Calder reservoir.", "context": "The reactor is cooled by water from the Calder reservoir, which also supplies the town."}
+{"id": "x029", "type": 2, "claim": "The statute was drafted by Senator Priya Raghunathan.", "context": "The statute was drafted by Senator Priya Raghunathan and introduced in the spring session."}
+{"id": "x030", "type": 2, "claim": "Only 37 of 500 applicants were admitted to the programme.", "context": "Only 37 of 500 applicants were admitted to the programme, according to the published list."}

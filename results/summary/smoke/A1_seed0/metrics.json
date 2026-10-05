@@ -3,9 +3,9 @@
   "fit_info": {
     "coef": [
       [
-        -0.097,
-        0.617,
-        0.87
+        -0.979,
+        0.333,
+        0.794
       ]
     ],
     "columns": [
@@ -13,36 +13,36 @@
       "contra",
       "sem_dist"
     ],
-    "val_auroc": 0.8023105955997423
+    "val_auroc": 0.8318377148634986
   },
-  "git": "1b75aaa",
+  "git": "b7b5889",
   "seed": 0,
   "skipped": null,
   "split_seed": 0,
   "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/smoke.parquet",
   "test": {
-    "auroc": 0.7548,
+    "auroc": 0.8567,
     "auroc_ci_hi": null,
     "auroc_ci_lo": null,
-    "ece": 0.0373,
-    "f1": 0.5899,
-    "mean_prob": 0.343,
-    "n": 904,
-    "positive_rate": 0.3429,
-    "precision": 0.563,
-    "recall": 0.6194,
+    "ece": 0.0534,
+    "f1": 0.744,
+    "mean_prob": 0.3521,
+    "n": 534,
+    "positive_rate": 0.3521,
+    "precision": 0.8446,
+    "recall": 0.6649,
     "seed": 0,
     "slice": "A1:test",
     "variant": "A1"
   },
-  "threshold": 0.360588,
+  "threshold": 0.512457,
   "timing": {
     "api_calls": 0,
     "api_usd": 0.0,
-    "predict_s": 0.001,
-    "train_s": 0.018,
-    "wall_s": 0.409
+    "predict_s": 0.0,
+    "train_s": 0.004,
+    "wall_s": 0.093
   },
-  "val_auroc": 0.8023,
+  "val_auroc": 0.8318,
   "variant": "A1"
 }

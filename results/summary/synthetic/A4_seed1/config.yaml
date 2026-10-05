@@ -1,0 +1,73 @@
+# resolved config, written by rcgate at run time
+baselines:
+  a0_class_weight: null
+  a1_class_weight: null
+  a2_class_weight: null
+  a4_learning_rate: 0.08
+  a4_max_iter: 300
+  a4_max_leaf_nodes: 31
+budget:
+  dry_run: true
+  max_calls: 400
+  max_usd: 2.0
+data:
+  benchmark: synthetic
+  claims_per_answer: 3
+  dropout_generator_fractions: []
+  inverted_generators:
+  - 4
+  label_noise: 0.05
+  n_generators: 5
+  n_questions: 900
+  n_seeds_for_table: 5
+  table: data/signal_tables/synthetic_s{seed}.parquet
+  table_seeds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+eval:
+  ece_bins: 15
+  group_by:
+  - claim_type
+  - generator_id
+  logo: true
+  n_bootstrap: 1000
+  n_seeds: 5
+  threshold_quantile: 0.5
+model:
+  claim_type_emb_dim: 4
+  dropout: 0.0
+  fusion_input: logit
+  gate_hidden: 16
+  gate_temp: 1.0
+  generator_emb_dim: 4
+  n_generators: 5
+  see_signals_in_gate: false
+  unk_dropout: 0.1
+paths:
+  raw_dir: data/raw
+  tables_dir: data/signal_tables
+pricing:
+  bm25: 0.0
+  claude-haiku: 0.0008
+  gpt-4.1-mini: 0.0004
+  gpt-4o-mini: 0.00015
+  local-scorer: 0.0
+report:
+  out_dir: results/summary
+  save_checkpoint: true
+  save_config: true
+  tag: synthetic
+seed: 0
+train:
+  batch_size: 128
+  device: cpu
+  epochs: 80
+  grad_clip: 1.0
+  lr: 0.003
+  max_parameters: 50000
+  patience: 10
+  val_metric: auroc
+  weight_decay: 0.0001
