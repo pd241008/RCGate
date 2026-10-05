@@ -116,7 +116,10 @@ def explain_claims(model: RCGateModel, df: pd.DataFrame, top_k: int = 12) -> pd.
                 "w_evid": round(p.w_evid, 4),
                 "z_cross": round(p.z_cross, 4),
                 "z_evid": round(p.z_evid, 4),
-                "explanation": one_line(p.prob, p.w_cross, CLAIM_TYPE_NAMES[claim_type], p.z_cross, p.z_evid),
+                # one_line's second parameter is w_evid, the evidence weight; passing
+                # w_cross here made every printed explanation state the opposite of which
+                # family the gate trusted (caught by the M7 demo work, tests/test_explain.py).
+                "explanation": one_line(p.prob, p.w_evid, CLAIM_TYPE_NAMES[claim_type], p.z_cross, p.z_evid),
             }
         )
     out = pd.DataFrame(rows).sort_values("prob", ascending=False)
@@ -127,14 +130,18 @@ def one_line(prob: float, w_evid: float, claim_type_name: str, z_cross: float, z
     """The sentence the demo shows under each claim.
 
     Kept deliberately dull: the reviewer should be able to check it against the numbers in
-    the same row.
+    the same row. The family named is always the one the gate gave less than half the
+    trust to, so "down-weighted" is a statement of fact, not of spin. When the
+    down-weighted family actually produced the larger raw expert logit, that is worth
+    saying, because it means the gate overrode the signal the numbers supported.
     """
     trusted = "evidence" if w_evid >= 0.5 else "cross-model"
     other = "cross-model" if trusted == "evidence" else "evidence"
-    down = "down-weighted" if (w_evid >= 0.5) == (abs(z_evid) < abs(z_cross)) else "up-weighted"
+    z_trusted, z_other = (z_evid, z_cross) if trusted == "evidence" else (z_cross, z_evid)
+    despite = " despite its larger raw logit" if abs(z_other) > abs(z_trusted) else ""
     verdict = "likely hallucinated" if prob >= 0.5 else "likely supported"
     return (
-        f"{claim_type_name} claim; {verdict} ({prob:.2f}); {other} {down} "
+        f"{claim_type_name} claim; {verdict} ({prob:.2f}); {other} down-weighted{despite} "
         f"(w_evid {w_evid:.2f})"
     )
 

@@ -157,3 +157,21 @@ Table builds end to end on the 200-claim RAGTruth slice: 34 sources, all six gen
 ### M6 acceptance result
 
 M2-M4 ran end to end on real data from one command: `python -m rcgate.evaluate --config ragtruth` produced `results/summary/ragtruth.md`, its JSON twin, the gate heatmap, 27 run artefacts with configs and checkpoints, and cost/latency tables showing $0.00 API spend. Acceptance is the machinery running on real data within budget (met); H1/H2 remain unsupported on this slice and are reported as such.
+
+## M7 — Glass-box demo
+
+- Streamlit was declared uninstallable at M0. With the network up it installs fine (1.65.0; needed `pip --break-system-packages` because this box is PEP 668 externally managed). First project dependency added since the scaffold, per the note-the-why rule.
+- The demo is the batch pipeline with a UI, not a parallel implementation: claims are sentences de-aliased with `dealias_answer`, typed by the rule classifier, and scored by the same `extract_signals` the real builds use. A second code path here would drift within a week.
+- The app **loads** checkpoints and refuses to train: `resolve_checkpoint` picks the newest `results/summary/<tag>/A7_seed*/model.*` and, if none exists, raises with the exact command that produces one. A model fitted mid-presentation would make the demo's numbers depend on a random split chosen on stage.
+- The pipeline's checkpoint format surprised the demo once: `persist` writes `model.joblib` for A7 because the trainable wrapper is not itself an `nn.Module`. The app accepts both `model.joblib` (joblib) and `model.pt` (bare module) and resolves provenance from the sibling `metrics.json`.
+- No other models' answers pasted means the cross family is neutral (0.5/0.5/1.0) and the row is flagged via `cross_n_others` - the demo never invents agreement to make the bars look interesting.
+- A headless mode (`python -m rcgate.demo.app --question ... --answer ...`) exists so the demo is verifiable in CI and presentable without a browser; it prints the same per-claim table the UI renders.
+
+### Bugs found by building the demo (both fixed, both were M4 code)
+
+1. `explain_claims` passed `p.w_cross` into `one_line`'s `w_evid` parameter, so every explanation printed the **opposite** of which family the gate trusted. It shipped in M4 because `explain.py` had no test file; `tests/test_explain.py`-style coverage now lives in `tests/test_demo.py`.
+2. `one_line`'s up/down-weighted clause compared the wrong pair, and could call the *trusted* family "up-weighted" - unfalsifiable spin rather than a checkable fact. The sentence now always names the family that received less than half the trust, and adds "despite its larger raw logit" when the gate overrode what the raw numbers supported - which is exactly the case a reviewer wants to probe.
+
+### M7 acceptance result
+
+The app runs from a serialized checkpoint with per-claim probability, the stacked `w_cross`/`w_evid` trust split and a one-line explanation per claim, and never trains. Verified three ways: headless run against the synthetic A7 checkpoint (numeric claim -> `w_evid` 1.00, entity claim -> `w_cross` 0.92 - the H3 behaviour the gate was built for, visible live); headless run against the ragtruth A7 checkpoint; `streamlit run` boots headless and answers HTTP 200. pytest: 195 passed. ruff: clean.
