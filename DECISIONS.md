@@ -116,3 +116,19 @@ H2 is supported on numeric and marginal on the other three types. A4 still beats
 | 4 (inverted) | **0.171** | **0.748** | 0.816 | 0.910 |
 
 A0 scores **0.171** on the unseen inverted generator -- worse than random, because the global coefficient it learned for `agree` has exactly the wrong sign there. A7 degrades to 0.748 and stays useful. This is the cleanest available answer to reviewer attack 2 ("does it generalise to unseen generators?"), and it is a stronger result than the in-distribution comparison.
+
+## M5 — Real signal extractors
+
+- RAGTruth is the first real benchmark because it is the only dataset found that ships all three things the gate needs with no API key: six generators answering the same source document, human span labels, and the evidence text itself. Licence MIT; both downloads are sha256-pinned in `data/benchmarks/`.
+- A claim is a sentence of a response, labelled hallucinated when it *overlaps* an annotated span. Exact-span-only matching was rejected because it discards a third of the annotations that cross sentence boundaries.
+- The shipped reference text is used as the BM25 evidence corpus, not as an oracle: the answers were generated from it, so retrieval over it is what any deployment with the documents in hand would do.
+- The dataset's own train/test field is ignored. Constraint C6 wants question-grouped splits for every benchmark, so one source's six generators can never sit on both sides of a boundary.
+- A naive first-200 slice collapsed onto six source documents, i.e. a grouped split over six questions is not an evaluation. `claims_per_source: 6` spreads the same 200 claims over ~34 sources with all six generators represented.
+- The compute cache `.cache/compute` is deliberately separate from the API cache: local NLI/embedding calls cost nothing, so they must neither be charged against `max_usd` nor blocked by `--dry-run`. Models are `nli-deberta-v3-small` + MiniLM-L6-v2, per C2.
+- The lexical NLI fallback exists so tests and CI run with no model download; its scores are much weaker and any result produced with it must be labelled `backend=lexical`.
+- `contra` is a max, not a mean: one generator flatly denying a claim is what a human reviewer cares about. Rows with no other generator get neutral 0.5/0.5/1.0 and are flagged via `cross_n_others` instead of silently averaged.
+- Arithmetic checking is deterministic and refuses to guess: `847 x 12` is checked exactly, "a dozen less than three times the total" is not attempted. All 53 numeric claims in the slice were `UNVERIFIABLE`, so the check folded nothing into support — recorded rather than fudged.
+
+### M5 acceptance result
+
+Table builds end to end on the 200-claim RAGTruth slice: 34 sources, all six generators represented, 8/200 hallucinated. First build: 37.6s wall, 5,201 NLI calls, all local CPU (33.7s compute). Second build served entirely from cache in 2.4s. pytest: 182 passed. ruff: clean.

@@ -163,7 +163,7 @@ def numeric_evidence(text: str) -> dict[str, object]:
     years = YEAR_RE.findall(text)
 
     # The only numbers present are bare years -> temporal, not quantitative.
-    only_years = bool(years) and all(n.strip() in {y for y in years} for n in numbers)
+    only_years = bool(years) and all(n.strip() in set(years) for n in numbers)
     has_number = bool(numbers) and not only_years
 
     hits: list[str] = []
@@ -208,7 +208,7 @@ def proper_nouns(text: str) -> list[str]:
         if tok[:1].isupper() and tok.lower() not in _common_lowercase:
             found.append(tok)
     # ALLCAPS acronyms of 2+ letters count as proper nouns too.
-    found += [t for t in re.findall(r"\b[A-Z]{2,}\b", text)]
+    found += re.findall(r"\b[A-Z]{2,}\b", text)
     seen: list[str] = []
     for t in found:
         if t not in seen:
@@ -366,7 +366,7 @@ def accuracy_report(labels, predictions) -> dict:
     if len(labels) != len(predictions):
         raise ValueError(f"{len(labels)} labels but {len(predictions)} predictions")
     names = ["numeric", "entity", "extractive", "abstractive"]
-    matrix = {a: {b: 0 for b in names} for a in names}
+    matrix = {a: dict.fromkeys(names, 0) for a in names}
     correct = 0
     for truth, pred in zip(labels, predictions, strict=True):
         matrix[names[truth]][names[pred]] += 1

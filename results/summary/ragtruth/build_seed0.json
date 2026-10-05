@@ -1,0 +1,78 @@
+{
+  "benchmark": "ragtruth",
+  "benchmark_record": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/benchmarks/ragtruth.json",
+  "extraction": {
+    "arithmetic": {
+      "counts": {
+        "unverifiable": 200
+      },
+      "n_numeric_claims": 53,
+      "numeric_types": [
+        "numeric"
+      ]
+    },
+    "backend": "cross_encoder+disk",
+    "cross_model": {
+      "agree": 0.3044,
+      "contra": 0.2892,
+      "mean_others": 5.0,
+      "n_claims": 200,
+      "n_without_any_other_generator": 0,
+      "out_of_range": 0,
+      "sem_dist": 0.2834
+    },
+    "evidence": {
+      "conflict": 0.314,
+      "mean_passages": 2.94,
+      "n_claims": 200,
+      "out_of_range": 0,
+      "sources": {
+        "context": 200
+      },
+      "src_quality": 0.9,
+      "support": 0.4158
+    },
+    "n_claims": 200,
+    "nli_cache": {
+      "compute_seconds": 0.0,
+      "hits": 5201,
+      "misses": 0
+    },
+    "seconds": 1.0
+  },
+  "roster": {
+    "gpt-3.5-turbo-0613": 1,
+    "gpt-4-0613": 0,
+    "llama-2-13b-chat": 4,
+    "llama-2-70b-chat": 5,
+    "llama-2-7b-chat": 3,
+    "mistral-7B-instruct": 2
+  },
+  "seed": 0,
+  "slice": {
+    "claims_per_source": 6,
+    "dealias_changed": 17,
+    "label_types": {
+      "Evident Baseless Info": 7,
+      "Evident Conflict": 1
+    },
+    "n_claims_written": 200,
+    "n_hallucinated": 8,
+    "n_sources_available": 2965,
+    "n_sources_usable": 1932,
+    "n_sources_written": 34,
+    "per_generator": {
+      "gpt-3.5-turbo-0613": 34,
+      "gpt-4-0613": 34,
+      "llama-2-13b-chat": 33,
+      "llama-2-70b-chat": 33,
+      "llama-2-7b-chat": 33,
+      "mistral-7B-instruct": 33
+    },
+    "positive_rate": 0.04,
+    "task_types": {
+      "QA": 102,
+      "Summary": 98
+    }
+  }
+}

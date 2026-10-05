@@ -1,0 +1,74 @@
+{
+  "benchmark": "RAGTruth",
+  "url": "https://github.com/ParticleMedia/RAGTruth",
+  "license": "MIT",
+  "citation": "Niu et al. (2024), 'RAGTruth: A Hallucination Corpus for Developing Trustworthy Retrieval-Augmented Language Models', ACL 2024.",
+  "files": [
+    {
+      "name": "response.jsonl",
+      "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073"
+    },
+    {
+      "name": "source_info.jsonl",
+      "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b"
+    }
+  ],
+  "label_schema": {
+    "source": "human span annotation on dataset/response.jsonl",
+    "label_types": [
+      "Evident Conflict",
+      "Subtle Conflict",
+      "Evident Baseless Info",
+      "Subtle Baseless Info"
+    ],
+    "mapping": "label = 1 when the sentence overlaps any annotated span of any type",
+    "sentence_split": "regex (?<=[.!?])[\"')\\]]*\\s+, offsets kept for span overlap"
+  },
+  "claim_unit": "one sentence of one model response",
+  "generator_roster": [
+    "gpt-4-0613",
+    "gpt-3.5-turbo-0613",
+    "mistral-7B-instruct",
+    "llama-2-7b-chat",
+    "llama-2-13b-chat",
+    "llama-2-70b-chat"
+  ],
+  "columns": {
+    "question_id": "source_id from dataset/source_info.jsonl",
+    "claim_id": "<response id>#<sentence index>, e.g. 123#2",
+    "claim_text": "sentence text after pronoun de-aliasing",
+    "benchmark": "constant 'ragtruth'",
+    "claim_type": "rule-based, rcgate.claims.claim_type",
+    "generator_id": "index of the responding model in the roster above",
+    "label": "1 = sentence overlaps a hallucination annotation, else 0",
+    "context": "source_info, the text the responding model was given",
+    "task_type": "QA | Data2txt | Summary"
+  },
+  "split_policy": "grouped by question_id by this repo; the dataset's own split field is ignored",
+  "slice": {
+    "n_sources_available": 2965,
+    "n_sources_usable": 1932,
+    "n_sources_written": 34,
+    "claims_per_source": 6,
+    "n_claims_written": 200,
+    "n_hallucinated": 8,
+    "dealias_changed": 17,
+    "task_types": {
+      "QA": 102,
+      "Summary": 98
+    },
+    "label_types": {
+      "Evident Baseless Info": 7,
+      "Evident Conflict": 1
+    },
+    "per_generator": {
+      "gpt-4-0613": 34,
+      "gpt-3.5-turbo-0613": 34,
+      "mistral-7B-instruct": 33,
+      "llama-2-7b-chat": 33,
+      "llama-2-13b-chat": 33,
+      "llama-2-70b-chat": 33
+    },
+    "positive_rate": 0.04
+  }
+}

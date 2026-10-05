@@ -1,0 +1,64 @@
+extends: base.yaml
+
+# RAGTruth: the first real benchmark (milestone M5).
+#
+# Real data, so every artefact this config produces is labelled `ragtruth` in the report and
+# must not be mixed with the synthetic tables (constraint C8). The numbers answer H1-H3 on
+# real model output; the synthetic tables only validated the machinery.
+report:
+  tag: ragtruth
+
+data:
+  benchmark: ragtruth
+  table: "data/signal_tables/ragtruth_s{seed}.parquet"
+  table_seeds: [0]
+  raw_dir: data/raw/ragtruth
+
+  # Position in `roster` IS the generator_id in the signal table. RAGTruth ships six LLMs
+  # answering the same source document, which is the cross-model comparison the gate needs.
+  roster:
+    - gpt-4-0613            # 0  - strongest, lowest hallucination rate
+    - gpt-3.5-turbo-0613    # 1
+    - mistral-7B-instruct    # 2
+    - llama-2-7b-chat       # 3  - weakest of the six
+    - llama-2-13b-chat      # 4
+    - llama-2-70b-chat      # 5
+
+  task_types: [QA, Summary]   # Data2txt is summarisation of a single news item; QA and
+                              # Summary are kept because both give a question-like prompt
+  min_generators: 3           # drop sources that do not carry a real cross-model comparison
+  n_claims: 200               # the milestone's slice size
+  # Without this cap the slice came from six source documents, because each one has six
+  # generators x a dozen sentences, and a question-grouped split over six questions is not
+  # an evaluation. Six claims per source = one sentence from every generator, so no
+  # generator is missing from the table: 200 claims then span ~34 questions with all six
+  # generators evenly represented.
+  claims_per_source: 6
+  n_generators: 6
+
+signals:
+  backend: cross_encoder
+  nli_model: cross-encoder/nli-deberta-v3-small
+  embed_model: sentence-transformers/all-MiniLM-L6-v2
+  evidence_top_k: 3
+  premise_top_k: 3
+  evidence_aggregate: max
+  arithmetic: true            # fold verified/refuted expressions into support and conflict
+  compute_cache: .cache/compute
+
+model:
+  n_generators: 6
+
+train:
+  epochs: 60
+  batch_size: 32
+  lr: 0.003
+  patience: 8
+  max_parameters: 50000
+
+eval:
+  n_bootstrap: 1000
+  n_seeds: 1
+  ece_bins: 15
+  group_by: [claim_type, generator_id, task_type]
+  logo: true

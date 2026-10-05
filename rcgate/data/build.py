@@ -10,8 +10,12 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+import pandas as pd
+
 from ..config import Config, load_config
 from ..paths import PROJECT_ROOT
+from ..utils import dump_json
+from .synthetic import save
 
 
 def table_path(cfg: Config, seed: int) -> Path:
@@ -28,27 +32,70 @@ def table_seeds(cfg: Config) -> list[int]:
 
 
 def ensure_table(cfg: Config, seed: int, force: bool = False) -> Path:
-    """Generate the table for one seed if it is not already on disk."""
-    from .synthetic import generate, load_planted, save
+    """Generate the table for one seed if it is not already on disk.
 
+    The benchmark named in the config decides which builder runs, so a config cannot claim
+    one benchmark's numbers over another benchmark's data.
+    """
     path = table_path(cfg, seed)
     if path.exists() and not force:
         return path
 
     benchmark = str(cfg.get("data.benchmark", "synthetic"))
-    if benchmark != "synthetic":
+    builder = BUILDERS.get(benchmark)
+    if builder is None:
         raise NotImplementedError(
-            f"benchmark {benchmark!r} is built by its own loader, not by the synthetic generator"
+            f"no builder for benchmark {benchmark!r}; known: {sorted(BUILDERS)}"
         )
+    df = builder(cfg, seed)
+    save(df, path)
+    return path
 
-    df = generate(
+
+def _build_synthetic(cfg: Config, seed: int) -> pd.DataFrame:
+    from .synthetic import generate, load_planted
+
+    return generate(
         load_planted(cfg.get("data.planted_config", None)),
         seed=seed,
         n_questions=int(cfg.get("data.n_questions", 900)),
         n_generators=int(cfg.get("data.n_generators", 5)),
     )
-    save(df, path)
-    return path
+
+
+def _build_ragtruth(cfg: Config, seed: int) -> pd.DataFrame:
+    """Load RAGTruth and run the real extractors over it."""
+    from ..signals.extract import extract_signals
+    from .ragtruth import build_slice, write_schema_record
+
+    sl = build_slice(cfg, seed=seed)
+    frame, report = extract_signals(sl.frame, cfg, sl.answers_by_question)
+
+    benchmark_record = write_schema_record(
+        PROJECT_ROOT / str(cfg.get("paths.benchmarks_dir", "data/benchmarks")) /
+        f"{cfg.get('data.benchmark', 'ragtruth')}.json",
+        sl.stats,
+    )
+    build_log = {
+        "benchmark": "ragtruth",
+        "seed": seed,
+        "roster": sl.roster,
+        "slice": sl.stats,
+        "extraction": report.as_dict(),
+        "benchmark_record": str(benchmark_record),
+    }
+    dump_json(PROJECT_ROOT / str(cfg.get("report.out_dir", "results/summary")) /
+              str(cfg.get("report.tag", "run")) / f"build_seed{seed}.json", build_log)
+    print(f"[ragtruth] {sl.stats['n_claims_written']} claims from "
+          f"{sl.stats['n_sources_written']} sources, "
+          f"{sl.stats['n_hallucinated']} hallucinated "
+          f"({sl.stats.get('positive_rate', 0):.1%}), backend={report.backend}, "
+          f"{report.cache_hits} cached / {report.cache_misses} computed NLI calls, "
+          f"{report.seconds:.1f}s")
+    return frame
+
+
+BUILDERS = {"synthetic": _build_synthetic, "ragtruth": _build_ragtruth}
 
 
 def ensure_tables(cfg: Config, force: bool = False) -> list[Path]:

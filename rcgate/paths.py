@@ -14,8 +14,11 @@ DATA_DIR = PROJECT_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 TABLES_DIR = DATA_DIR / "signal_tables"
 CACHE_DIR = PROJECT_ROOT / ".cache" / "llm"
+#: Local CPU scorers (NLI, embeddings) are content-cached here, apart from the API cache:
+#: they cost nothing, so they must not be charged against or blocked by the API budget.
+COMPUTE_CACHE_DIR = PROJECT_ROOT / ".cache" / "compute"
 MODEL_DIR = PROJECT_ROOT / ".cache" / "models"
 PROMPTS_DIR = PACKAGE_ROOT / "prompts"
 
-for _d in (SUMMARY_DIR, RAW_DIR, TABLES_DIR, CACHE_DIR, MODEL_DIR, PROMPTS_DIR):
+for _d in (SUMMARY_DIR, RAW_DIR, TABLES_DIR, CACHE_DIR, COMPUTE_CACHE_DIR, MODEL_DIR, PROMPTS_DIR):
     _d.mkdir(parents=True, exist_ok=True)
