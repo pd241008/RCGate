@@ -1,0 +1,36 @@
+{
+  "config": "ragtruth.yaml",
+  "fit_info": {
+    "val_auroc": 0.6441902468392535
+  },
+  "git": "9865b61",
+  "seed": 2,
+  "skipped": null,
+  "split_seed": 2,
+  "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+  "test": {
+    "auroc": 0.6895,
+    "auroc_ci_hi": null,
+    "auroc_ci_lo": null,
+    "ece": 0.1065,
+    "f1": 0.1714,
+    "mean_prob": 0.0143,
+    "n": 158,
+    "positive_rate": 0.0949,
+    "precision": 0.15,
+    "recall": 0.2,
+    "seed": 2,
+    "slice": "A4:test",
+    "variant": "A4"
+  },
+  "threshold": 0.000964,
+  "timing": {
+    "api_calls": 0,
+    "api_usd": 0.0,
+    "predict_s": 0.005,
+    "train_s": 0.515,
+    "wall_s": 0.557
+  },
+  "val_auroc": 0.6442,
+  "variant": "A4"
+}

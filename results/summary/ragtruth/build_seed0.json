@@ -4,41 +4,41 @@
   "extraction": {
     "arithmetic": {
       "counts": {
-        "unverifiable": 200
+        "unverifiable": 800
       },
-      "n_numeric_claims": 53,
+      "n_numeric_claims": 256,
       "numeric_types": [
         "numeric"
       ]
     },
     "backend": "cross_encoder+disk",
     "cross_model": {
-      "agree": 0.3044,
-      "contra": 0.2892,
+      "agree": 0.2855,
+      "contra": 0.3179,
       "mean_others": 5.0,
-      "n_claims": 200,
+      "n_claims": 800,
       "n_without_any_other_generator": 0,
       "out_of_range": 0,
-      "sem_dist": 0.2834
+      "sem_dist": 0.304
     },
     "evidence": {
-      "conflict": 0.314,
-      "mean_passages": 2.94,
-      "n_claims": 200,
+      "conflict": 0.3751,
+      "mean_passages": 2.942,
+      "n_claims": 800,
       "out_of_range": 0,
       "sources": {
-        "context": 200
+        "context": 800
       },
       "src_quality": 0.9,
-      "support": 0.4158
+      "support": 0.3775
     },
-    "n_claims": 200,
+    "n_claims": 800,
     "nli_cache": {
-      "compute_seconds": 0.0,
-      "hits": 5201,
-      "misses": 0
+      "compute_seconds": 411.28,
+      "hits": 20778,
+      "misses": 198
     },
-    "seconds": 1.0
+    "seconds": 420.45
   },
   "roster": {
     "gpt-3.5-turbo-0613": 1,
@@ -51,28 +51,30 @@
   "seed": 0,
   "slice": {
     "claims_per_source": 6,
-    "dealias_changed": 17,
+    "dealias_changed": 90,
     "label_types": {
-      "Evident Baseless Info": 7,
-      "Evident Conflict": 1
+      "Evident Baseless Info": 43,
+      "Evident Conflict": 9,
+      "Subtle Baseless Info": 4,
+      "Subtle Conflict": 2
     },
-    "n_claims_written": 200,
-    "n_hallucinated": 8,
+    "n_claims_written": 800,
+    "n_hallucinated": 57,
     "n_sources_available": 2965,
     "n_sources_usable": 1932,
-    "n_sources_written": 34,
+    "n_sources_written": 134,
     "per_generator": {
-      "gpt-3.5-turbo-0613": 34,
-      "gpt-4-0613": 34,
-      "llama-2-13b-chat": 33,
-      "llama-2-70b-chat": 33,
-      "llama-2-7b-chat": 33,
-      "mistral-7B-instruct": 33
+      "gpt-3.5-turbo-0613": 134,
+      "gpt-4-0613": 134,
+      "llama-2-13b-chat": 133,
+      "llama-2-70b-chat": 133,
+      "llama-2-7b-chat": 133,
+      "mistral-7B-instruct": 133
     },
-    "positive_rate": 0.04,
+    "positive_rate": 0.0712,
     "task_types": {
-      "QA": 102,
-      "Summary": 98
+      "QA": 402,
+      "Summary": 398
     }
   }
 }

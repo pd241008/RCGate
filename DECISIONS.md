@@ -132,3 +132,28 @@ A0 scores **0.171** on the unseen inverted generator -- worse than random, becau
 ### M5 acceptance result
 
 Table builds end to end on the 200-claim RAGTruth slice: 34 sources, all six generators represented, 8/200 hallucinated. First build: 37.6s wall, 5,201 NLI calls, all local CPU (33.7s compute). Second build served entirely from cache in 2.4s. pytest: 182 passed. ruff: clean.
+
+## M6 — Real-data runs
+
+- **RAGTruth is the only M6-runnable benchmark, and the reason is structural.** The cross-model family needs, per question, several generators' answers to compare. RAGTruth ships exactly six LLMs per source document. Every other benchmark on the M6 list ships one answer per question:
+
+  | benchmark | status | blocker |
+  |---|---|---|
+  | RAGTruth | run | — |
+  | HaluBench (incl. DROP slice) | blocked | one answer per question; no generator panel; no per-claim spans to map |
+  | FinanceBench | blocked | one answer per question (150-example open sample); single-doc evidence |
+  | TruthfulQA / HaluEval-QA | blocked | open QA, no shipped context and one answer; evidence family would need a paid search source |
+
+  Unblocking any of them means *manufacturing* the panel: asking LLM judges whether a claim holds, through the cached API client under the budget cap, or NLI-judging against a stored reference. Both are real design decisions, not a loader chore, so they are flagged for the human rather than improvised.
+
+- The slice went from 200 claims (M5's acceptance slice, 4.0% positives) to 800 claims x 3 seeds. With 8 hallucinated claims nothing downstream was trustworthy: threshold tuning, CIs and F1 all rest on positives. 800 gives ~57 positives per table; all six generators stay represented via `claims_per_source: 6`; the ceiling is the 1,933 sources that pass `min_generators`. Cost: ~12,300 NLI calls, all local CPU, about 22 minutes wall across three parallel builds, $0.00 API spend. The cached-rerun criterion still holds (seed 0's forced rebuild needed only 198 fresh calls after seeds 1-2 warmed the shared compute cache).
+
+- **The H1/H2 story on real data is negative, and is reported as measured.** Overall AUROC: A0 0.681, A1 0.705, A4 0.740, A7 0.631. Paired bootstrap, A7 - A0 on `all`: -0.050 [-0.210, 0.100], p=0.415. A7 trails on every claim-type slice; the A4 control leads. Gate weights land near 0.45 across most (type, generator) cells - on this slice the metadata carries little signal, and per spec section 11 that is a finding, not a bug. LOGO is parity (A7 wins on held-out generators 3 and 4, loses on 1). Nothing was retuned after seeing these numbers.
+
+- Three reasons the synthetic result does not transfer, all checkable in the artefacts: (1) 160 test rows with ~11 positives make every CI roughly +/-0.2 wide; (2) RAGTruth hallucinations are dominated by *subtle* conflicts - a sentence that is retrievable from the context and that other models, decoding from similar knowledge, do not contradict is close to undetectable by black-box signals, which is the correlated-error failure the proposal itself flags (reviewer attack 5); (3) val-tuned thresholds at a 7% positive rate give catastrophic precision (A0: 0.129) even when recall is high.
+
+- Cheapest honest follow-ups, in order: run the full 1,933-source ceiling (one overnight build, no API cost), score *all* folds' claims rather than test-only slices for the CI width, and report the subtle-vs-evident label split separately - the machinery either separates them or it does not.
+
+### M6 acceptance result
+
+M2-M4 ran end to end on real data from one command: `python -m rcgate.evaluate --config ragtruth` produced `results/summary/ragtruth.md`, its JSON twin, the gate heatmap, 27 run artefacts with configs and checkpoints, and cost/latency tables showing $0.00 API spend. Acceptance is the machinery running on real data within budget (met); H1/H2 remain unsupported on this slice and are reported as such.

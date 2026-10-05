@@ -48,27 +48,29 @@
   "slice": {
     "n_sources_available": 2965,
     "n_sources_usable": 1932,
-    "n_sources_written": 34,
+    "n_sources_written": 134,
     "claims_per_source": 6,
-    "n_claims_written": 200,
-    "n_hallucinated": 8,
-    "dealias_changed": 17,
+    "n_claims_written": 800,
+    "n_hallucinated": 57,
+    "dealias_changed": 87,
     "task_types": {
-      "QA": 102,
-      "Summary": 98
+      "QA": 402,
+      "Summary": 398
     },
     "label_types": {
-      "Evident Baseless Info": 7,
-      "Evident Conflict": 1
+      "Evident Baseless Info": 42,
+      "Evident Conflict": 9,
+      "Subtle Baseless Info": 5,
+      "Subtle Conflict": 2
     },
     "per_generator": {
-      "gpt-4-0613": 34,
-      "gpt-3.5-turbo-0613": 34,
-      "mistral-7B-instruct": 33,
-      "llama-2-7b-chat": 33,
-      "llama-2-13b-chat": 33,
-      "llama-2-70b-chat": 33
+      "gpt-4-0613": 134,
+      "gpt-3.5-turbo-0613": 134,
+      "mistral-7B-instruct": 133,
+      "llama-2-7b-chat": 133,
+      "llama-2-13b-chat": 133,
+      "llama-2-70b-chat": 133
     },
-    "positive_rate": 0.04
+    "positive_rate": 0.0712
   }
 }
