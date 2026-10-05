@@ -1,0 +1,102 @@
+# Planted ground truth for the SYNTHETIC benchmark (milestone M1).
+#
+# THIS IS NOT MEASURED DATA. It validates the machinery, not the hypotheses
+# (constraint C8). Every table and plot built from it must be labelled "synthetic".
+#
+# Reading the tables: `faithful` = P(signal is high | claim is true),
+# `hallucinated` = P(signal is high | claim is false). A signal is *informative* for a
+# claim type when those two numbers differ; it is *anti-informative* when the sign of the
+# difference runs opposite to the majority of the table. That is the whole design.
+
+generator_roster:
+  - {id: 0, family: standard,  src_quality: 0.85, note: "context-grounded"}
+  - {id: 1, family: standard,  src_quality: 0.80, note: "context-grounded"}
+  - {id: 2, family: standard,  src_quality: 0.75, note: "context-grounded"}
+  - {id: 3, family: small,     src_quality: 0.45, note: "open-web, weaker model"}
+  - {id: 4, family: inverted,  src_quality: 0.40, note: "broken decoding: agreement is anti-correlated with truth"}
+
+n_questions: 900
+claims_per_answer: 3          # mean; sampled per answer from 2..5
+label_noise: 0.05             # labels are a noisy observation of the latent truth
+inverted_generators: [4]
+
+# Logit-shifted by a per-question and per-answer random effect, so sibling claims of one
+# answer are correlated. This is why the split must be by question_id.
+#
+# The magnitudes are chosen so within-answer clustering inflates the variance of the
+# per-answer hallucination rate by roughly 1.4x over binomial. A random claim-level split
+# would then leak materially, which is what tests/test_splits.py asserts.
+question_effect_sd: 0.7
+answer_effect_sd: 1.1
+
+# P(latent claim is hallucinated) before random effects, per claim type.
+base_rate:
+  numeric: 0.30
+  entity: 0.25
+  extractive: 0.35
+  abstractive: 0.30
+
+# ---------------------------------------------------------------------------
+# Cross-model family. Design notes per claim type:
+#   entity      - both families informative (the easy, boring case)
+#   numeric     - agree is HIGH either way because the error is copied from a shared
+#                 source table, and contra is LOW when the claim is false for the same
+#                 reason. So the whole cross family is anti-informative for numeric.
+#                 This is the "correlated LLM errors" slice from reviewer attack 5, and
+#                 it is what makes flat fusion fail here (M2 gate).
+#   extractive  - support strong, agree weak
+#   abstractive - both families moderately informative
+# ---------------------------------------------------------------------------
+signals:
+  agree:
+    numeric:     {faithful: 0.85, hallucinated: 0.80}
+    entity:      {faithful: 0.90, hallucinated: 0.45}
+    extractive:  {faithful: 0.72, hallucinated: 0.62}
+    abstractive: {faithful: 0.80, hallucinated: 0.55}
+  contra:
+    numeric:     {faithful: 0.45, hallucinated: 0.12}
+    entity:      {faithful: 0.15, hallucinated: 0.70}
+    extractive:  {faithful: 0.25, hallucinated: 0.50}
+    abstractive: {faithful: 0.22, hallucinated: 0.58}
+  sem_dist:
+    numeric:     {faithful: 0.35, hallucinated: 0.42}
+    entity:      {faithful: 0.30, hallucinated: 0.60}
+    extractive:  {faithful: 0.25, hallucinated: 0.45}
+    abstractive: {faithful: 0.32, hallucinated: 0.55}
+  support:
+    numeric:     {faithful: 0.88, hallucinated: 0.22}
+    entity:      {faithful: 0.80, hallucinated: 0.30}
+    extractive:  {faithful: 0.92, hallucinated: 0.12}
+    abstractive: {faithful: 0.68, hallucinated: 0.42}
+  src_quality:
+    # A property of where the evidence came from, not of the claim. It carries almost no
+    # label information by construction; giving it any would be inventing precision
+    # (M5 note in the spec).
+    numeric:     {faithful: 0.82, hallucinated: 0.80}
+    entity:      {faithful: 0.82, hallucinated: 0.80}
+    extractive:  {faithful: 0.82, hallucinated: 0.80}
+    abstractive: {faithful: 0.82, hallucinated: 0.80}
+  conflict:
+    numeric:     {faithful: 0.10, hallucinated: 0.75}
+    entity:      {faithful: 0.12, hallucinated: 0.45}
+    extractive:  {faithful: 0.08, hallucinated: 0.30}
+    abstractive: {faithful: 0.15, hallucinated: 0.38}
+
+# src_quality deliberately has NO entry in the tables above. It is a property of the
+# evidence *source*, not of the claim, so it carries no label information by
+# construction; a label-conditioned number here would invent precision the heuristic
+# does not have. Its mean comes from generator_roster instead.
+
+# For a generator in `inverted_generators`, agree is regenerated from this table instead.
+# Agreement then rises with hallucination, so a flat fusion that trusts agreement is
+# actively misled, and the gate has a reason to re-weight that generator differently.
+inverted_agree:
+  numeric:     {faithful: 0.25, hallucinated: 0.75}
+  entity:      {faithful: 0.20, hallucinated: 0.80}
+  extractive:  {faithful: 0.30, hallucinated: 0.70}
+  abstractive: {faithful: 0.25, hallucinated: 0.72}
+
+src_quality:
+  jitter_sd: 0.08            # around the generator's roster value
+  floor: 0.05
+  ceiling: 1.0
