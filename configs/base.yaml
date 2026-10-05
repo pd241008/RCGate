@@ -1,0 +1,67 @@
+# Defaults shared by every variant (constraint C4: all hyperparameters live here).
+extends: budget.yaml
+
+seed: 0
+
+paths:
+  tables_dir: data/signal_tables
+  raw_dir: data/raw
+
+report:
+  tag: run
+  out_dir: results/summary
+  save_config: true
+  save_checkpoint: true
+
+# ---- data -------------------------------------------------------------------
+data:
+  table: data/signal_tables/synthetic.parquet
+  benchmark: synthetic
+  n_generators: 3
+  # A0-A4 need G to one-hot-encode generator_id; RC-Gate learns its own embedding.
+  dropout_generator_fractions: []
+  n_seeds_for_table: 5
+  table_seeds: [0, 1, 2, 3, 4]
+
+# ---- model ------------------------------------------------------------------
+# The trainable budget is ~50k parameters (constraint C2). A7 lands near 200.
+model:
+  n_generators: 3
+  claim_type_emb_dim: 4      # section 6: 4-d per metadata family
+  generator_emb_dim: 4
+  gate_hidden: 16            # MLP(8 -> 16 -> 2)
+  gate_temp: 1.0             # tau in softmax(gate(x) / tau)
+  fusion_input: logit        # logit | prob
+  unk_dropout: 0.1           # P(generator_id -> UNK) during training
+  dropout: 0.0
+  see_signals_in_gate: false # ablation "gate sees signals too"; false for A7
+
+# ---- training ---------------------------------------------------------------
+train:
+  epochs: 60
+  batch_size: 128
+  lr: 0.003
+  weight_decay: 1.0e-4
+  patience: 8                # early stopping on validation AUROC
+  val_metric: auroc
+  max_parameters: 50000
+  grad_clip: 1.0
+  device: cpu
+
+# ---- evaluation -------------------------------------------------------------
+eval:
+  n_bootstrap: 1000
+  n_seeds: 5
+  ece_bins: 15
+  threshold_quantile: 0.5   # threshold tuned on val to this quantile of val probs
+  group_by: [claim_type, generator_id]
+  logo: true                 # leave-one-generator-out with the UNK path
+
+# ---- baselines (A0-A8) -----------------------------------------------------
+baselines:
+  a0_class_weight: null
+  a1_class_weight: null
+  a2_class_weight: null
+  a4_max_iter: 300
+  a4_learning_rate: 0.08
+  a4_max_leaf_nodes: 31

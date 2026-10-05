@@ -1,0 +1,32 @@
+extends: base.yaml
+
+# Tiny end-to-end run used by `make smoke` and the fast test.
+report:
+  tag: smoke
+
+data:
+  n_questions: 220
+  n_generators: 4
+  claim_rate: 0.42
+  label_noise: 0.04
+  n_seeds_for_table: 1
+  table: data/signal_tables/smoke.parquet
+
+model:
+  n_generators: 4
+  gate_hidden: 16
+  gate_temp: 1.0
+  fusion_input: logit
+  unk_dropout: 0.1
+
+train:
+  epochs: 2
+  batch_size: 64
+  lr: 0.01
+  patience: 2
+  max_parameters: 50000
+
+eval:
+  n_bootstrap: 50
+  n_seeds: 1
+  ece_bins: 10

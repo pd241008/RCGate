@@ -1,0 +1,37 @@
+# Generator roster. Position in this list IS the generator_id used in the signal table.
+# UNK is reserved as the next free integer after this list (see schema.UNK_GENERATOR).
+n_generators: 3
+
+generators:
+  - id: g0
+    family: standard
+    provider: openai
+    model: gpt-4o-mini
+    temperature: 0.7
+    max_tokens: 512
+    cost_per_call_usd: 0.00015
+  - id: g1
+    family: standard
+    provider: openai
+    model: gpt-4.1-mini
+    temperature: 0.7
+    max_tokens: 512
+    cost_per_call_usd: 0.00040
+  - id: g2
+    family: small
+    provider: openai
+    model: gpt-4o-mini
+    temperature: 0.2
+    max_tokens: 512
+    cost_per_call_usd: 0.00015
+
+# Answer generation prompt temperature for the M5 extractors is taken from here, never
+# hardcoded in a module.
+generation:
+  system: |
+    You are a careful assistant. Answer the question directly and factually.
+    If you are unsure, state the uncertainty instead of guessing.
+  template: |
+    Question: {question}
+    {context_block}Answer with at most three sentences of plain prose. No lists, no
+    markdown, no citations.

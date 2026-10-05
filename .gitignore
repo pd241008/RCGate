@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# API cache and raw downloads can be large / may contain paid responses
+.cache/
+data/raw/
+data/signal_tables/
+
+# Results: keep summary tables only (see results/README.md)
+results/*
+!results/README.md
+!results/.gitkeep
+!results/summary/

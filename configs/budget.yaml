@@ -1,0 +1,16 @@
+# Bounded API spend (constraint C3). Sourced by every extractor through DiskCache.
+# Start with dry_run: true -- it refuses any uncached call instead of spending.
+budget:
+  dry_run: true
+  max_usd: 2.0
+  max_calls: 400
+
+# Cost estimates are per-1k-tokens averages recorded at time of writing, not quotes.
+# Update them if a provider changes pricing; they exist to stop runaway loops, not to
+# produce an invoice.
+pricing:
+  gpt-4o-mini: 0.00015      # USD per call at max_tokens=512
+  gpt-4.1-mini: 0.00040
+  claude-haiku: 0.00080
+  local-scorer: 0.0
+  bm25: 0.0
