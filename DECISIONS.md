@@ -175,3 +175,8 @@ M2-M4 ran end to end on real data from one command: `python -m rcgate.evaluate -
 ### M7 acceptance result
 
 The app runs from a serialized checkpoint with per-claim probability, the stacked `w_cross`/`w_evid` trust split and a one-line explanation per claim, and never trains. Verified three ways: headless run against the synthetic A7 checkpoint (numeric claim -> `w_evid` 1.00, entity claim -> `w_cross` 0.92 - the H3 behaviour the gate was built for, visible live); headless run against the ragtruth A7 checkpoint; `streamlit run` boots headless and answers HTTP 200. pytest: 195 passed. ruff: clean.
+
+## Documentation layer (post-M7)
+
+- README, ADRs and postmortems follow the Design Dungeons method (github.com/pd241008/Design-Dungeons): ML-variant README (abstract leads with the honest negative), six ADRs in docs/adr/ in the Context/Options/Decision/Reasoning/Consequences/Revisit-When template, three postmortems in docs/postmortems/rcgate/ (moved under docs/ to sit beside the ADRs; the citation block was dropped from the README at the human's request). ADR-001/2/3 record the modelling constraints (metadata-only gate, logit fusion, four claim types); ADR-004/5/6 record the M5/M6 data decisions (span-overlap labelling, benchmark blocker policy, compute-cache split). Postmortems cover the stale-table reuse (M6), the A4-beats-A7 honest negative (M6), and the explain one_line inversion (M4 bug, fixed M7).
+- The Makefile now exposes one target per milestone (m0-m7) plus `stages` running the full build order; each stage target is the real command used at that milestone, not a script.
