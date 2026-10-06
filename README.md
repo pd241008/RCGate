@@ -14,7 +14,7 @@
 
 ## Abstract
 
-Black-box hallucination detection fuses two unreliable signal families — cross-model consensus and retrieval-based evidence — but neither family is reliable for every claim. RC-Gate conditions the fusion on metadata only (claim type, generator id): a tiny 229-parameter gate routes each atomic claim to a cross-model expert and an evidence expert, and a stacked meta-learner produces the hallucination probability *with* the trust weights that explain it. On synthetic data with planted conditional reliability, the gate beats flat fusion on numeric claims by **+0.38 AUROC** and survives an unseen inverted generator where flat fusion scores **0.17** (below random). On the first real benchmark (RAGTruth, 800 claims × 3 seeds, $0.00 API spend), the result is **negative and reported as measured**: the flat GBM control A4 leads at 0.740 AUROC vs A7's 0.631 — the honest autopsy is in [`postmortems/rcgate/002-m6-a4-beats-a7-on-real-data.md`](./postmortems/rcgate/002-m6-a4-beats-a7-on-real-data.md).
+Black-box hallucination detection fuses two unreliable signal families — cross-model consensus and retrieval-based evidence — but neither family is reliable for every claim. RC-Gate conditions the fusion on metadata only (claim type, generator id): a tiny 229-parameter gate routes each atomic claim to a cross-model expert and an evidence expert, and a stacked meta-learner produces the hallucination probability *with* the trust weights that explain it. On synthetic data with planted conditional reliability, the gate beats flat fusion on numeric claims by **+0.38 AUROC** and survives an unseen inverted generator where flat fusion scores **0.17** (below random). On the first real benchmark (RAGTruth, 800 claims × 3 seeds, $0.00 API spend), the result is **negative and reported as measured**: the flat GBM control A4 leads at 0.740 AUROC vs A7's 0.631 — the honest autopsy is in [`docs/postmortems/rcgate/002-m6-a4-beats-a7-on-real-data.md`](./docs/postmortems/rcgate/002-m6-a4-beats-a7-on-real-data.md).
 
 ## Results
 
@@ -77,7 +77,7 @@ Gate weights are returned by every inference call and logged in every evaluation
 rcgate/               # package: data/, claims/, signals/, models/, demo/, train/evaluate/explain CLIs
 configs/              # one YAML per benchmark + planted probabilities + budget
 docs/adr/             # architecture decision records (Design Dungeons format)
-postmortems/rcgate/   # failure stories: what broke, root cause, what changed
+docs/postmortems/rcgate/ # failure stories: what broke, root cause, what changed
 tests/                # 195 offline tests; the network is never touched
 results/summary/      # committed summary tables + run artefacts with configs/checkpoints
 DECISIONS.md          # one line per judgment call, per milestone
@@ -89,19 +89,7 @@ DECISIONS.md          # one line per judgment call, per milestone
 | ---------------------- | --------------------------------------------------------------- |
 | [DECISIONS.md](./DECISIONS.md) | every judgment call, newest last, with acceptance results per milestone |
 | [docs/adr/](./docs/adr/) | 6 ADRs: metadata-only gate, logit fusion, four claim types, span-overlap labelling, benchmark blocker policy, compute-cache split |
-| [postmortems/rcgate/](./postmortems/rcgate/) | 3 postmortems: stale-table silent reuse, the M6 honest negative, inverted explanation verdicts |
-
-## Citation
-
-```bibtex
-@misc{desai2026rcgate,
-  title  = {RC-Gate: Reliability-Conditioned Gated Mixture-of-Experts for
-            Claim-Type and Model-Aware Hallucination Detection},
-  author = {Desai, Prathmesh P.},
-  year   = {2026},
-  note   = {B.Tech prototype; synthetic results validate the machinery, not the hypotheses}
-}
-```
+| [docs/postmortems/rcgate/](./docs/postmortems/rcgate/) | 3 postmortems: stale-table silent reuse, the M6 honest negative, inverted explanation verdicts |
 
 ---
 
