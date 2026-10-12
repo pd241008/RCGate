@@ -115,6 +115,9 @@ class BootstrapCI:
     hi: float
     n_resamples: int
     n_valid: int
+    #: How many resamples were requested. ``n_resamples`` counts only finite draws
+    #: that entered the quantile, which is smaller when a draw is single-class.
+    n_requested: int = 0
 
     def as_dict(self) -> dict[str, float | int]:
         return {
@@ -122,6 +125,7 @@ class BootstrapCI:
             "ci_lo": round(self.lo, 4),
             "ci_hi": round(self.hi, 4),
             "n_bootstrap": self.n_resamples,
+            "n_requested": self.n_requested,
             "n": self.n_valid,
         }
 
@@ -136,29 +140,30 @@ def bootstrap_auroc_ci(
     seed: int = 0,
     alpha: float = 0.05,
 ) -> BootstrapCI:
-    """Percentile bootstrap CI for AUROC, resampling *claims* with replacement.
+    """Percentile bootstrap interval for AUROC, resampling claims independently.
 
-    Resampling claims rather than questions is the conservative choice here: it ignores
-    within-question clustering, so the interval is if anything too narrow. A cluster
-    bootstrap over ``question_id`` is available as ``bootstrap_auroc_ci_grouped``.
+    Claims that share a ``question_id`` are not independent. On the RAGTruth tables
+    the split unit is the question (a source, with one claim from each generator),
+    so this interval is usually too narrow. It is kept so the Stage 4 procedure can
+    be reproduced. Inference uses ``bootstrap_auroc_ci_grouped``.
     """
     y_true = np.asarray(y_true)
     y_score = np.asarray(y_score, dtype="float64")
     point = auroc(y_true, y_score)
-    if np.isnan(point) or y_true.size < 2:
-        return BootstrapCI(point, float("nan"), float("nan"), 0, int(y_true.size))
+    n = int(y_true.size)
+    if np.isnan(point) or n < 2:
+        return BootstrapCI(point, float("nan"), float("nan"), 0, n, n_requested=n_resamples)
 
     rng = np.random.default_rng(seed)
     stats = np.empty(n_resamples)
-    n = y_true.size
     for i in range(n_resamples):
         idx = rng.integers(0, n, n)
         stats[i] = auroc_fast(y_true[idx], y_score[idx])
     stats = stats[~np.isnan(stats)]
     if stats.size == 0:
-        return BootstrapCI(point, float("nan"), float("nan"), 0, int(n))
+        return BootstrapCI(point, float("nan"), float("nan"), 0, n, n_requested=n_resamples)
     lo, hi = np.quantile(stats, [alpha / 2, 1 - alpha / 2])
-    return BootstrapCI(point, float(lo), float(hi), int(stats.size), int(n))
+    return BootstrapCI(point, float(lo), float(hi), int(stats.size), n, n_requested=n_resamples)
 
 
 def bootstrap_auroc_ci_grouped(
@@ -169,14 +174,19 @@ def bootstrap_auroc_ci_grouped(
     seed: int = 0,
     alpha: float = 0.05,
 ) -> BootstrapCI:
-    """Cluster bootstrap that resamples whole questions, matching how the split was made."""
+    """Cluster percentile bootstrap. Resamples group ids, keeping every member row.
+
+    Pass the split's group column. In this repository that column is ``question_id``.
+    ``np.unique`` sorts the ids, so the draw does not depend on row order.
+    """
     y_true = np.asarray(y_true)
     y_score = np.asarray(y_score, dtype="float64")
     groups = np.asarray(groups).astype(str)
     point = auroc(y_true, y_score)
     unique = np.unique(groups)
+    n = int(y_true.size)
     if np.isnan(point) or unique.size < 2:
-        return BootstrapCI(point, float("nan"), float("nan"), 0, int(y_true.size))
+        return BootstrapCI(point, float("nan"), float("nan"), 0, n, n_requested=n_resamples)
 
     index_by_group = {g: np.flatnonzero(groups == g) for g in unique}
     rng = np.random.default_rng(seed)
@@ -187,9 +197,9 @@ def bootstrap_auroc_ci_grouped(
         stats[i] = auroc_fast(y_true[idx], y_score[idx])
     stats = stats[~np.isnan(stats)]
     if stats.size == 0:
-        return BootstrapCI(point, float("nan"), float("nan"), 0, int(y_true.size))
+        return BootstrapCI(point, float("nan"), float("nan"), 0, n, n_requested=n_resamples)
     lo, hi = np.quantile(stats, [alpha / 2, 1 - alpha / 2])
-    return BootstrapCI(point, float(lo), float(hi), int(stats.size), int(y_true.size))
+    return BootstrapCI(point, float(lo), float(hi), int(stats.size), n, n_requested=n_resamples)
 
 
 @dataclass
@@ -259,29 +269,121 @@ def paired_bootstrap_delta(
     score_b,
     n_resamples: int = 1000,
     seed: int = 0,
-) -> dict[str, float]:
-    """CI on ``AUROC(a) - AUROC(b)`` resampled once per row.
+) -> dict[str, float | int | None]:
+    """Claim-level percentile interval for ``AUROC(a) - AUROC(b)``.
 
-    This is the test that matters for H2: two models scored on the same claims, one
-    shared resample, so the difference is paired and much tighter than two separate CIs.
+    Both scores are indexed by the same resampled rows. ``p_gt_0`` is the fraction
+    of finite resamples with a positive delta. It is not a hypothesis-test p-value.
+    Stage 4 reported this claim-level quantity. Inference now uses
+    ``paired_bootstrap_delta_grouped``.
     """
     y_true = np.asarray(y_true)
     a = np.asarray(score_a, dtype="float64")
     b = np.asarray(score_b, dtype="float64")
-    point = auroc(y_true, a) - auroc(y_true, b)
+    if y_true.size != a.size or a.size != b.size:
+        raise ValueError("paired bootstrap requires y, score_a, and score_b of equal length")
+    point_a, point_b = auroc(y_true, a), auroc(y_true, b)
+    point = point_a - point_b if np.isfinite(point_a) and np.isfinite(point_b) else float("nan")
+    if not np.isfinite(point) or y_true.size < 2:
+        return {
+            "delta": point,
+            "lo": None,
+            "hi": None,
+            "p_gt_0": None,
+            "n_requested": n_resamples,
+            "n_finite": 0,
+        }
     rng = np.random.default_rng(seed)
     stats = np.empty(n_resamples)
     n = y_true.size
     for i in range(n_resamples):
         idx = rng.integers(0, n, n)
         stats[i] = auroc_fast(y_true[idx], a[idx]) - auroc_fast(y_true[idx], b[idx])
-    stats = stats[~np.isnan(stats)]
-    if stats.size == 0:
-        return {"delta": round(point, 4), "lo": None, "hi": None, "p_gt_0": None}
-    lo, hi = np.quantile(stats, [0.025, 0.975])
+    finite = stats[~np.isnan(stats)]
+    if finite.size == 0:
+        return {
+            "delta": round(point, 4),
+            "lo": None,
+            "hi": None,
+            "p_gt_0": None,
+            "n_requested": n_resamples,
+            "n_finite": 0,
+        }
+    lo, hi = np.quantile(finite, [0.025, 0.975])
     return {
         "delta": round(point, 4),
         "lo": round(float(lo), 4),
         "hi": round(float(hi), 4),
-        "p_gt_0": round(float((stats > 0).mean()), 4),
+        "p_gt_0": round(float((finite > 0).mean()), 4),
+        "n_requested": n_resamples,
+        "n_finite": int(finite.size),
+    }
+
+
+def paired_bootstrap_delta_grouped(
+    y_true,
+    score_a,
+    score_b,
+    groups,
+    n_resamples: int = 1000,
+    seed: int = 0,
+    alpha: float = 0.05,
+) -> dict[str, float | int | None | str | bool]:
+    """Question-grouped percentile interval for ``AUROC(a) - AUROC(b)``.
+
+    One draw resamples group ids, then applies that same index to the labels and
+    to both score vectors. ``bootstrap_frac_delta_gt_0`` counts finite draws with
+    delta > 0. It is not a p-value; this function does not return one.
+    """
+    if n_resamples < 1:
+        raise ValueError("n_resamples must be positive")
+    y_true = np.asarray(y_true)
+    a = np.asarray(score_a, dtype="float64")
+    b = np.asarray(score_b, dtype="float64")
+    groups = np.asarray(groups).astype(str)
+    if not (y_true.size == a.size == b.size == groups.size):
+        raise ValueError("paired grouped bootstrap requires aligned y, scores, and groups")
+
+    point_a, point_b = auroc(y_true, a), auroc(y_true, b)
+    point = point_a - point_b if np.isfinite(point_a) and np.isfinite(point_b) else float("nan")
+    unique = np.unique(groups)
+    empty = {
+        "delta": None if not np.isfinite(point) else float(point),
+        "lo": None,
+        "hi": None,
+        "bootstrap_frac_delta_gt_0": None,
+        "fraction_is_p_value": False,
+        "n_requested": int(n_resamples),
+        "n_finite": 0,
+        "n_claims": int(y_true.size),
+        "n_groups": int(unique.size),
+        "method": "question_grouped_percentile_bootstrap",
+        "alpha": float(alpha),
+    }
+    if not np.isfinite(point) or unique.size < 2:
+        return empty
+
+    index_by_group = {g: np.flatnonzero(groups == g) for g in unique}
+    rng = np.random.default_rng(seed)
+    stats = np.empty(n_resamples)
+    for i in range(n_resamples):
+        picks = rng.integers(0, unique.size, unique.size)
+        idx = np.concatenate([index_by_group[unique[p]] for p in picks])
+        stats[i] = auroc_fast(y_true[idx], a[idx]) - auroc_fast(y_true[idx], b[idx])
+    finite = stats[~np.isnan(stats)]
+    if finite.size == 0:
+        return empty
+    lo, hi = np.quantile(finite, [alpha / 2, 1 - alpha / 2])
+    return {
+        "delta": float(point),
+        "lo": float(lo),
+        "hi": float(hi),
+        "bootstrap_frac_delta_gt_0": float((finite > 0).mean()),
+        "fraction_is_p_value": False,
+        "n_requested": int(n_resamples),
+        "n_finite": int(finite.size),
+        "n_claims": int(y_true.size),
+        "n_groups": int(unique.size),
+        "method": "question_grouped_percentile_bootstrap",
+        "alpha": float(alpha),
     }

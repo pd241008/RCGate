@@ -1,0 +1,12 @@
+extends: ragtruth_corrected_integrity_v1.yaml
+
+# Stage 6: split-construction sensitivity.
+#
+# Same frozen corrected-integrity tables, roster, claim cap, seeds, signals,
+# variants, hyperparameters, and validation-threshold rule as Stage 4/5.
+# The only change is the split. Historical result directories are not outputs.
+report:
+  tag: ragtruth_split_corrected_v1
+
+data:
+  split_method: group_stratified

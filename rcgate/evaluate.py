@@ -119,7 +119,11 @@ def score_run(result, cfg: Config, seed: int, n_bootstrap: int, n_bins: int) -> 
 
 
 def aggregate(runs: dict[str, list[SeedRun]], cfg: Config, n_bootstrap: int) -> pd.DataFrame:
-    """Mean +/- std across seeds, one row per (variant, slice)."""
+    """Mean and sample sd across seeds, one row per (variant, slice).
+
+    Interval endpoints are averaged with the other columns. That average is not a
+    confidence interval. Stage 5 inference does not use it; see ``stats_protocol``.
+    """
     frames = [pd.DataFrame(r.rows) for seed_runs in runs.values() for r in seed_runs if r.rows]
     if not frames:
         return pd.DataFrame()
@@ -437,6 +441,9 @@ def _deltas(runs, target: str, baselines: tuple[str, ...], n_bootstrap: int) -> 
                     continue
                 if slice_name.startswith("cell="):
                     continue
+                # Stage 4 cap. Reproduced on purpose so the published paired intervals
+                # stay traceable. Corrected intervals live in rcgate.stats_protocol
+                # and use the requested resample count without this cap.
                 d = paired_bootstrap_delta(
                     a.y[slice_name],
                     a.p[slice_name],

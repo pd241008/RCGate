@@ -89,6 +89,9 @@ DEFAULT_ROSTER = [
 
 _SENT_BOUNDARY = re.compile(r"(?<=[.!?])[\"')\]]*\s+")
 
+#: De-aliasing rewrites these offset sentences. It does not resplit the response.
+ALIGNMENT_VERSION = "offset-sentence-dealias-1"
+
 
 # -- download ------------------------------------------------------------------
 
@@ -216,6 +219,39 @@ def claims_from_response(
     return claims
 
 
+class SentenceAlignmentError(RuntimeError):
+    """Labelled sentences and de-aliased sentences are not in one-to-one correspondence."""
+
+
+def require_sentence_alignment(labelled: list, dealiased: list) -> list[tuple]:
+    """Pair labelled units with de-aliased units, or raise.
+
+    ``zip(..., strict=False)`` used to drop the tail and shift labels onto a
+    neighbouring sentence when the de-alias splitter disagreed with
+    ``sentence_spans``. A length mismatch is an alignment failure, not a row
+    to skip.
+    """
+    if len(labelled) != len(dealiased):
+        raise SentenceAlignmentError(
+            f"refusing to align {len(labelled)} labelled sentences with "
+            f"{len(dealiased)} de-aliased sentences; a shorter zip would drop or shift labels"
+        )
+    return list(zip(labelled, dealiased, strict=True))
+
+
+def dealias_labelled_claims(claims: list[Claim], question: str = "") -> list[tuple[Claim, object]]:
+    """De-alias each sentence that ``sentence_spans`` cut from the response.
+
+    The canonical sentence is the labelled span. Pronoun replacement runs on
+    that string. The response is not split again, so a closing quote or
+    parenthesis cannot merge, drop, or reorder a label.
+    """
+    from ..claims.dealias import dealias_claims
+
+    dealt = dealias_claims([claim.text for claim in claims], question=question)
+    return require_sentence_alignment(claims, dealt)
+
+
 def round_robin_claims(responses: dict[int, dict], prompt: str, cap: int | None):
     """Yield this source's claims generator by generator, sentence by sentence.
 
@@ -225,14 +261,13 @@ def round_robin_claims(responses: dict[int, dict], prompt: str, cap: int | None)
     ``cap`` bounds how many sentences one source may contribute -- without it a 200-claim
     slice was drawn from six sources, and a question-grouped split over six questions is
     not an evaluation.
-    """
-    from ..claims.dealias import dealias_answer
 
+    Each yielded pair is one labelled sentence and the de-aliasing of that same sentence.
+    """
     per_generator: list[list[tuple[Claim, object]]] = []
     for gid in sorted(responses):
         claims = claims_from_response(responses[gid], gid)
-        dealt = dealias_answer(str(responses[gid].get("response", "")), question=prompt)
-        per_generator.append(list(zip(claims, dealt, strict=False)))
+        per_generator.append(dealias_labelled_claims(claims, prompt))
 
     emitted = 0
     depth = max((len(items) for items in per_generator), default=0)
@@ -419,7 +454,11 @@ def schema_record(slice_stats: dict | None = None) -> dict:
             "source": "human span annotation on dataset/response.jsonl",
             "label_types": HALLUCINATION_LABEL_TYPES,
             "mapping": "label = 1 when the sentence overlaps any annotated span of any type",
-            "sentence_split": "regex (?<=[.!?])[\"')\\]]*\\s+, offsets kept for span overlap",
+            "sentence_split": (
+                "regex (?<=[.!?])[\"')\\]]*\\s+ defines the labelled sentence from "
+                "response offsets; de-aliasing rewrites that exact sentence "
+                f"({ALIGNMENT_VERSION}) and does not resplit the response"
+            ),
         },
         "claim_unit": "one sentence of one model response",
         "generator_roster": DEFAULT_ROSTER,

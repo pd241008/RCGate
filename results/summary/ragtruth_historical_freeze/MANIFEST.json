@@ -1,0 +1,1256 @@
+{
+  "namespace": "ragtruth_historical_freeze",
+  "purpose": "Immutable record of the RAGTruth result before integrity corrections. Do not overwrite results/summary/ragtruth/.",
+  "git_commit": "47090018414f657bca8e5a43e97663feba2e5a7d",
+  "git_status_short": "?? \"RC Gate_Intial_Research Paper Draft.pdf\"\n?? RC-Gate_Project_Proposal.docx\n?? RC-Gate_UserGuide.pdf\n",
+  "config": "configs/ragtruth.yaml",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "n_claims_target": 800,
+  "reported_result_commit_inside_metrics": "9865b61",
+  "raw_dataset_sha256": {
+    "response.jsonl": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+    "source_info.jsonl": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b"
+  },
+  "pinned_files": {
+    "response.jsonl": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+    "source_info.jsonl": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b"
+  },
+  "historical_result_dir": "results/summary/ragtruth",
+  "historical_report": "results/summary/ragtruth.md",
+  "historical_aggregate": "results/summary/ragtruth.json",
+  "file_hashes": [
+    {
+      "path": "results/summary/ragtruth/A0_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed0/metrics.json",
+      "sha256": "f3a22a83a8ce4a94583c66d6dac810764e84ad5894cb89eba551f4eea07428f3",
+      "bytes": 1012
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed0/model.joblib",
+      "sha256": "a6b82fb7a8022a75d205af1cd51ec60342543e6483ac361194013fc762010eda",
+      "bytes": 1283
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed1/metrics.json",
+      "sha256": "bc79a122c91abe98da68bd1b82ef90415aee8c20b0644ae0a431077fc37e733e",
+      "bytes": 1009
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed1/model.joblib",
+      "sha256": "8f52c9e96fd0cd2855e23cf1b02f9f3f52a9539a4abd732296d52f1c271c443f",
+      "bytes": 1283
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed2/metrics.json",
+      "sha256": "6fe874258d67b910520b379fb258d3967f016d8ca573b9e08e6108573981cf73",
+      "bytes": 1011
+    },
+    {
+      "path": "results/summary/ragtruth/A0_seed2/model.joblib",
+      "sha256": "1cc60ff41430edffce9a0d98355118b0e6239e74cbd797d284ce82e6807dbc85",
+      "bytes": 1283
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed0/metrics.json",
+      "sha256": "4ddc465a2e7b46e8b6e0d9d743dae10f16fca1bb1ad144bce38415e13c602924",
+      "bytes": 912
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed0/model.joblib",
+      "sha256": "25650e378dfe0a06b597231e077592aae5abe91cc1a3c3bd0398478c0debc413",
+      "bytes": 1179
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed1/metrics.json",
+      "sha256": "62c1679d48f5a453b81ebb558222bebb7beb7928ccfe18cc40d765ce370d482f",
+      "bytes": 912
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed1/model.joblib",
+      "sha256": "f1dacf078c1b057417b2ab31bd14d1721163931d2952ea43441fc0e1d5ba85e3",
+      "bytes": 1179
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed2/metrics.json",
+      "sha256": "555cce5d18c3b760d18ba829e90f860174dfac80d1f5cc1bdf5c69f3b1c65417",
+      "bytes": 910
+    },
+    {
+      "path": "results/summary/ragtruth/A1_seed2/model.joblib",
+      "sha256": "10c27c60ef86e190116dbb21d013a890733f0ebb948e0ea442a1a0d6d3b1949e",
+      "bytes": 1179
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed0/metrics.json",
+      "sha256": "f34d7c9d1a398ebd7f54eede71d728a1ad46569796303fd3df630d49a945c169",
+      "bytes": 917
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed0/model.joblib",
+      "sha256": "71dd47492539abdac79191c78488288b001a4187c2308ce881bfe9da3518ff07",
+      "bytes": 1179
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed1/metrics.json",
+      "sha256": "344a1256875fdbd8982be26612dc70a1f2fd050745ebca8e2e64875174500730",
+      "bytes": 918
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed1/model.joblib",
+      "sha256": "eb9807deb84f90a8105a80b27069b52f1517a8538cad2501add388407233832d",
+      "bytes": 1179
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed2/metrics.json",
+      "sha256": "1c2adbf0b6eab586f379d9ef8ad62c99e607cd8c22237058dba4552f3dfc4db1",
+      "bytes": 916
+    },
+    {
+      "path": "results/summary/ragtruth/A2_seed2/model.joblib",
+      "sha256": "976e7b641a7c0b60aa7a1106716c97cdd8836e644665e16e479b40fcc3513922",
+      "bytes": 1179
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed0/metrics.json",
+      "sha256": "fbd9b18f266023b43f131f29960f4fe44c289b31b6198682c29b008e45d1cad3",
+      "bytes": 798
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed0/model.joblib",
+      "sha256": "42f026a40e3eb34dc935a62bd8df3e5b8c2be03da79049a143a8b563e3b7889a",
+      "bytes": 2234
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed1/metrics.json",
+      "sha256": "dd93bd01c05f89106de909a9d79c8f443fbb52fb5e7d3fa47c8897d72136ee2a",
+      "bytes": 796
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed1/model.joblib",
+      "sha256": "68b8fd03506d315d38794fcf1e6addddb621e47828c0451e85202a6eb3508258",
+      "bytes": 2234
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed2/metrics.json",
+      "sha256": "af91c13d059d3c5eab6a1b88090f5e3c8c46abd5ed17be4c32bb2b774453376d",
+      "bytes": 792
+    },
+    {
+      "path": "results/summary/ragtruth/A3_seed2/model.joblib",
+      "sha256": "53e0171b93ccc043df024efefc86c3b3d9a7dad1060e0e9fd112008dc019d49f",
+      "bytes": 2234
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed0/metrics.json",
+      "sha256": "882a958d08b20df4e936293ebed22905ae7e1cd7f20784a5d031a4f01cd2b80e",
+      "bytes": 760
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed0/model.joblib",
+      "sha256": "5ae0e9ec1a1a89c3af26b857b9769d3de60542ada7341664c97f25309258be0b",
+      "bytes": 649522
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed1/metrics.json",
+      "sha256": "de33a12d9891a96f944e279742369a6c0a6edaafb5ea3a747b184dc59592352a",
+      "bytes": 755
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed1/model.joblib",
+      "sha256": "52e658ea1d791263f4373c2f8653f4cb2f24e25daa4d3a9a9118398416caadb7",
+      "bytes": 622642
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed2/metrics.json",
+      "sha256": "45507e4ca94d0dfe9e3c63cb4e8e93427a3b5279d4169be8f6a9ad05eea8b2fc",
+      "bytes": 755
+    },
+    {
+      "path": "results/summary/ragtruth/A4_seed2/model.joblib",
+      "sha256": "a2a07be2b6219e3f63883a97aa1425719403e8f3e7b24ba92f54a6c2e4ef70dd",
+      "bytes": 629250
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed0/metrics.json",
+      "sha256": "66c96d24771eb73cfec5660cfb0782e759da8bf756813e5118e18739cfc82a9c",
+      "bytes": 903
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed0/model.joblib",
+      "sha256": "da98bb4bdf76152aed48a6872a9d9bf1f0ce170a23bbd2b4a86378483e7e1700",
+      "bytes": 55936
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed1/metrics.json",
+      "sha256": "ef9be49d06b4020e807c4c249039a1059a8d26b42b92de4129727bf5ffe20969",
+      "bytes": 905
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed1/model.joblib",
+      "sha256": "3d317342b49c492d502b2077047a12e737cb198bb27f1c89a3d4cd537747822e",
+      "bytes": 56116
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed2/metrics.json",
+      "sha256": "9df227b0fbfd0e48e9b69114ea011e86c5b3059fd86a332109bf8445279e01e3",
+      "bytes": 900
+    },
+    {
+      "path": "results/summary/ragtruth/A5_seed2/model.joblib",
+      "sha256": "1a084019e150ca5539a683b1519b546c841e8715ca430fe84950acbbae014d8b",
+      "bytes": 53892
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed0/metrics.json",
+      "sha256": "33b449dc89861664c6232522c1ff26e5da56d5c4a6532a7383ca8bda9a4a8d0f",
+      "bytes": 907
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed0/model.joblib",
+      "sha256": "062f167ef5bea3abae6be41ce5167995f2178ba2e6253383102ba6c00048aa85",
+      "bytes": 55984
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed1/metrics.json",
+      "sha256": "42c914fc95f59c44487f809d75e42c752f0beee7e2e9b5a1828d9ab9e4f8ce02",
+      "bytes": 906
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed1/model.joblib",
+      "sha256": "12e6c1297e43fc2561a914432bdcd1a1eba27ac37f25f1d4531f15ba347f0fa1",
+      "bytes": 56164
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed2/metrics.json",
+      "sha256": "b9a74933b513a01c525552b69f1b4885d0120cd45d017438cd6e56630680d336",
+      "bytes": 901
+    },
+    {
+      "path": "results/summary/ragtruth/A6_seed2/model.joblib",
+      "sha256": "0e3695bc92a85c42b8a8e91532e22530f1e81fb251168c6c6c00851e62aa875c",
+      "bytes": 53940
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed0/metrics.json",
+      "sha256": "da323c01323744a9eac47b3eb768ac47c3dfc5f94aad55cfb5435070720a812b",
+      "bytes": 906
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed0/model.joblib",
+      "sha256": "390539648ec238772d60fb1944485062008c7879de3dbe5a0466cde2cf89ce8d",
+      "bytes": 56768
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed1/metrics.json",
+      "sha256": "e8acf7a3d16b7d0236213549b6135fffcfe420ed8af1193bc4db64fc68bc7e8c",
+      "bytes": 904
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed1/model.joblib",
+      "sha256": "f95e6e6ff0eb1bacaefab41ea8cbb736b3447fc45f6d33116c179b34df96cf7b",
+      "bytes": 56964
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed2/metrics.json",
+      "sha256": "ee7ec8bb221400f77b7a5f0bee15a07a1535b878f58712079bcd67c6a6d751e4",
+      "bytes": 904
+    },
+    {
+      "path": "results/summary/ragtruth/A7_seed2/model.joblib",
+      "sha256": "2e6403c51ac6b78caac7ccedd04d531b85e1a2f46cf854960c3beced4efe1415",
+      "bytes": 54724
+    },
+    {
+      "path": "results/summary/ragtruth/A8_seed0/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A8_seed0/metrics.json",
+      "sha256": "07c06342a0ccaa1a3596de6beeb249bb7a752e951d1e33501a70255882674020",
+      "bytes": 706
+    },
+    {
+      "path": "results/summary/ragtruth/A8_seed1/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A8_seed1/metrics.json",
+      "sha256": "c538afb9907cdd209a29b12f54c70962d078134e4e7f5a4c554fe0c2ca1e3a86",
+      "bytes": 706
+    },
+    {
+      "path": "results/summary/ragtruth/A8_seed2/config.yaml",
+      "sha256": "234072bdc42946916cc6e03f1a0d516f2e005d301cbaa5cb9e8d0d3c1a80dbc7",
+      "bytes": 1729
+    },
+    {
+      "path": "results/summary/ragtruth/A8_seed2/metrics.json",
+      "sha256": "0ac47766608aaf534d136758b1b8b2f11906f3f1a1084aaac8847365bc5bddea",
+      "bytes": 706
+    },
+    {
+      "path": "results/summary/ragtruth/build_seed0.json",
+      "sha256": "366ef58a68b8df198423cbb9d5a2267c58b28756930e153ac0fa40b2f858d108",
+      "bytes": 1823
+    },
+    {
+      "path": "results/summary/ragtruth/build_seed1.json",
+      "sha256": "a565d10ca5a0888664f14b4e86b95a161c8a77c9a9daeb196e12595f6ebf3fec",
+      "bytes": 1824
+    },
+    {
+      "path": "results/summary/ragtruth/build_seed2.json",
+      "sha256": "2c766075b01807abc0c298d5033e698d0c0f515747ac2d71aa9530faaed87f32",
+      "bytes": 1827
+    },
+    {
+      "path": "results/summary/ragtruth.md",
+      "sha256": "3fde134d921de16c891640674c91c546b0d544a5f9c316f1deae34d5fb29b603",
+      "bytes": 21604
+    },
+    {
+      "path": "results/summary/ragtruth.json",
+      "sha256": "1f6628c3f83f276df5dedeab24882e60dcc543e2b9ae56117d44bc5356647410",
+      "bytes": 199831
+    },
+    {
+      "path": "configs/ragtruth.yaml",
+      "sha256": "a99e7a7dd1669aa22f720f68a93e1bc7ab8c8116bf627ccfa5e2da3717eb43f8",
+      "bytes": 2739
+    },
+    {
+      "path": "data/benchmarks/ragtruth.json",
+      "sha256": "03d30d445507629a0f7595cfd83996975e3a498f272f30b6b8c19da4d6038d49",
+      "bytes": 2492
+    }
+  ],
+  "per_seed_metrics": [
+    {
+      "variant": "A0",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.7112,
+      "f1": 0.2273,
+      "precision": 0.1304,
+      "recall": 0.8824,
+      "ece": 0.0429,
+      "n": 162,
+      "threshold": 0.030006,
+      "val_auroc": 0.3955,
+      "checkpoint": "results/summary/ragtruth/A0_seed0/model.joblib",
+      "checkpoint_sha256": "a6b82fb7a8022a75d205af1cd51ec60342543e6483ac361194013fc762010eda"
+    },
+    {
+      "variant": "A0",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.6053,
+      "f1": 0.2162,
+      "precision": 0.1379,
+      "recall": 0.5,
+      "ece": 0.0601,
+      "n": 162,
+      "threshold": 0.062188,
+      "val_auroc": 0.695,
+      "checkpoint": "results/summary/ragtruth/A0_seed1/model.joblib",
+      "checkpoint_sha256": "8f52c9e96fd0cd2855e23cf1b02f9f3f52a9539a4abd732296d52f1c271c443f"
+    },
+    {
+      "variant": "A0",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.7273,
+      "f1": 0.209,
+      "precision": 0.1176,
+      "recall": 0.9333,
+      "ece": 0.0337,
+      "n": 158,
+      "threshold": 0.03386,
+      "val_auroc": 0.5364,
+      "checkpoint": "results/summary/ragtruth/A0_seed2/model.joblib",
+      "checkpoint_sha256": "1cc60ff41430edffce9a0d98355118b0e6239e74cbd797d284ce82e6807dbc85"
+    },
+    {
+      "variant": "A1",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.6929,
+      "f1": 0.2308,
+      "precision": 0.1379,
+      "recall": 0.7059,
+      "ece": 0.0428,
+      "n": 162,
+      "threshold": 0.045964,
+      "val_auroc": 0.4901,
+      "checkpoint": "results/summary/ragtruth/A1_seed0/model.joblib",
+      "checkpoint_sha256": "25650e378dfe0a06b597231e077592aae5abe91cc1a3c3bd0398478c0debc413"
+    },
+    {
+      "variant": "A1",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.6361,
+      "f1": 0.0526,
+      "precision": 0.0455,
+      "recall": 0.0625,
+      "ece": 0.0502,
+      "n": 162,
+      "threshold": 0.085961,
+      "val_auroc": 0.6004,
+      "checkpoint": "results/summary/ragtruth/A1_seed1/model.joblib",
+      "checkpoint_sha256": "f1dacf078c1b057417b2ab31bd14d1721163931d2952ea43441fc0e1d5ba85e3"
+    },
+    {
+      "variant": "A1",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.7865,
+      "f1": 0.2,
+      "precision": 0.112,
+      "recall": 0.9333,
+      "ece": 0.0481,
+      "n": 158,
+      "threshold": 0.035604,
+      "val_auroc": 0.4521,
+      "checkpoint": "results/summary/ragtruth/A1_seed2/model.joblib",
+      "checkpoint_sha256": "10c27c60ef86e190116dbb21d013a890733f0ebb948e0ea442a1a0d6d3b1949e"
+    },
+    {
+      "variant": "A2",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.6349,
+      "f1": 0.2194,
+      "precision": 0.1232,
+      "recall": 1.0,
+      "ece": 0.0407,
+      "n": 162,
+      "threshold": 0.034633,
+      "val_auroc": 0.3775,
+      "checkpoint": "results/summary/ragtruth/A2_seed0/model.joblib",
+      "checkpoint_sha256": "71dd47492539abdac79191c78488288b001a4187c2308ce881bfe9da3518ff07"
+    },
+    {
+      "variant": "A2",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.4799,
+      "f1": 0.0833,
+      "precision": 0.0625,
+      "recall": 0.125,
+      "ece": 0.0596,
+      "n": 162,
+      "threshold": 0.075298,
+      "val_auroc": 0.6424,
+      "checkpoint": "results/summary/ragtruth/A2_seed1/model.joblib",
+      "checkpoint_sha256": "eb9807deb84f90a8105a80b27069b52f1517a8538cad2501add388407233832d"
+    },
+    {
+      "variant": "A2",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.5786,
+      "f1": 0.2013,
+      "precision": 0.1119,
+      "recall": 1.0,
+      "ece": 0.0284,
+      "n": 158,
+      "threshold": 0.037239,
+      "val_auroc": 0.5045,
+      "checkpoint": "results/summary/ragtruth/A2_seed2/model.joblib",
+      "checkpoint_sha256": "976e7b641a7c0b60aa7a1106716c97cdd8836e644665e16e479b40fcc3513922"
+    },
+    {
+      "variant": "A3",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.6937,
+      "f1": 0.2308,
+      "precision": 0.1379,
+      "recall": 0.7059,
+      "ece": 0.0427,
+      "n": 162,
+      "threshold": 0.046895,
+      "val_auroc": 0.4901,
+      "checkpoint": "results/summary/ragtruth/A3_seed0/model.joblib",
+      "checkpoint_sha256": "42f026a40e3eb34dc935a62bd8df3e5b8c2be03da79049a143a8b563e3b7889a"
+    },
+    {
+      "variant": "A3",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.5813,
+      "f1": 0.1695,
+      "precision": 0.1163,
+      "recall": 0.3125,
+      "ece": 0.0416,
+      "n": 162,
+      "threshold": 0.069653,
+      "val_auroc": 0.736,
+      "checkpoint": "results/summary/ragtruth/A3_seed1/model.joblib",
+      "checkpoint_sha256": "68b8fd03506d315d38794fcf1e6addddb621e47828c0451e85202a6eb3508258"
+    },
+    {
+      "variant": "A3",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.5786,
+      "f1": 0.2013,
+      "precision": 0.1119,
+      "recall": 1.0,
+      "ece": 0.031,
+      "n": 158,
+      "threshold": 0.042368,
+      "val_auroc": 0.5045,
+      "checkpoint": "results/summary/ragtruth/A3_seed2/model.joblib",
+      "checkpoint_sha256": "53e0171b93ccc043df024efefc86c3b3d9a7dad1060e0e9fd112008dc019d49f"
+    },
+    {
+      "variant": "A4",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.8345,
+      "f1": 0.3636,
+      "precision": 0.2963,
+      "recall": 0.4706,
+      "ece": 0.1058,
+      "n": 162,
+      "threshold": 0.000507,
+      "val_auroc": 0.6717,
+      "checkpoint": "results/summary/ragtruth/A4_seed0/model.joblib",
+      "checkpoint_sha256": "5ae0e9ec1a1a89c3af26b857b9769d3de60542ada7341664c97f25309258be0b"
+    },
+    {
+      "variant": "A4",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.6965,
+      "f1": 0.2051,
+      "precision": 0.1739,
+      "recall": 0.25,
+      "ece": 0.1,
+      "n": 162,
+      "threshold": 0.000488,
+      "val_auroc": 0.7674,
+      "checkpoint": "results/summary/ragtruth/A4_seed1/model.joblib",
+      "checkpoint_sha256": "52e658ea1d791263f4373c2f8653f4cb2f24e25daa4d3a9a9118398416caadb7"
+    },
+    {
+      "variant": "A4",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.6895,
+      "f1": 0.1714,
+      "precision": 0.15,
+      "recall": 0.2,
+      "ece": 0.1065,
+      "n": 158,
+      "threshold": 0.000964,
+      "val_auroc": 0.6442,
+      "checkpoint": "results/summary/ragtruth/A4_seed2/model.joblib",
+      "checkpoint_sha256": "a2a07be2b6219e3f63883a97aa1425719403e8f3e7b24ba92f54a6c2e4ef70dd"
+    },
+    {
+      "variant": "A5",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.7136,
+      "f1": 0.2529,
+      "precision": 0.1571,
+      "recall": 0.6471,
+      "ece": 0.5376,
+      "n": 162,
+      "threshold": 0.64196,
+      "val_auroc": 0.5714,
+      "checkpoint": "results/summary/ragtruth/A5_seed0/model.joblib",
+      "checkpoint_sha256": "da98bb4bdf76152aed48a6872a9d9bf1f0ce170a23bbd2b4a86378483e7e1700"
+    },
+    {
+      "variant": "A5",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.6601,
+      "f1": 0.1395,
+      "precision": 0.1111,
+      "recall": 0.1875,
+      "ece": 0.0375,
+      "n": 162,
+      "threshold": 0.096364,
+      "val_auroc": 0.6902,
+      "checkpoint": "results/summary/ragtruth/A5_seed1/model.joblib",
+      "checkpoint_sha256": "3d317342b49c492d502b2077047a12e737cb198bb27f1c89a3d4cd537747822e"
+    },
+    {
+      "variant": "A5",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.6951,
+      "f1": 0.1818,
+      "precision": 0.1176,
+      "recall": 0.4,
+      "ece": 0.0537,
+      "n": 158,
+      "threshold": 0.08914,
+      "val_auroc": 0.767,
+      "checkpoint": "results/summary/ragtruth/A5_seed2/model.joblib",
+      "checkpoint_sha256": "1a084019e150ca5539a683b1519b546c841e8715ca430fe84950acbbae014d8b"
+    },
+    {
+      "variant": "A6",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.4677,
+      "f1": 0.1594,
+      "precision": 0.0909,
+      "recall": 0.6471,
+      "ece": 0.1705,
+      "n": 162,
+      "threshold": 0.265524,
+      "val_auroc": 0.3756,
+      "checkpoint": "results/summary/ragtruth/A6_seed0/model.joblib",
+      "checkpoint_sha256": "062f167ef5bea3abae6be41ce5167995f2178ba2e6253383102ba6c00048aa85"
+    },
+    {
+      "variant": "A6",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.4944,
+      "f1": 0.1765,
+      "precision": 0.0974,
+      "recall": 0.9375,
+      "ece": 0.1018,
+      "n": 162,
+      "threshold": 0.17873,
+      "val_auroc": 0.4826,
+      "checkpoint": "results/summary/ragtruth/A6_seed1/model.joblib",
+      "checkpoint_sha256": "12e6c1297e43fc2561a914432bdcd1a1eba27ac37f25f1d4531f15ba347f0fa1"
+    },
+    {
+      "variant": "A6",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.6326,
+      "f1": 0.1818,
+      "precision": 0.1667,
+      "recall": 0.2,
+      "ece": 0.271,
+      "n": 158,
+      "threshold": 0.379333,
+      "val_auroc": 0.6647,
+      "checkpoint": "results/summary/ragtruth/A6_seed2/model.joblib",
+      "checkpoint_sha256": "0e3695bc92a85c42b8a8e91532e22530f1e81fb251168c6c6c00851e62aa875c"
+    },
+    {
+      "variant": "A7",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": 0.7002,
+      "f1": 0.2623,
+      "precision": 0.1524,
+      "recall": 0.9412,
+      "ece": 0.3848,
+      "n": 162,
+      "threshold": 0.483488,
+      "val_auroc": 0.492,
+      "checkpoint": "results/summary/ragtruth/A7_seed0/model.joblib",
+      "checkpoint_sha256": "390539648ec238772d60fb1944485062008c7879de3dbe5a0466cde2cf89ce8d"
+    },
+    {
+      "variant": "A7",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": 0.7046,
+      "f1": 0.1935,
+      "precision": 0.1304,
+      "recall": 0.375,
+      "ece": 0.045,
+      "n": 162,
+      "threshold": 0.07624,
+      "val_auroc": 0.6892,
+      "checkpoint": "results/summary/ragtruth/A7_seed1/model.joblib",
+      "checkpoint_sha256": "f95e6e6ff0eb1bacaefab41ea8cbb736b3447fc45f6d33116c179b34df96cf7b"
+    },
+    {
+      "variant": "A7",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": 0.4895,
+      "f1": 0.1575,
+      "precision": 0.0893,
+      "recall": 0.6667,
+      "ece": 0.2993,
+      "n": 158,
+      "threshold": 0.383679,
+      "val_auroc": 0.4365,
+      "checkpoint": "results/summary/ragtruth/A7_seed2/model.joblib",
+      "checkpoint_sha256": "2e6403c51ac6b78caac7ccedd04d531b85e1a2f46cf854960c3beced4efe1415"
+    },
+    {
+      "variant": "A8",
+      "seed": 0,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s0.parquet",
+      "auroc": null,
+      "f1": null,
+      "precision": null,
+      "recall": null,
+      "ece": null,
+      "n": 0,
+      "threshold": 0.5,
+      "val_auroc": null,
+      "checkpoint": "results/summary/ragtruth/A8_seed0/model.joblib",
+      "checkpoint_sha256": null
+    },
+    {
+      "variant": "A8",
+      "seed": 1,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s1.parquet",
+      "auroc": null,
+      "f1": null,
+      "precision": null,
+      "recall": null,
+      "ece": null,
+      "n": 0,
+      "threshold": 0.5,
+      "val_auroc": null,
+      "checkpoint": "results/summary/ragtruth/A8_seed1/model.joblib",
+      "checkpoint_sha256": null
+    },
+    {
+      "variant": "A8",
+      "seed": 2,
+      "git": "9865b61",
+      "config": "ragtruth.yaml",
+      "table": "/root/workspace/workspace/03-Code/Projects/Legacy/RCgate/data/signal_tables/ragtruth_s2.parquet",
+      "auroc": null,
+      "f1": null,
+      "precision": null,
+      "recall": null,
+      "ece": null,
+      "n": 0,
+      "threshold": 0.5,
+      "val_auroc": null,
+      "checkpoint": "results/summary/ragtruth/A8_seed2/model.joblib",
+      "checkpoint_sha256": null
+    }
+  ],
+  "alignment_and_antecedent_pre_fix": {
+    "0": {
+      "n_claims": 800,
+      "n_positive": 57,
+      "n_sources_in_answers": 134,
+      "responses_span_ne_split": 48,
+      "responses_len_diff": 48,
+      "responses_first_sentence_diff": 13,
+      "examples_first_diff": [
+        {
+          "question_id": "11319",
+          "generator_id": 3,
+          "n_spans": 5,
+          "n_splits": 4,
+          "span0": "Here is a summary of the article in 124 words:\n\nActor Paul Walker, best known for his role in the \"Fast and Furious\" franchise, died in a car crash in 2013 during the filming of \"F",
+          "split0": "Here is a summary of the article in 124 words:\n\nActor Paul Walker, best known for his role in the \"Fast and Furious\" franchise, died in a car crash in 2013 during the filming of \"F"
+        },
+        {
+          "question_id": "12192",
+          "generator_id": 0,
+          "n_spans": 7,
+          "n_splits": 5,
+          "span0": "To write an email for leave, you should start with a clear subject line such as \"Application of leave for 10 days.\"",
+          "split0": "To write an email for leave, you should start with a clear subject line such as \"Application of leave for 10 days.\" The body of the email should be addressed respectfully, for exam"
+        },
+        {
+          "question_id": "11381",
+          "generator_id": 0,
+          "n_spans": 4,
+          "n_splits": 3,
+          "span0": "Minnesota Vikings running back, Adrian Peterson, is set to be reinstated by the NFL today, after he was suspended last November following allegations that he disciplined his son to",
+          "split0": "Minnesota Vikings running back, Adrian Peterson, is set to be reinstated by the NFL today, after he was suspended last November following allegations that he disciplined his son to"
+        },
+        {
+          "question_id": "12206",
+          "generator_id": 1,
+          "n_spans": 4,
+          "n_splits": 1,
+          "span0": "Based on the given passages, the order of the seven \"I am\" statements in John's Gospel are as follows:\n\n1) John 6:48 - \"I am the bread of life.\"",
+          "split0": "Based on the given passages, the order of the seven \"I am\" statements in John's Gospel are as follows:\n\n1) John 6:48 - \"I am the bread of life.\"\n2) John 8:12 - \"I am the light of t"
+        },
+        {
+          "question_id": "12214",
+          "generator_id": 3,
+          "n_spans": 3,
+          "n_splits": 1,
+          "span0": "Based on the provided passages, the answer to the question \"What sells the most at trade shows?\"",
+          "split0": "Based on the provided passages, the answer to the question \"What sells the most at trade shows?\" is:\n\n\"Exhibiting at popular trade shows within your industry, as it provides exposu"
+        },
+        {
+          "question_id": "12218",
+          "generator_id": 3,
+          "n_spans": 5,
+          "n_splits": 4,
+          "span0": "Based on the provided passages, 1099-PATR goes on Line 21 of the 1040 tax return as follows:\n\nPassage 1 states, \"Per the IRS instructions, patronage dividends and other distributio",
+          "split0": "Based on the provided passages, 1099-PATR goes on Line 21 of the 1040 tax return as follows:\n\nPassage 1 states, \"Per the IRS instructions, patronage dividends and other distributio"
+        },
+        {
+          "question_id": "12218",
+          "generator_id": 5,
+          "n_spans": 3,
+          "n_splits": 2,
+          "span0": "Based on the given passages, the answer to the question \"Where does 1099-PATR go on 1040?\"",
+          "split0": "Based on the given passages, the answer to the question \"Where does 1099-PATR go on 1040?\" is:\n\nSchedule C, Schedule F, or Form 4835."
+        },
+        {
+          "question_id": "11430",
+          "generator_id": 1,
+          "n_spans": 6,
+          "n_splits": 5,
+          "span0": "CNN announced on Friday that Jake Tapper will be the new anchor of the Sunday morning political interview program \"State of the Union.\"",
+          "split0": "CNN announced on Friday that Jake Tapper will be the new anchor of the Sunday morning political interview program \"State of the Union.\" Tapper, currently the chief Washington corre"
+        }
+      ],
+      "claim_type_counts": {
+        "0": 256,
+        "1": 211,
+        "2": 168,
+        "3": 165
+      },
+      "rows_containing_Briefly": 67,
+      "rows_containing_Summarize": 23,
+      "slice_stats": {
+        "n_sources_available": 2965,
+        "n_sources_usable": 1932,
+        "n_sources_written": 134,
+        "claims_per_source": 6,
+        "n_claims_written": 800,
+        "n_hallucinated": 57,
+        "dealias_changed": 90,
+        "task_types": {
+          "QA": 402,
+          "Summary": 398
+        },
+        "label_types": {
+          "Evident Baseless Info": 43,
+          "Evident Conflict": 9,
+          "Subtle Baseless Info": 4,
+          "Subtle Conflict": 2
+        },
+        "per_generator": {
+          "gpt-4-0613": 134,
+          "gpt-3.5-turbo-0613": 134,
+          "mistral-7B-instruct": 133,
+          "llama-2-7b-chat": 133,
+          "llama-2-13b-chat": 133,
+          "llama-2-70b-chat": 133
+        },
+        "positive_rate": 0.0712
+      },
+      "frame_sha256": "d78feb7c0e8c31f1d7c3e28b46fcaed09d3c3af2cf6be89d187d4d8a27cd22e7"
+    },
+    "1": {
+      "n_claims": 800,
+      "n_positive": 57,
+      "n_sources_in_answers": 134,
+      "responses_span_ne_split": 48,
+      "responses_len_diff": 48,
+      "responses_first_sentence_diff": 13,
+      "examples_first_diff": [
+        {
+          "question_id": "11319",
+          "generator_id": 3,
+          "n_spans": 5,
+          "n_splits": 4,
+          "span0": "Here is a summary of the article in 124 words:\n\nActor Paul Walker, best known for his role in the \"Fast and Furious\" franchise, died in a car crash in 2013 during the filming of \"F",
+          "split0": "Here is a summary of the article in 124 words:\n\nActor Paul Walker, best known for his role in the \"Fast and Furious\" franchise, died in a car crash in 2013 during the filming of \"F"
+        },
+        {
+          "question_id": "12192",
+          "generator_id": 0,
+          "n_spans": 7,
+          "n_splits": 5,
+          "span0": "To write an email for leave, you should start with a clear subject line such as \"Application of leave for 10 days.\"",
+          "split0": "To write an email for leave, you should start with a clear subject line such as \"Application of leave for 10 days.\" The body of the email should be addressed respectfully, for exam"
+        },
+        {
+          "question_id": "11381",
+          "generator_id": 0,
+          "n_spans": 4,
+          "n_splits": 3,
+          "span0": "Minnesota Vikings running back, Adrian Peterson, is set to be reinstated by the NFL today, after he was suspended last November following allegations that he disciplined his son to",
+          "split0": "Minnesota Vikings running back, Adrian Peterson, is set to be reinstated by the NFL today, after he was suspended last November following allegations that he disciplined his son to"
+        },
+        {
+          "question_id": "12206",
+          "generator_id": 1,
+          "n_spans": 4,
+          "n_splits": 1,
+          "span0": "Based on the given passages, the order of the seven \"I am\" statements in John's Gospel are as follows:\n\n1) John 6:48 - \"I am the bread of life.\"",
+          "split0": "Based on the given passages, the order of the seven \"I am\" statements in John's Gospel are as follows:\n\n1) John 6:48 - \"I am the bread of life.\"\n2) John 8:12 - \"I am the light of t"
+        },
+        {
+          "question_id": "12214",
+          "generator_id": 3,
+          "n_spans": 3,
+          "n_splits": 1,
+          "span0": "Based on the provided passages, the answer to the question \"What sells the most at trade shows?\"",
+          "split0": "Based on the provided passages, the answer to the question \"What sells the most at trade shows?\" is:\n\n\"Exhibiting at popular trade shows within your industry, as it provides exposu"
+        },
+        {
+          "question_id": "12218",
+          "generator_id": 3,
+          "n_spans": 5,
+          "n_splits": 4,
+          "span0": "Based on the provided passages, 1099-PATR goes on Line 21 of the 1040 tax return as follows:\n\nPassage 1 states, \"Per the IRS instructions, patronage dividends and other distributio",
+          "split0": "Based on the provided passages, 1099-PATR goes on Line 21 of the 1040 tax return as follows:\n\nPassage 1 states, \"Per the IRS instructions, patronage dividends and other distributio"
+        },
+        {
+          "question_id": "12218",
+          "generator_id": 5,
+          "n_spans": 3,
+          "n_splits": 2,
+          "span0": "Based on the given passages, the answer to the question \"Where does 1099-PATR go on 1040?\"",
+          "split0": "Based on the given passages, the answer to the question \"Where does 1099-PATR go on 1040?\" is:\n\nSchedule C, Schedule F, or Form 4835."
+        },
+        {
+          "question_id": "11430",
+          "generator_id": 1,
+          "n_spans": 6,
+          "n_splits": 5,
+          "span0": "CNN announced on Friday that Jake Tapper will be the new anchor of the Sunday morning political interview program \"State of the Union.\"",
+          "split0": "CNN announced on Friday that Jake Tapper will be the new anchor of the Sunday morning political interview program \"State of the Union.\" Tapper, currently the chief Washington corre"
+        }
+      ],
+      "claim_type_counts": {
+        "0": 258,
+        "1": 208,
+        "2": 171,
+        "3": 163
+      },
+      "rows_containing_Briefly": 64,
+      "rows_containing_Summarize": 23,
+      "slice_stats": {
+        "n_sources_available": 2965,
+        "n_sources_usable": 1932,
+        "n_sources_written": 134,
+        "claims_per_source": 6,
+        "n_claims_written": 800,
+        "n_hallucinated": 57,
+        "dealias_changed": 87,
+        "task_types": {
+          "Summary": 402,
+          "QA": 398
+        },
+        "label_types": {
+          "Evident Baseless Info": 42,
+          "Evident Conflict": 9,
+          "Subtle Baseless Info": 5,
+          "Subtle Conflict": 2
+        },
+        "per_generator": {
+          "gpt-4-0613": 134,
+          "gpt-3.5-turbo-0613": 134,
+          "mistral-7B-instruct": 133,
+          "llama-2-7b-chat": 133,
+          "llama-2-13b-chat": 133,
+          "llama-2-70b-chat": 133
+        },
+        "positive_rate": 0.0712
+      },
+      "frame_sha256": "e11ce0a9962243d553378166241fbe8739f0eef363f6f8bce2cb21ae40f8924f"
+    },
+    "2": {
+      "n_claims": 800,
+      "n_positive": 57,
+      "n_sources_in_answers": 134,
+      "responses_span_ne_split": 48,
+      "responses_len_diff": 48,
+      "responses_first_sentence_diff": 13,
+      "examples_first_diff": [
+        {
+          "question_id": "11319",
+          "generator_id": 3,
+          "n_spans": 5,
+          "n_splits": 4,
+          "span0": "Here is a summary of the article in 124 words:\n\nActor Paul Walker, best known for his role in the \"Fast and Furious\" franchise, died in a car crash in 2013 during the filming of \"F",
+          "split0": "Here is a summary of the article in 124 words:\n\nActor Paul Walker, best known for his role in the \"Fast and Furious\" franchise, died in a car crash in 2013 during the filming of \"F"
+        },
+        {
+          "question_id": "12192",
+          "generator_id": 0,
+          "n_spans": 7,
+          "n_splits": 5,
+          "span0": "To write an email for leave, you should start with a clear subject line such as \"Application of leave for 10 days.\"",
+          "split0": "To write an email for leave, you should start with a clear subject line such as \"Application of leave for 10 days.\" The body of the email should be addressed respectfully, for exam"
+        },
+        {
+          "question_id": "11381",
+          "generator_id": 0,
+          "n_spans": 4,
+          "n_splits": 3,
+          "span0": "Minnesota Vikings running back, Adrian Peterson, is set to be reinstated by the NFL today, after he was suspended last November following allegations that he disciplined his son to",
+          "split0": "Minnesota Vikings running back, Adrian Peterson, is set to be reinstated by the NFL today, after he was suspended last November following allegations that he disciplined his son to"
+        },
+        {
+          "question_id": "12206",
+          "generator_id": 1,
+          "n_spans": 4,
+          "n_splits": 1,
+          "span0": "Based on the given passages, the order of the seven \"I am\" statements in John's Gospel are as follows:\n\n1) John 6:48 - \"I am the bread of life.\"",
+          "split0": "Based on the given passages, the order of the seven \"I am\" statements in John's Gospel are as follows:\n\n1) John 6:48 - \"I am the bread of life.\"\n2) John 8:12 - \"I am the light of t"
+        },
+        {
+          "question_id": "12214",
+          "generator_id": 3,
+          "n_spans": 3,
+          "n_splits": 1,
+          "span0": "Based on the provided passages, the answer to the question \"What sells the most at trade shows?\"",
+          "split0": "Based on the provided passages, the answer to the question \"What sells the most at trade shows?\" is:\n\n\"Exhibiting at popular trade shows within your industry, as it provides exposu"
+        },
+        {
+          "question_id": "12218",
+          "generator_id": 3,
+          "n_spans": 5,
+          "n_splits": 4,
+          "span0": "Based on the provided passages, 1099-PATR goes on Line 21 of the 1040 tax return as follows:\n\nPassage 1 states, \"Per the IRS instructions, patronage dividends and other distributio",
+          "split0": "Based on the provided passages, 1099-PATR goes on Line 21 of the 1040 tax return as follows:\n\nPassage 1 states, \"Per the IRS instructions, patronage dividends and other distributio"
+        },
+        {
+          "question_id": "12218",
+          "generator_id": 5,
+          "n_spans": 3,
+          "n_splits": 2,
+          "span0": "Based on the given passages, the answer to the question \"Where does 1099-PATR go on 1040?\"",
+          "split0": "Based on the given passages, the answer to the question \"Where does 1099-PATR go on 1040?\" is:\n\nSchedule C, Schedule F, or Form 4835."
+        },
+        {
+          "question_id": "11430",
+          "generator_id": 1,
+          "n_spans": 6,
+          "n_splits": 5,
+          "span0": "CNN announced on Friday that Jake Tapper will be the new anchor of the Sunday morning political interview program \"State of the Union.\"",
+          "split0": "CNN announced on Friday that Jake Tapper will be the new anchor of the Sunday morning political interview program \"State of the Union.\" Tapper, currently the chief Washington corre"
+        }
+      ],
+      "claim_type_counts": {
+        "0": 261,
+        "1": 209,
+        "2": 167,
+        "3": 163
+      },
+      "rows_containing_Briefly": 64,
+      "rows_containing_Summarize": 23,
+      "slice_stats": {
+        "n_sources_available": 2965,
+        "n_sources_usable": 1932,
+        "n_sources_written": 134,
+        "claims_per_source": 6,
+        "n_claims_written": 800,
+        "n_hallucinated": 57,
+        "dealias_changed": 87,
+        "task_types": {
+          "QA": 402,
+          "Summary": 398
+        },
+        "label_types": {
+          "Evident Baseless Info": 42,
+          "Evident Conflict": 9,
+          "Subtle Baseless Info": 5,
+          "Subtle Conflict": 2
+        },
+        "per_generator": {
+          "gpt-4-0613": 134,
+          "gpt-3.5-turbo-0613": 134,
+          "mistral-7B-instruct": 133,
+          "llama-2-7b-chat": 133,
+          "llama-2-13b-chat": 133,
+          "llama-2-70b-chat": 133
+        },
+        "positive_rate": 0.0712
+      },
+      "frame_sha256": "2fba6a4424750edbb90356805599e58210447dd5963c28abe06d44dde882c0fa"
+    }
+  },
+  "synthetic_fingerprint": {
+    "seed": 0,
+    "n_questions": 30,
+    "n_generators": 3,
+    "rows": 273,
+    "sha256": "dffa0517df29c761517a511da5948b8f41260b822dd2ce90e7f99ae805ac55a3",
+    "path": "results/summary/ragtruth_historical_freeze/synthetic_fingerprint_seed0_n30.parquet"
+  }
+}

@@ -3,6 +3,8 @@
 > **Status:** `Decided`
 > **Date:** October, 2026
 
+> **Status note, October 10, 2026.** The decision in this record still holds: the gate input is metadata only, and tests enforce that constraint. [`docs/RC-Gate_Final_Research_Report_v1.md`](../RC-Gate_Final_Research_Report_v1.md) supersedes the interpretability sentence in Consequences (“interpretable by construction”) and the remark that real-data gate weights sit near 0.45. Returning the weights makes the routing decision inspectable. Table 9 of the final report records that scientific interpretability has not been validated, and that the near-0.45 description is not a Stage 8 measurement. The file map is [`docs/RC-Gate_Experiment_Index.md`](../RC-Gate_Experiment_Index.md).
+
 ---
 
 ## 🌎 Context

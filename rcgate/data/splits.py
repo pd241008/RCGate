@@ -2,6 +2,14 @@
 
 Every model in this repo is fit on these splits and evaluated on the test rows of the
 same split object, so no question can appear on both sides of a boundary.
+
+Two constructions live here:
+
+* ``grouped_split`` — the historical splitter. ``stratify=True`` sorts groups by
+  positive rate and then draws a full permutation, so the sort is not a stratifier.
+  Published checkpoints use this function and it is left unchanged.
+* ``group_stratified_split`` — whole groups are shuffled inside their positive-count
+  stratum and cut to the requested fractions. This is the Stage 6 splitter.
 """
 
 from __future__ import annotations
@@ -13,6 +21,10 @@ import pandas as pd
 
 from ..utils import set_seed
 from .schema import LABEL_COL
+
+#: ``data.split_method`` values. ``grouped`` is the historical default.
+SPLIT_GROUPED = "grouped"
+SPLIT_GROUP_STRATIFIED = "group_stratified"
 
 
 @dataclass(frozen=True)
@@ -50,9 +62,12 @@ def grouped_split(
 ) -> Split:
     """Split whole questions into train/val/test.
 
-    With ``stratify=True`` the *positive rate* of each part is matched to the full table,
-    because hallucination rates vary a lot between benchmarks and a plain random split
-    can leave the test set single-class.
+    ``stratify=True`` does not stratify. Groups are sorted by mean label, then a full
+    permutation of that list is drawn with ``numpy.random.default_rng(seed)`` and cut
+    into contiguous blocks. The permutation removes the sort, so partition positive
+    rates are not matched to the table. The body below is the historical algorithm
+    and stays byte-for-byte in its assignments so existing checkpoints can be rescored.
+    Use ``group_stratified_split`` when the positive rate should be matched at group level.
     """
     if group_column not in df.columns:
         raise KeyError(f"{group_column} not in frame; cannot guarantee leakage-free splits")
@@ -87,6 +102,167 @@ def grouped_split(
     split = Split(seed=seed, group_column=group_column, **frames)
     assert_disjoint(split)
     return split
+
+
+def cut_counts(n: int, fractions: tuple[float, float, float] = (0.6, 0.2, 0.2)) -> tuple[int, int, int]:
+    """Group counts for one stratum, using the same rounding as ``grouped_split``.
+
+    The remainder goes to test. A stratum of size 2 therefore contributes
+    ``round(1.2)=1`` train group, ``round(0.4)=0`` validation groups, and 1 test
+    group. Validation can miss a rare stratum. That is the method's limit, not a
+    second pass that moves groups to chase the positive rate.
+    """
+    if n < 0:
+        raise ValueError(f"n must be non-negative, got {n}")
+    n_train = int(round(n * fractions[0]))
+    n_val = int(round(n * fractions[1]))
+    if n_train + n_val > n:
+        overflow = n_train + n_val - n
+        take = min(overflow, n_val)
+        n_val -= take
+        n_train -= overflow - take
+    n_test = n - n_train - n_val
+    return n_train, n_val, n_test
+
+
+def group_positive_counts(
+    df: pd.DataFrame,
+    group_column: str = "question_id",
+    label_column: str = LABEL_COL,
+) -> pd.Series:
+    """Positive-claim count of each group. This is the stratification key.
+
+    The count is a property of the whole group. Two claims in the same group
+    never receive different keys, even when their labels differ.
+    """
+    if group_column not in df.columns:
+        raise KeyError(f"{group_column} not in frame; cannot group the split")
+    if label_column not in df.columns:
+        raise KeyError(f"{label_column} not in frame; cannot stratify groups")
+    key = df[group_column].astype(str)
+    totals = df.groupby(key, sort=False)[label_column].sum()
+    values = totals.to_numpy(dtype="float64")
+    if values.size and not np.all(np.isclose(values, np.rint(values))):
+        raise ValueError("group stratification requires an integer positive count per group")
+    counts = pd.Series(np.rint(values).astype(int), index=totals.index.astype(str), name="n_positive")
+    return counts
+
+
+def group_stratified_split(
+    df: pd.DataFrame,
+    seed: int = 0,
+    fractions: tuple[float, float, float] = (0.6, 0.2, 0.2),
+    group_column: str = "question_id",
+    label_column: str = LABEL_COL,
+) -> Split:
+    """Assign each ``question_id`` wholly to one partition, stratified by positive count.
+
+    What is stratified
+        The group's positive-claim count (sum of ``label``), not the claim row.
+        Groups with the same count form one stratum. A source whose generators
+        disagree stays in one stratum and in one partition.
+
+    What is grouped
+        ``group_column``, default ``question_id``. On the RAGTruth tables that
+        column is the source id. Every claim of a source moves together.
+
+    Partition proportions
+        Inside each stratum the group counts are ``cut_counts``: about 60% train,
+        20% validation, 20% test, with the historical ``round`` rule and the
+        remainder in test. Global counts are the sums of those stratum cuts.
+        They match 60/20/20 when every stratum is large enough for the rounding
+        to fill all three partitions, and they miss a partition when a stratum
+        has only one or two groups.
+
+    Seed
+        Each stratum is shuffled by ``numpy.random.default_rng`` seeded with
+        ``SeedSequence([seed, stratum])``. The same seed reproduces the same
+        assignment. A different seed reshuffles strata that contain more than
+        one group. The stream for one stratum does not depend on the other strata.
+        Group ids are sorted before the shuffle, so the result does not depend
+        on row order. Seeds must be non-negative, matching ``SeedSequence``.
+
+    Limits
+        With few groups at a high positive count, validation can receive none of
+        them, and the test positive rate stays a little above the table rate.
+        The method does not search for a better assignment.
+    """
+    if abs(sum(fractions) - 1.0) > 1e-6:
+        raise ValueError(f"fractions must sum to 1.0, got {fractions}")
+    if int(seed) < 0:
+        raise ValueError(f"seed must be non-negative, got {seed}")
+
+    counts = group_positive_counts(df, group_column=group_column, label_column=label_column)
+    assigned: dict[str, str] = {}
+    for stratum in sorted(int(v) for v in counts.unique()):
+        members = np.array(sorted(counts.index[counts.to_numpy() == stratum].astype(str)))
+        rng = np.random.default_rng(np.random.SeedSequence([int(seed), int(stratum)]))
+        order = members[rng.permutation(len(members))]
+        n_train, n_val, _n_test = cut_counts(len(order), fractions)
+        parts = {
+            "train": order[:n_train],
+            "val": order[n_train : n_train + n_val],
+            "test": order[n_train + n_val :],
+        }
+        for name, part in parts.items():
+            for group_id in part:
+                assigned[str(group_id)] = name
+
+    part_of_row = df[group_column].astype(str).map(assigned)
+    if part_of_row.isna().any():
+        raise RuntimeError("some rows were not assigned to a split")
+    frames = {
+        name: df.loc[part_of_row == name].reset_index(drop=True) for name in ("train", "val", "test")
+    }
+    split = Split(seed=seed, group_column=group_column, **frames)
+    assert_disjoint(split)
+    return split
+
+
+def split_balance(
+    df: pd.DataFrame,
+    split: Split,
+    label_column: str = LABEL_COL,
+) -> dict:
+    """Positive-rate balance of one split against the full table."""
+    full_n = int(len(df))
+    full_pos = int(df[label_column].sum()) if full_n else 0
+    full_rate = float(df[label_column].mean()) if full_n else float("nan")
+    parts: dict[str, dict] = {}
+    for name in ("train", "val", "test"):
+        part = getattr(split, name)
+        n = int(len(part))
+        pos = int(part[label_column].sum()) if n else 0
+        rate = float(part[label_column].mean()) if n else float("nan")
+        groups = int(part[split.group_column].nunique()) if n else 0
+        entry = {
+            "groups": groups,
+            "claims": n,
+            "positives": pos,
+            "positive_rate": rate,
+            "positive_rate_deviation": (rate - full_rate) if n else float("nan"),
+        }
+        if "generator_id" in part.columns and n:
+            entry["generators"] = sorted(int(g) for g in part["generator_id"].unique())
+            entry["generator_counts"] = {
+                int(k): int(v) for k, v in part["generator_id"].value_counts().sort_index().items()
+            }
+            entry["positives_by_generator"] = {
+                int(k): int(v) for k, v in part.groupby("generator_id")[label_column].sum().sort_index().items()
+            }
+        parts[name] = entry
+    deviations = np.array([parts[name]["positive_rate_deviation"] for name in ("train", "val", "test")], dtype="float64")
+    finite = deviations[np.isfinite(deviations)]
+    return {
+        "seed": int(split.seed),
+        "full_claims": full_n,
+        "full_groups": int(df[split.group_column].nunique()) if full_n else 0,
+        "full_positives": full_pos,
+        "full_positive_rate": full_rate,
+        "partitions": parts,
+        "mean_absolute_deviation": float(np.mean(np.abs(finite))) if finite.size else float("nan"),
+        "max_absolute_deviation": float(np.max(np.abs(finite))) if finite.size else float("nan"),
+    }
 
 
 def assert_disjoint(split: Split) -> None:

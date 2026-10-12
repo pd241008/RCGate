@@ -13,13 +13,17 @@ import json
 import pandas as pd
 import pytest
 
+from rcgate.claims.dealias import split_sentences
 from rcgate.data.ragtruth import (
     DEFAULT_ROSTER,
     HALLUCINATION_LABEL_TYPES,
     Claim,
+    SentenceAlignmentError,
     build_slice,
     claims_from_response,
+    dealias_labelled_claims,
     interleave_by_task,
+    require_sentence_alignment,
     schema_record,
     sentence_spans,
     write_schema_record,
@@ -334,6 +338,149 @@ def test_write_schema_record_round_trips(tmp_path):
     written = json.loads(path.read_text())
     assert written["slice"]["n_claims_written"] == 20
     assert written["license"] == "MIT"
+
+
+# -- sentence alignment: one span, one label, one de-aliased sentence -------
+
+
+def _labelled(text: str, spans: list[tuple[int, int, str]]) -> list:
+    return dealias_labelled_claims(claims_from_response(_response(text, spans), 0), question="")
+
+
+def test_normal_period_and_whitespace_stays_one_to_one():
+    text = "Revenue rose 5 percent. Costs fell."
+    paired = _labelled(text, [(0, 24, "Revenue rose 5 percent.", "Evident Conflict")])
+    assert [c.text for c, _ in paired] == ["Revenue rose 5 percent.", "Costs fell."]
+    assert [d.text for _, d in paired] == ["Revenue rose 5 percent.", "Costs fell."]
+    assert [c.label for c, _ in paired] == [1, 0]
+    assert len(paired) == len(sentence_spans(text)) == len(split_sentences(text))
+
+
+def test_period_plus_closing_quote_keeps_the_labelled_boundary():
+    text = 'He replied "Done." She agreed.'
+    paired = _labelled(text, [])
+    assert [c.text for c, _ in paired] == ['He replied "Done."', "She agreed."]
+    assert [d.text for _, d in paired] == [c.text for c, _ in paired]
+    assert len(split_sentences(text)) == 1
+    assert len(paired) == 2
+
+
+def test_period_plus_closing_parenthesis_keeps_the_labelled_boundary():
+    text = "Costs fell (see note.) Margins held."
+    paired = _labelled(text, [(0, 22, "Costs fell (see note.)", "Subtle Conflict")])
+    assert [c.text for c, _ in paired] == ["Costs fell (see note.)", "Margins held."]
+    assert [c.label for c, _ in paired] == [1, 0]
+    assert [d.text for _, d in paired] == [c.text for c, _ in paired]
+    assert len(split_sentences(text)) == 1
+
+
+def test_multiple_quoted_sentences_are_not_merged():
+    text = '"Alpha rose." "Beta fell." Gamma held.'
+    paired = _labelled(text, [])
+    assert [c.text for c, _ in paired] == ['"Alpha rose."', '"Beta fell."', "Gamma held."]
+    assert [d.text for _, d in paired] == [c.text for c, _ in paired]
+    assert len(paired) == 3
+    assert len(split_sentences(text)) == 1
+
+
+def test_multiple_labels_stay_on_their_own_sentences():
+    text = 'Alpha said "Go." Beta left. Gamma stayed.'
+    first = 'Alpha said "Go."'
+    third = "Gamma stayed."
+    start_third = text.index(third)
+    paired = _labelled(
+        text,
+        [
+            (0, len(first), first, "Evident Conflict"),
+            (start_third, start_third + len(third), third, "Subtle Baseless Info"),
+        ],
+    )
+    assert [c.label for c, _ in paired] == [1, 0, 1]
+    assert [c.label_types for c, _ in paired] == [
+        ["Evident Conflict"],
+        [],
+        ["Subtle Baseless Info"],
+    ]
+    assert [d.text for _, d in paired] == [c.text for c, _ in paired]
+
+
+def test_merged_sentence_failure_case_is_not_emitted():
+    """The independent splitter glues the quoted sentence onto the next one."""
+    text = 'He replied "Done." She agreed. They left.'
+    paired = _labelled(text, [(0, 18, 'He replied "Done."', "Evident Conflict")])
+    assert [c.text for c, _ in paired] == ['He replied "Done."', "She agreed.", "They left."]
+    assert paired[0][1].text == 'He replied "Done."'
+    assert "She agreed" not in paired[0][1].text
+    merged = split_sentences(text)[0]
+    assert "She agreed" in merged
+    assert paired[0][1].text != merged
+
+
+def test_dropped_tail_failure_case_keeps_the_last_labelled_sentence():
+    text = 'He replied "Done." She agreed. They left.'
+    last = "They left."
+    start = text.index(last)
+    paired = _labelled(text, [(start, start + len(last), last, "Evident Baseless Info")])
+    assert len(paired) == len(sentence_spans(text)) == 3
+    assert len(split_sentences(text)) == 2
+    assert paired[-1][0].text == last
+    assert paired[-1][0].label == 1
+    assert paired[-1][1].text == last
+
+
+def test_ordering_shift_failure_case_does_not_move_a_label_onto_the_next_sentence():
+    text = 'Alpha said "Go." Beta left. Gamma stayed.'
+    beta = "Beta left."
+    gamma = "Gamma stayed."
+    paired = _labelled(
+        text,
+        [(text.index(beta), text.index(beta) + len(beta), beta, "Evident Conflict")],
+    )
+    by_text = {claim.text: claim.label for claim, _ in paired}
+    assert by_text == {'Alpha said "Go."': 0, beta: 1, gamma: 0}
+    # The old zip paired Beta's label with Gamma's sentence and dropped Gamma's claim.
+    defective = list(zip(
+        [c.text for c, _ in paired],
+        split_sentences(text),
+        strict=False,
+    ))
+    assert len(defective) == 2
+    assert defective[1] == (beta, gamma)
+
+
+def test_dealiasing_rewrites_the_sentence_the_label_belongs_to(tmp_path, monkeypatch):
+    monkeypatch.setattr(
+        "rcgate.data.ragtruth.fetch",
+        lambda *a, **k: {
+            "response.jsonl": tmp_path / "response.jsonl",
+            "source_info.jsonl": tmp_path / "source_info.jsonl",
+        },
+    )
+    text = 'The reply was "Go." It left. Gamma stayed.'
+    (tmp_path / "source_info.jsonl").write_text(json.dumps({
+        "source_id": "1", "task_type": "QA", "source": "x",
+        "source_info": "Alpha left.",
+        "prompt": "What did Aurora Systems report?",
+    }))
+    rows = [{
+        "id": "9", "source_id": "1", "model": "gpt-4-0613", "quality": "good",
+        "split": "train", "response": text,
+        "labels": [{"start": text.index("It left."), "end": text.index("It left.") + len("It left."),
+                    "text": "It left.", "label_type": "Evident Conflict"}],
+    }]
+    sl = build_slice(
+        _cfg_with(n_claims=10, claims_per_source=3, min_generators=1, roster=["gpt-4-0613"]),
+        seed=0, claim_texts=rows,
+    )
+    texts = sl.frame.sort_values("claim_id")["claim_text"].tolist()
+    labels = sl.frame.sort_values("claim_id")["label"].tolist()
+    assert texts == ['The reply was "Go."', "Aurora Systems left.", "Gamma stayed."]
+    assert labels == [0, 1, 0]
+
+
+def test_alignment_mismatch_fails_loudly():
+    with pytest.raises(SentenceAlignmentError, match="drop or shift"):
+        require_sentence_alignment(["a", "b", "c"], ["a"])
 
 
 def test_claims_carry_the_generator_and_response_provenance():

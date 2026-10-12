@@ -62,6 +62,31 @@ def test_generation_is_deterministic():
     pd.testing.assert_frame_equal(a, b)
 
 
+def test_synthetic_generation_bypasses_the_ragtruth_text_pipeline(monkeypatch):
+    """Integrity fixes in de-aliasing must not change the planted benchmark."""
+    def boom(*_a, **_k):
+        raise AssertionError("synthetic generation must not split or de-alias text")
+
+    monkeypatch.setattr("rcgate.claims.dealias.split_sentences", boom)
+    monkeypatch.setattr("rcgate.claims.dealias.dealias_claims", boom)
+    monkeypatch.setattr("rcgate.claims.dealias.dealias_answer", boom)
+    monkeypatch.setattr("rcgate.data.ragtruth.sentence_spans", boom)
+    df = generate(load_planted(), seed=0, n_questions=20, n_generators=3)
+    assert df["question_id"].nunique() == 20
+    assert set(df["benchmark"]) == {"synthetic"}
+
+
+def test_synthetic_module_does_not_call_the_claim_splitter():
+    import inspect
+
+    import rcgate.data.synthetic as synthetic
+
+    source = inspect.getsource(synthetic)
+    assert "split_sentences" not in source
+    assert "dealias" not in source
+    assert "sentence_spans" not in source
+
+
 def test_different_seeds_give_different_tables():
     a = generate(load_planted(), seed=1, n_questions=60)
     b = generate(load_planted(), seed=2, n_questions=60)

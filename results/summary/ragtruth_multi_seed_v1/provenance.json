@@ -1,0 +1,73 @@
+{
+  "stage": "ragtruth_multi_seed_v1",
+  "git_head": "4709001",
+  "split_method": "group_stratified",
+  "split_function": "rcgate.data.splits.group_stratified_split",
+  "fractions": [
+    0.6,
+    0.2,
+    0.2
+  ],
+  "group_column": "question_id",
+  "stratum": "sum of label within question_id",
+  "seed_handling": "numpy.random.default_rng(numpy.random.SeedSequence([seed, stratum])); group ids sorted before the shuffle; model seed equals split seed; seeds 0..19",
+  "fit_table": "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet",
+  "fit_table_sha256": "082e524ccc3c062cfcec423b00e970f5fa846eefa2646c3d0c4139cd73954245",
+  "companion_tables_not_used_for_fitting": [
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s1.parquet",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s2.parquet"
+  ],
+  "companion_sha256": {
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet": "082e524ccc3c062cfcec423b00e970f5fa846eefa2646c3d0c4139cd73954245",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s1.parquet": "98aece3e06f20ed017178f2c9f092ef73584d0965953c63c2bbf073f57c9f917",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s2.parquet": "074cfcd5e769b4d1770ad7c50590bf1ae2dc780d59732ded70425cd68bcdd86b"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "variants": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
+  ],
+  "a8": "skipped; no judge votes",
+  "thresholds": "tune_threshold on the validation split",
+  "statistics": "Stage 5 question-grouped percentile bootstrap, 1000 resamples; seed distribution is sample SD ddof=1, not a confidence interval",
+  "paired_baselines": [
+    "A0",
+    "A4"
+  ],
+  "bootstrap_fraction_is_p_value": false,
+  "formal_p_value_reported": false,
+  "n_resamples": 1000,
+  "numpy": "2.5.3",
+  "stage6_seed0_metrics_matched": true,
+  "synthetic_unchanged": true,
+  "historical_directories_unchanged": true,
+  "recommendation_choice": 2
+}

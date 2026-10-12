@@ -4,6 +4,8 @@
 > **Severity:** Major finding — the proposed method's headline comparison fails on the first real benchmark  
 > **Status:** Complete — reported as measured, nothing retuned
 
+> **Status note, October 10, 2026.** The measurements in this note stay as the original M6 record: A0 0.681, A1 0.705, A4 0.740, A7 0.631, and a paired difference of −0.050 with the bootstrap fraction written as `p = 0.415`. [`docs/RC-Gate_Final_Research_Report_v1.md`](../../RC-Gate_Final_Research_Report_v1.md) supersedes those figures as performance claims, and it supersedes the statement that H3 holds because the weights are explainable. The current repeated-fit estimates are Table 7 of that report. The near-0.45 weight description is a pre-factorial observation from this slice, not a Stage 8 measurement. Historical metrics in this note are not current estimates. The file map is [`docs/RC-Gate_Experiment_Index.md`](../../RC-Gate_Experiment_Index.md).
+
 ## Issues Summary
 
 On synthetic data, A7 (RC-Gate) beat flat fusion by +0.38 AUROC on numeric claims and survived an unseen inverted generator where A0 scored 0.17. On the first real benchmark (RAGTruth, 800 claims × 3 seeds, ~57 positives per table), the ordering inverted: **A0 0.681, A1 0.705, A4 0.740, A7 0.631**. The paired bootstrap for A7 − A0 on `all` is **−0.050 [−0.21, 0.10], p = 0.415** — a loss with the null inside it. The critical control A4 (flat GBM on six signals + one-hot claim type/generator) leads every slice.

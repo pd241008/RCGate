@@ -9,7 +9,7 @@ from .schema import (
     UNK_GENERATOR,
     validate,
 )
-from .splits import Split, grouped_split, leave_one_generator_out
+from .splits import Split, group_stratified_split, grouped_split, leave_one_generator_out
 
 __all__ = [
     "CLAIM_TYPES",
@@ -19,6 +19,7 @@ __all__ = [
     "SIGNALS",
     "UNK_GENERATOR",
     "Split",
+    "group_stratified_split",
     "grouped_split",
     "leave_one_generator_out",
     "validate",

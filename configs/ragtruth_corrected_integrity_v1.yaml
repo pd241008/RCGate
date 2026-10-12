@@ -1,0 +1,16 @@
+extends: ragtruth.yaml
+
+# Corrected RAGTruth sensitivity run.
+#
+# Same roster, claim cap, seeds, signals, NLI model, BM25 settings, and training
+# hyperparameters as configs/ragtruth.yaml. The only intended differences are the
+# sentence-alignment and prompt-antecedent corrections in the data pipeline.
+# Results are written under a new tag so results/summary/ragtruth/ is left untouched.
+report:
+  tag: ragtruth_corrected_integrity_v1
+
+data:
+  table: "data/signal_tables/ragtruth_corrected_integrity_v1_s{seed}.parquet"
+  # Do not overwrite data/benchmarks/ragtruth.json.
+  schema_record: "results/summary/ragtruth_corrected_integrity_v1/benchmark_record.json"
+  pipeline_version: ragtruth_corrected_integrity_v1

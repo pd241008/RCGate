@@ -2,6 +2,8 @@
 
 One line per judgment call. Newest at the bottom. M0 entries come first.
 
+> **Status note, October 10, 2026.** This file is the milestone judgment log. The entries below stay as written. [`docs/RC-Gate_Final_Research_Report_v1.md`](docs/RC-Gate_Final_Research_Report_v1.md) supersedes their performance and interpretability claims, including the M3 statement that H1 is strongly supported, the M4 leave-one-generator-out result described as the strongest result in the project, the M6 means (A4 0.740, A7 0.631), the paired interval, and `p=0.415`. Those M6 figures are the original protocol. The value `0.415` is a bootstrap fraction. The 229-parameter count is the synthetic roster. Current estimates, and the statement that the weights are inspectable without a validated explanation, are in the final report. The map of result files is [`docs/RC-Gate_Experiment_Index.md`](docs/RC-Gate_Experiment_Index.md). Historical metrics in this log are not current estimates.
+
 ## M0 — Scaffold
 
 - Environment has Python 3.14.6, not the 3.11 named in the spec; all code is written to 3.11 syntax so it runs on both. No pin change needed.

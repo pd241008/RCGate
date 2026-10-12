@@ -1,0 +1,2827 @@
+{
+  "protocol": {
+    "name": "ragtruth_corrected_stats_v1",
+    "group_column": "question_id",
+    "group_meaning": "RAGTruth source_id. The frozen tables contain one claim from each available generator per source, about six claims per question.",
+    "n_resamples": 1000,
+    "resample_method": "percentile bootstrap, numpy quantile linear, alpha=0.05",
+    "point_estimate": "unweighted mean of the three seed-level statistics after 4-decimal rounding",
+    "within_seed_uncertainty": "within-seed 95% question-grouped percentile bootstrap interval",
+    "across_seed_dispersion": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+    "paired_comparison": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+    "bootstrap_fraction": "bootstrap fraction of resamples with delta > 0; not a p-value",
+    "formal_p_value": "not computed; three seeds and 27 test questions do not support one here",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "split": "unchanged grouped_split by question_id; stratify flag left untouched",
+    "models": "Stage 4 checkpoints reloaded; no refit",
+    "thresholds": "Stage 4 validation-tuned thresholds reloaded; not retuned"
+  },
+  "variants": [
+    {
+      "variant": "A0",
+      "per_seed": [
+        {
+          "variant": "A0",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.028883,
+          "auroc": 0.7197,
+          "f1": 0.2388,
+          "precision": 0.1368,
+          "recall": 0.9412,
+          "ece": 0.0426,
+          "grouped_interval": {
+            "point": 0.7196754563894523,
+            "lo": 0.6138869598765433,
+            "hi": 0.8162916454369277,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.7196754563894523,
+            "lo": 0.5998500994070056,
+            "hi": 0.8298152415476537,
+            "lo_rounded": 0.5999,
+            "hi_rounded": 0.8298,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A0",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.055955,
+          "auroc": 0.5976,
+          "f1": 0.2093,
+          "precision": 0.1286,
+          "recall": 0.5625,
+          "ece": 0.0634,
+          "grouped_interval": {
+            "point": 0.5976027397260273,
+            "lo": 0.4266694828469022,
+            "hi": 0.752333976297223,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.5976027397260273,
+            "lo": 0.477005722157324,
+            "hi": 0.7160674519456165,
+            "lo_rounded": 0.477,
+            "hi_rounded": 0.7161,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A0",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.032932,
+          "auroc": 0.6834,
+          "f1": 0.2174,
+          "precision": 0.122,
+          "recall": 1.0,
+          "ece": 0.0467,
+          "grouped_interval": {
+            "point": 0.6834498834498834,
+            "lo": 0.48822909809084925,
+            "hi": 0.8002256929312299,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.6834498834498834,
+            "lo": 0.567957213176827,
+            "hi": 0.8065156918778666,
+            "lo_rounded": 0.568,
+            "hi_rounded": 0.8065,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.6669,
+        "sd_across_seeds": 0.06269999999999999,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.6669
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.22183333333333335,
+        "sd_across_seeds": 0.015241500363590631,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.22183333333333335
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.12913333333333332,
+        "sd_across_seeds": 0.007414400402819731,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.12913333333333332
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.8345666666666668,
+        "sd_across_seeds": 0.23744381089709063,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.8345666666666668
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.0509,
+        "sd_across_seeds": 0.01101771301132862,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.0509
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.5482999999999999,
+        "hi": 0.7841333333333335,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    },
+    {
+      "variant": "A1",
+      "per_seed": [
+        {
+          "variant": "A1",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.045621,
+          "auroc": 0.7164,
+          "f1": 0.2617,
+          "precision": 0.1556,
+          "recall": 0.8235,
+          "ece": 0.0427,
+          "grouped_interval": {
+            "point": 0.7164300202839757,
+            "lo": 0.5907364138586141,
+            "hi": 0.8381708277103014,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.7164300202839757,
+            "lo": 0.5859214008885528,
+            "hi": 0.8341289381914382,
+            "lo_rounded": 0.5859,
+            "hi_rounded": 0.8341,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A1",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.08237,
+          "auroc": 0.6203,
+          "f1": 0.125,
+          "precision": 0.0938,
+          "recall": 0.1875,
+          "ece": 0.0501,
+          "grouped_interval": {
+            "point": 0.620291095890411,
+            "lo": 0.47327355623100303,
+            "hi": 0.7550354444548082,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.620291095890411,
+            "lo": 0.5,
+            "hi": 0.7382566790156924,
+            "lo_rounded": 0.5,
+            "hi_rounded": 0.7383,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A1",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.038104,
+          "auroc": 0.7697,
+          "f1": 0.2029,
+          "precision": 0.1138,
+          "recall": 0.9333,
+          "ece": 0.0507,
+          "grouped_interval": {
+            "point": 0.7696969696969697,
+            "lo": 0.6110243055555556,
+            "hi": 0.8777343106087366,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.7696969696969697,
+            "lo": 0.6447076348013454,
+            "hi": 0.873236703772418,
+            "lo_rounded": 0.6447,
+            "hi_rounded": 0.8732,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.7021333333333333,
+        "sd_across_seeds": 0.07571488184850678,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.7021333333333333
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.19653333333333334,
+        "sd_across_seeds": 0.06857203025529675,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.19653333333333334
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.12106666666666666,
+        "sd_across_seeds": 0.03153431992818829,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.12106666666666666
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.6481,
+        "sd_across_seeds": 0.4026515615268368,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.6481
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.04783333333333333,
+        "sd_across_seeds": 0.004455707949735185,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.04783333333333333
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.5768666666666667,
+        "hi": 0.8151999999999999,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    },
+    {
+      "variant": "A2",
+      "per_seed": [
+        {
+          "variant": "A2",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.032908,
+          "auroc": 0.6304,
+          "f1": 0.2519,
+          "precision": 0.1441,
+          "recall": 1.0,
+          "ece": 0.0406,
+          "grouped_interval": {
+            "point": 0.6304259634888438,
+            "lo": 0.4887937706843173,
+            "hi": 0.7646903347045727,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.6304259634888438,
+            "lo": 0.5132491438356164,
+            "hi": 0.7435178089967361,
+            "lo_rounded": 0.5132,
+            "hi_rounded": 0.7435,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A2",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.078205,
+          "auroc": 0.4961,
+          "f1": 0.0476,
+          "precision": 0.0385,
+          "recall": 0.0625,
+          "ece": 0.0567,
+          "grouped_interval": {
+            "point": 0.4961472602739726,
+            "lo": 0.3799444444444445,
+            "hi": 0.6274673202614379,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.4961472602739726,
+            "lo": 0.386532421593367,
+            "hi": 0.6207507116321707,
+            "lo_rounded": 0.3865,
+            "hi_rounded": 0.6208,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A2",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.035978,
+          "auroc": 0.5636,
+          "f1": 0.2041,
+          "precision": 0.1136,
+          "recall": 1.0,
+          "ece": 0.0291,
+          "grouped_interval": {
+            "point": 0.5636363636363636,
+            "lo": 0.3193835034013605,
+            "hi": 0.7932444132444132,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.5636363636363636,
+            "lo": 0.4194194439139292,
+            "hi": 0.7082105579149913,
+            "lo_rounded": 0.4194,
+            "hi_rounded": 0.7082,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.5633666666666667,
+        "sd_across_seeds": 0.06715030404498055,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.5633666666666667
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.1678666666666667,
+        "sd_across_seeds": 0.10686095326794223,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.1678666666666667
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.09873333333333334,
+        "sd_across_seeds": 0.054347063704797645,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.09873333333333334
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.6875,
+        "sd_across_seeds": 0.5412658773652742,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.6875
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.042133333333333335,
+        "sd_across_seeds": 0.013863741678685928,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.042133333333333335
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.4397,
+        "hi": 0.6908333333333334,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    },
+    {
+      "variant": "A3",
+      "per_seed": [
+        {
+          "variant": "A3",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.047604,
+          "auroc": 0.7164,
+          "f1": 0.2453,
+          "precision": 0.1461,
+          "recall": 0.7647,
+          "ece": 0.0426,
+          "grouped_interval": {
+            "point": 0.7164300202839757,
+            "lo": 0.5907364138586141,
+            "hi": 0.8381708277103014,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.7164300202839757,
+            "lo": 0.5859214008885528,
+            "hi": 0.8341289381914382,
+            "lo_rounded": 0.5859,
+            "hi_rounded": 0.8341,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A3",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.06923,
+          "auroc": 0.583,
+          "f1": 0.1379,
+          "precision": 0.0952,
+          "recall": 0.25,
+          "ece": 0.0416,
+          "grouped_interval": {
+            "point": 0.5830479452054794,
+            "lo": 0.4226369656833233,
+            "hi": 0.7446941352298495,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.5830479452054794,
+            "lo": 0.4603551198257081,
+            "hi": 0.7056972891504585,
+            "lo_rounded": 0.4604,
+            "hi_rounded": 0.7057,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A3",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.040338,
+          "auroc": 0.5636,
+          "f1": 0.2041,
+          "precision": 0.1136,
+          "recall": 1.0,
+          "ece": 0.0294,
+          "grouped_interval": {
+            "point": 0.5636363636363636,
+            "lo": 0.3193835034013605,
+            "hi": 0.7932444132444132,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.5636363636363636,
+            "lo": 0.4194194439139292,
+            "hi": 0.7082105579149913,
+            "lo_rounded": 0.4194,
+            "hi_rounded": 0.7082,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.621,
+        "sd_across_seeds": 0.08318629694847587,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.621
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.19576666666666664,
+        "sd_across_seeds": 0.054182777091372245,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.19576666666666664
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.1183,
+        "sd_across_seeds": 0.025773435937026325,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.1183
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.6715666666666666,
+        "sd_across_seeds": 0.38357575957473294,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.6715666666666666
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.037866666666666667,
+        "sd_across_seeds": 0.007349376390778563,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.037866666666666667
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.48856666666666665,
+        "hi": 0.7493333333333334,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    },
+    {
+      "variant": "A4",
+      "per_seed": [
+        {
+          "variant": "A4",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.000716,
+          "auroc": 0.7826,
+          "f1": 0.3529,
+          "precision": 0.3529,
+          "recall": 0.3529,
+          "ece": 0.105,
+          "grouped_interval": {
+            "point": 0.782555780933063,
+            "lo": 0.6396445602260685,
+            "hi": 0.9120442097026604,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.782555780933063,
+            "lo": 0.6499420849420849,
+            "hi": 0.8929746013015428,
+            "lo_rounded": 0.6499,
+            "hi_rounded": 0.893,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A4",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.001736,
+          "auroc": 0.7509,
+          "f1": 0.2424,
+          "precision": 0.2353,
+          "recall": 0.25,
+          "ece": 0.0991,
+          "grouped_interval": {
+            "point": 0.7508561643835616,
+            "lo": 0.6282873376623377,
+            "hi": 0.8716967234321021,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.7508561643835616,
+            "lo": 0.6407199152809272,
+            "hi": 0.8503245436105477,
+            "lo_rounded": 0.6407,
+            "hi_rounded": 0.8503,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A4",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.001312,
+          "auroc": 0.5851,
+          "f1": 0.1579,
+          "precision": 0.1304,
+          "recall": 0.2,
+          "ece": 0.1103,
+          "grouped_interval": {
+            "point": 0.585081585081585,
+            "lo": 0.37710440361359054,
+            "hi": 0.7364953769559033,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.585081585081585,
+            "lo": 0.4229466032304941,
+            "hi": 0.7326438814162028,
+            "lo_rounded": 0.4229,
+            "hi_rounded": 0.7326,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.7061999999999999,
+        "sd_across_seeds": 0.1060666300020888,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.7061999999999999
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.25106666666666666,
+        "sd_across_seeds": 0.09778846216877189,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.25106666666666666
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.23953333333333335,
+        "sd_across_seeds": 0.1113103918479013,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.23953333333333335
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.26763333333333333,
+        "sd_across_seeds": 0.07796026765816887,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.26763333333333333
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.1048,
+        "sd_across_seeds": 0.005602677931132577,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.1048
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.5711666666666667,
+        "hi": 0.8253,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    },
+    {
+      "variant": "A5",
+      "per_seed": [
+        {
+          "variant": "A5",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.642027,
+          "auroc": 0.6876,
+          "f1": 0.2381,
+          "precision": 0.1493,
+          "recall": 0.5882,
+          "ece": 0.5375,
+          "grouped_interval": {
+            "point": 0.6876267748478702,
+            "lo": 0.5317727272727273,
+            "hi": 0.8229687499999999,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.6876267748478702,
+            "lo": 0.5608445932435085,
+            "hi": 0.8075173334219387,
+            "lo_rounded": 0.5608,
+            "hi_rounded": 0.8075,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A5",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.116911,
+          "auroc": 0.7089,
+          "f1": 0.1429,
+          "precision": 0.1154,
+          "recall": 0.1875,
+          "ece": 0.0497,
+          "grouped_interval": {
+            "point": 0.7089041095890412,
+            "lo": 0.5428269617706237,
+            "hi": 0.8289033428968875,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.7089041095890412,
+            "lo": 0.6176462517745412,
+            "hi": 0.7929653525706157,
+            "lo_rounded": 0.6176,
+            "hi_rounded": 0.793,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A5",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.092385,
+          "auroc": 0.6984,
+          "f1": 0.1818,
+          "precision": 0.1176,
+          "recall": 0.4,
+          "ece": 0.0425,
+          "grouped_interval": {
+            "point": 0.6983682983682984,
+            "lo": 0.4965095063769485,
+            "hi": 0.8463949826054648,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.6983682983682984,
+            "lo": 0.5633791079812207,
+            "hi": 0.8256107252988368,
+            "lo_rounded": 0.5634,
+            "hi_rounded": 0.8256,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.6983,
+        "sd_across_seeds": 0.010650352106855427,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.6983
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.1876,
+        "sd_across_seeds": 0.04786428731319417,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.1876
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.12743333333333332,
+        "sd_across_seeds": 0.018969009814255804,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.12743333333333332
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.39189999999999997,
+        "sd_across_seeds": 0.20047276623022886,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.39189999999999997
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.20989999999999998,
+        "sd_across_seeds": 0.2837327615909026,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.20989999999999998
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.5806,
+        "hi": 0.8087,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    },
+    {
+      "variant": "A6",
+      "per_seed": [
+        {
+          "variant": "A6",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.265345,
+          "auroc": 0.4998,
+          "f1": 0.169,
+          "precision": 0.096,
+          "recall": 0.7059,
+          "ece": 0.171,
+          "grouped_interval": {
+            "point": 0.49979716024340776,
+            "lo": 0.3545617374587509,
+            "hi": 0.6992440426482296,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.49979716024340776,
+            "lo": 0.3407335782755246,
+            "hi": 0.6763134927208887,
+            "lo_rounded": 0.3407,
+            "hi_rounded": 0.6763,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A6",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.179335,
+          "auroc": 0.4859,
+          "f1": 0.1739,
+          "precision": 0.0966,
+          "recall": 0.875,
+          "ece": 0.1029,
+          "grouped_interval": {
+            "point": 0.4858732876712329,
+            "lo": 0.22808184777691562,
+            "hi": 0.7177003961994174,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.4858732876712329,
+            "lo": 0.3216607142857143,
+            "hi": 0.650059799382716,
+            "lo_rounded": 0.3217,
+            "hi_rounded": 0.6501,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A6",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.379335,
+          "auroc": 0.6601,
+          "f1": 0.1818,
+          "precision": 0.1667,
+          "recall": 0.2,
+          "ece": 0.2715,
+          "grouped_interval": {
+            "point": 0.6601398601398601,
+            "lo": 0.4585850319892873,
+            "hi": 0.8398370335650265,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.6601398601398601,
+            "lo": 0.48809319960861053,
+            "hi": 0.816397647247119,
+            "lo_rounded": 0.4881,
+            "hi_rounded": 0.8164,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.5486,
+        "sd_across_seeds": 0.09681162120324192,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.5486
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.17489999999999997,
+        "sd_across_seeds": 0.006458327956986998,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.17489999999999997
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.11976666666666665,
+        "sd_across_seeds": 0.040646566070620685,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.11976666666666665
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.5936333333333333,
+        "sd_across_seeds": 0.3512251462144095,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.5936333333333333
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.18180000000000004,
+        "sd_across_seeds": 0.08481727418397741,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.18180000000000004
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.3835,
+        "hi": 0.7142666666666667,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    },
+    {
+      "variant": "A7",
+      "per_seed": [
+        {
+          "variant": "A7",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 17,
+          "threshold": 0.483269,
+          "auroc": 0.6933,
+          "f1": 0.2581,
+          "precision": 0.1495,
+          "recall": 0.9412,
+          "ece": 0.385,
+          "grouped_interval": {
+            "point": 0.6933062880324543,
+            "lo": 0.6013263703844689,
+            "hi": 0.7843346134152586,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.6933062880324543,
+            "lo": 0.5904326499118165,
+            "hi": 0.7860007669871584,
+            "lo_rounded": 0.5904,
+            "hi_rounded": 0.786,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A7",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "n_positive": 16,
+          "threshold": 0.078532,
+          "auroc": 0.6973,
+          "f1": 0.2034,
+          "precision": 0.1395,
+          "recall": 0.375,
+          "ece": 0.046,
+          "grouped_interval": {
+            "point": 0.697345890410959,
+            "lo": 0.4809677419354839,
+            "hi": 0.827790582354808,
+            "n_requested": 1000,
+            "n_finite": 999,
+            "n_claims": 162,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.697345890410959,
+            "lo": 0.5699736441763638,
+            "hi": 0.8039862324730745,
+            "lo_rounded": 0.57,
+            "hi_rounded": 0.804,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        },
+        {
+          "variant": "A7",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "n_positive": 15,
+          "threshold": 0.383975,
+          "auroc": 0.5226,
+          "f1": 0.1654,
+          "precision": 0.0932,
+          "recall": 0.7333,
+          "ece": 0.3007,
+          "grouped_interval": {
+            "point": 0.5226107226107226,
+            "lo": 0.2769974238354973,
+            "hi": 0.7681953463203464,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "n_claims": 158,
+            "n_groups": 27,
+            "method": "question_grouped_percentile_bootstrap",
+            "is_confidence_interval": true,
+            "label": "within-seed 95% question-grouped percentile bootstrap interval",
+            "estimand": "AUROC on this seed's test claims, resampling question_id with replacement"
+          },
+          "historical_claim_interval": {
+            "point": 0.5226107226107226,
+            "lo": 0.34661273523210323,
+            "hi": 0.7082299035169255,
+            "lo_rounded": 0.3466,
+            "hi_rounded": 0.7082,
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "method": "claim_level_percentile_bootstrap",
+            "is_confidence_interval": false,
+            "label": "historical claim-level percentile bootstrap interval; claims treated as iid, so this is not the Stage 5 interval"
+          }
+        }
+      ],
+      "auroc": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.6377333333333334,
+        "sd_across_seeds": 0.09972844796412578,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.6377333333333334
+      },
+      "f1": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.20896666666666666,
+        "sd_across_seeds": 0.046600035765365394,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.20896666666666666
+      },
+      "precision": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.1274,
+        "sd_across_seeds": 0.030037143672459937,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.1274
+      },
+      "recall": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.6831666666666667,
+        "sd_across_seeds": 0.2864098869336276,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.6831666666666667
+      },
+      "ece": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.2439,
+        "sd_across_seeds": 0.17649342763967163,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.2439
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": 0.5023333333333334,
+        "hi": 0.7660666666666667,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "grouped_intervals_are_not_averaged": true
+    }
+  ],
+  "paired": {
+    "A0": {
+      "comparison": "A7 - A0",
+      "per_seed": [
+        {
+          "comparison": "A7 - A0",
+          "baseline": "A0",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": -0.0264,
+          "delta_full": -0.026369168356997985,
+          "grouped_interval": {
+            "lo": -0.10385487528344661,
+            "hi": 0.056471623934859196,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.269,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.0264,
+            "lo_rounded": -0.0901,
+            "hi_rounded": 0.0295,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.198,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A0",
+          "baseline": "A0",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.0997,
+          "delta_full": 0.09974315068493167,
+          "grouped_interval": {
+            "lo": -0.18351594712587918,
+            "hi": 0.2862760770975056,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 999,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.8138138138138138,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.0997,
+            "lo_rounded": -0.0593,
+            "hi_rounded": 0.2597,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.886,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A0",
+          "baseline": "A0",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "delta_auroc": -0.1608,
+          "delta_full": -0.16083916083916083,
+          "grouped_interval": {
+            "lo": -0.4805263157894737,
+            "hi": 0.20260560421089877,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.251,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.1608,
+            "lo_rounded": -0.4109,
+            "hi_rounded": 0.1083,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.114,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        }
+      ],
+      "delta": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": -0.029166666666666664,
+        "sd_across_seeds": 0.13027203588388928,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": -0.029166666666666664
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": -0.18676666666666666,
+        "hi": 0.1325,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "seed_interval_positions": [
+        "covers_0",
+        "covers_0",
+        "covers_0"
+      ]
+    },
+    "A1": {
+      "comparison": "A7 - A1",
+      "per_seed": [
+        {
+          "comparison": "A7 - A1",
+          "baseline": "A1",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": -0.0231,
+          "delta_full": -0.023123732251521423,
+          "grouped_interval": {
+            "lo": -0.1458496315192743,
+            "hi": 0.09572255874053404,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.349,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.0231,
+            "lo_rounded": -0.1178,
+            "hi_rounded": 0.0744,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.294,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A1",
+          "baseline": "A1",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.0771,
+          "delta_full": 0.07705479452054798,
+          "grouped_interval": {
+            "lo": -0.1843361544954682,
+            "hi": 0.2644714623438028,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 999,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.7757757757757757,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.0771,
+            "lo_rounded": -0.0568,
+            "hi_rounded": 0.2325,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.87,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A1",
+          "baseline": "A1",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "delta_auroc": -0.2471,
+          "delta_full": -0.24708624708624705,
+          "grouped_interval": {
+            "lo": -0.5022792792792793,
+            "hi": -0.00457532439970896,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "entirely_below_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.019,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.2471,
+            "lo_rounded": -0.437,
+            "hi_rounded": -0.0641,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.006,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        }
+      ],
+      "delta": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": -0.06436666666666667,
+        "sd_across_seeds": 0.16599281108931593,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": -0.06436666666666667
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": -0.20386666666666667,
+        "hi": 0.08093333333333334,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "seed_interval_positions": [
+        "covers_0",
+        "covers_0",
+        "entirely_below_0"
+      ]
+    },
+    "A2": {
+      "comparison": "A7 - A2",
+      "per_seed": [
+        {
+          "comparison": "A7 - A2",
+          "baseline": "A2",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.0629,
+          "delta_full": 0.06288032454361048,
+          "grouped_interval": {
+            "lo": -0.06788609060645537,
+            "hi": 0.22089215688007868,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.812,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.0629,
+            "lo_rounded": -0.042,
+            "hi_rounded": 0.1598,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.866,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A2",
+          "baseline": "A2",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.2012,
+          "delta_full": 0.20119863013698636,
+          "grouped_interval": {
+            "lo": -0.12133888315264148,
+            "hi": 0.3805346880122342,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 999,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.93993993993994,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.2012,
+            "lo_rounded": 0.0014,
+            "hi_rounded": 0.3632,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.974,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A2",
+          "baseline": "A2",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "delta_auroc": -0.041,
+          "delta_full": -0.04102564102564099,
+          "grouped_interval": {
+            "lo": -0.5083005848417487,
+            "hi": 0.44673458496000934,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.452,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.041,
+            "lo_rounded": -0.3446,
+            "hi_rounded": 0.2726,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.382,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        }
+      ],
+      "delta": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.07436666666666666,
+        "sd_across_seeds": 0.12150647445026677,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.07436666666666666
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": -0.12840000000000001,
+        "hi": 0.26520000000000005,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "seed_interval_positions": [
+        "covers_0",
+        "covers_0",
+        "covers_0"
+      ]
+    },
+    "A3": {
+      "comparison": "A7 - A3",
+      "per_seed": [
+        {
+          "comparison": "A7 - A3",
+          "baseline": "A3",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": -0.0231,
+          "delta_full": -0.023123732251521423,
+          "grouped_interval": {
+            "lo": -0.1458496315192743,
+            "hi": 0.09572255874053404,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.349,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.0231,
+            "lo_rounded": -0.1178,
+            "hi_rounded": 0.0744,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.294,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A3",
+          "baseline": "A3",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.1143,
+          "delta_full": 0.11429794520547953,
+          "grouped_interval": {
+            "lo": -0.18433994747290922,
+            "hi": 0.3197886073825923,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 999,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.8398398398398398,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.1143,
+            "lo_rounded": -0.0564,
+            "hi_rounded": 0.2904,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.898,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A3",
+          "baseline": "A3",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "delta_auroc": -0.041,
+          "delta_full": -0.04102564102564099,
+          "grouped_interval": {
+            "lo": -0.5083005848417487,
+            "hi": 0.44673458496000934,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.452,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.041,
+            "lo_rounded": -0.3446,
+            "hi_rounded": 0.2726,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.382,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        }
+      ],
+      "delta": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.016733333333333333,
+        "sd_across_seeds": 0.08496789589799982,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.016733333333333333
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": -0.17293333333333336,
+        "hi": 0.21246666666666666,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "seed_interval_positions": [
+        "covers_0",
+        "covers_0",
+        "covers_0"
+      ]
+    },
+    "A4": {
+      "comparison": "A7 - A4",
+      "per_seed": [
+        {
+          "comparison": "A7 - A4",
+          "baseline": "A4",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": -0.0892,
+          "delta_full": -0.08924949290060868,
+          "grouped_interval": {
+            "lo": -0.20137373467905675,
+            "hi": 0.05360714285714285,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.107,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.0892,
+            "lo_rounded": -0.2298,
+            "hi_rounded": 0.04,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.094,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A4",
+          "baseline": "A4",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": -0.0535,
+          "delta_full": -0.05351027397260266,
+          "grouped_interval": {
+            "lo": -0.24995803287424845,
+            "hi": 0.08410856379150819,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 999,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.23823823823823823,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.0535,
+            "lo_rounded": -0.1664,
+            "hi_rounded": 0.0892,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.23,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A4",
+          "baseline": "A4",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "delta_auroc": -0.0625,
+          "delta_full": -0.06247086247086242,
+          "grouped_interval": {
+            "lo": -0.3929740712074303,
+            "hi": 0.2743717345538538,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.401,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.0625,
+            "lo_rounded": -0.3062,
+            "hi_rounded": 0.2088,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.3,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        }
+      ],
+      "delta": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": -0.0684,
+        "sd_across_seeds": 0.01856690604274175,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": -0.0684
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": -0.23413333333333333,
+        "hi": 0.11266666666666668,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "seed_interval_positions": [
+        "covers_0",
+        "covers_0",
+        "covers_0"
+      ]
+    },
+    "A5": {
+      "comparison": "A7 - A5",
+      "per_seed": [
+        {
+          "comparison": "A7 - A5",
+          "baseline": "A5",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.0057,
+          "delta_full": 0.005679513184584151,
+          "grouped_interval": {
+            "lo": -0.16296356421356423,
+            "hi": 0.18916553287981855,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.539,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.0057,
+            "lo_rounded": -0.1435,
+            "hi_rounded": 0.1486,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.508,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A5",
+          "baseline": "A5",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": -0.0116,
+          "delta_full": -0.011558219178082196,
+          "grouped_interval": {
+            "lo": -0.1286219982987634,
+            "hi": 0.06449947589098523,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 999,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.3993993993993994,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.0116,
+            "lo_rounded": -0.0818,
+            "hi_rounded": 0.0617,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.386,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A5",
+          "baseline": "A5",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "delta_auroc": -0.1758,
+          "delta_full": -0.17575757575757578,
+          "grouped_interval": {
+            "lo": -0.5136017403421154,
+            "hi": 0.12455122584572784,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.228,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.1758,
+            "lo_rounded": -0.4002,
+            "hi_rounded": 0.0408,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.046,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        }
+      ],
+      "delta": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": -0.060566666666666664,
+        "sd_across_seeds": 0.10016917356818582,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": -0.060566666666666664
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": -0.2085,
+        "hi": 0.0837,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "seed_interval_positions": [
+        "covers_0",
+        "covers_0",
+        "covers_0"
+      ]
+    },
+    "A6": {
+      "comparison": "A7 - A6",
+      "per_seed": [
+        {
+          "comparison": "A7 - A6",
+          "baseline": "A6",
+          "seed": 0,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.1935,
+          "delta_full": 0.19350912778904655,
+          "grouped_interval": {
+            "lo": 0.018663455749548526,
+            "hi": 0.3432952425373134,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "entirely_above_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.986,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.1935,
+            "lo_rounded": 0.0297,
+            "hi_rounded": 0.3449,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.994,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A6",
+          "baseline": "A6",
+          "seed": 1,
+          "n_claims": 162,
+          "n_questions": 27,
+          "delta_auroc": 0.2115,
+          "delta_full": 0.21147260273972607,
+          "grouped_interval": {
+            "lo": -0.0741437148566355,
+            "hi": 0.4435407153729071,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 999,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.923923923923924,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": 0.2115,
+            "lo_rounded": 0.065,
+            "hi_rounded": 0.3618,
+            "bootstrap_fraction_stored_as_p_gt_0": 1.0,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        },
+        {
+          "comparison": "A7 - A6",
+          "baseline": "A6",
+          "seed": 2,
+          "n_claims": 158,
+          "n_questions": 27,
+          "delta_auroc": -0.1375,
+          "delta_full": -0.13752913752913754,
+          "grouped_interval": {
+            "lo": -0.24251832832490142,
+            "hi": 0.011431875178327342,
+            "label": "per-seed 95% paired question-grouped percentile bootstrap interval for delta AUROC",
+            "method": "question_grouped_percentile_bootstrap",
+            "n_requested": 1000,
+            "n_finite": 1000,
+            "position_vs_0": "covers_0"
+          },
+          "bootstrap_frac_delta_gt_0": 0.035,
+          "fraction_label": "bootstrap fraction of resamples with delta > 0; not a p-value",
+          "fraction_is_p_value": false,
+          "historical_claim_level_500": {
+            "delta_rounded": -0.1375,
+            "lo_rounded": -0.248,
+            "hi_rounded": -0.0234,
+            "bootstrap_fraction_stored_as_p_gt_0": 0.012,
+            "n_requested": 500,
+            "label": "historical claim-level paired percentile interval from 500 resamples; the stored fraction is not a p-value",
+            "is_confidence_interval": false
+          }
+        }
+      ],
+      "delta": {
+        "n_seeds": 3,
+        "n_finite": 3,
+        "mean": 0.08916666666666667,
+        "sd_across_seeds": 0.1965053010311257,
+        "statistic": "sample_sd_across_seeds",
+        "is_confidence_interval": false,
+        "label": "sample standard deviation across seeds (ddof=1); not a confidence interval",
+        "mean_of_rounded_seed_statistics": 0.08916666666666667
+      },
+      "historical_mean_of_claim_interval_endpoints": {
+        "lo": -0.0511,
+        "hi": 0.22776666666666667,
+        "n_lo": 3,
+        "n_hi": 3,
+        "method": "nonstandard_mean_of_per_seed_interval_endpoints",
+        "is_confidence_interval": false,
+        "label": "nonstandard mean of per-seed interval endpoints; not a confidence interval"
+      },
+      "seed_interval_positions": [
+        "entirely_above_0",
+        "covers_0",
+        "covers_0"
+      ]
+    }
+  },
+  "reproduction": {
+    "all_match": true,
+    "checks": [
+      {
+        "quantity": "A0 mean AUROC",
+        "stage5": 0.6669,
+        "stage4": 0.6669,
+        "match": true
+      },
+      {
+        "quantity": "A0 mean f1",
+        "stage5": 0.22183333333333335,
+        "stage4": 0.22183333333333333,
+        "match": true
+      },
+      {
+        "quantity": "A0 mean precision",
+        "stage5": 0.12913333333333332,
+        "stage4": 0.12913333333333332,
+        "match": true
+      },
+      {
+        "quantity": "A0 mean recall",
+        "stage5": 0.8345666666666668,
+        "stage4": 0.8345666666666668,
+        "match": true
+      },
+      {
+        "quantity": "A0 mean ece",
+        "stage5": 0.0509,
+        "stage4": 0.0509,
+        "match": true
+      },
+      {
+        "quantity": "A0 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.5482999999999999,
+        "stage5_hi": 0.7841333333333335,
+        "stage4_lo": 0.5482999999999999,
+        "stage4_hi": 0.7841333333333332,
+        "match": true
+      },
+      {
+        "quantity": "A1 mean AUROC",
+        "stage5": 0.7021333333333333,
+        "stage4": 0.7021333333333333,
+        "match": true
+      },
+      {
+        "quantity": "A1 mean f1",
+        "stage5": 0.19653333333333334,
+        "stage4": 0.19653333333333334,
+        "match": true
+      },
+      {
+        "quantity": "A1 mean precision",
+        "stage5": 0.12106666666666666,
+        "stage4": 0.12106666666666666,
+        "match": true
+      },
+      {
+        "quantity": "A1 mean recall",
+        "stage5": 0.6481,
+        "stage4": 0.6481,
+        "match": true
+      },
+      {
+        "quantity": "A1 mean ece",
+        "stage5": 0.04783333333333333,
+        "stage4": 0.04783333333333334,
+        "match": true
+      },
+      {
+        "quantity": "A1 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.5768666666666667,
+        "stage5_hi": 0.8151999999999999,
+        "stage4_lo": 0.5768666666666666,
+        "stage4_hi": 0.8151999999999999,
+        "match": true
+      },
+      {
+        "quantity": "A2 mean AUROC",
+        "stage5": 0.5633666666666667,
+        "stage4": 0.5633666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A2 mean f1",
+        "stage5": 0.1678666666666667,
+        "stage4": 0.1678666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A2 mean precision",
+        "stage5": 0.09873333333333334,
+        "stage4": 0.09873333333333334,
+        "match": true
+      },
+      {
+        "quantity": "A2 mean recall",
+        "stage5": 0.6875,
+        "stage4": 0.6875,
+        "match": true
+      },
+      {
+        "quantity": "A2 mean ece",
+        "stage5": 0.042133333333333335,
+        "stage4": 0.042133333333333335,
+        "match": true
+      },
+      {
+        "quantity": "A2 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.4397,
+        "stage5_hi": 0.6908333333333334,
+        "stage4_lo": 0.4397,
+        "stage4_hi": 0.6908333333333334,
+        "match": true
+      },
+      {
+        "quantity": "A3 mean AUROC",
+        "stage5": 0.621,
+        "stage4": 0.621,
+        "match": true
+      },
+      {
+        "quantity": "A3 mean f1",
+        "stage5": 0.19576666666666664,
+        "stage4": 0.19576666666666664,
+        "match": true
+      },
+      {
+        "quantity": "A3 mean precision",
+        "stage5": 0.1183,
+        "stage4": 0.1183,
+        "match": true
+      },
+      {
+        "quantity": "A3 mean recall",
+        "stage5": 0.6715666666666666,
+        "stage4": 0.6715666666666666,
+        "match": true
+      },
+      {
+        "quantity": "A3 mean ece",
+        "stage5": 0.037866666666666667,
+        "stage4": 0.037866666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A3 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.48856666666666665,
+        "stage5_hi": 0.7493333333333334,
+        "stage4_lo": 0.48856666666666665,
+        "stage4_hi": 0.7493333333333334,
+        "match": true
+      },
+      {
+        "quantity": "A4 mean AUROC",
+        "stage5": 0.7061999999999999,
+        "stage4": 0.7061999999999999,
+        "match": true
+      },
+      {
+        "quantity": "A4 mean f1",
+        "stage5": 0.25106666666666666,
+        "stage4": 0.25106666666666666,
+        "match": true
+      },
+      {
+        "quantity": "A4 mean precision",
+        "stage5": 0.23953333333333335,
+        "stage4": 0.23953333333333335,
+        "match": true
+      },
+      {
+        "quantity": "A4 mean recall",
+        "stage5": 0.26763333333333333,
+        "stage4": 0.26763333333333333,
+        "match": true
+      },
+      {
+        "quantity": "A4 mean ece",
+        "stage5": 0.1048,
+        "stage4": 0.1048,
+        "match": true
+      },
+      {
+        "quantity": "A4 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.5711666666666667,
+        "stage5_hi": 0.8253,
+        "stage4_lo": 0.5711666666666667,
+        "stage4_hi": 0.8253,
+        "match": true
+      },
+      {
+        "quantity": "A5 mean AUROC",
+        "stage5": 0.6983,
+        "stage4": 0.6983,
+        "match": true
+      },
+      {
+        "quantity": "A5 mean f1",
+        "stage5": 0.1876,
+        "stage4": 0.1876,
+        "match": true
+      },
+      {
+        "quantity": "A5 mean precision",
+        "stage5": 0.12743333333333332,
+        "stage4": 0.12743333333333332,
+        "match": true
+      },
+      {
+        "quantity": "A5 mean recall",
+        "stage5": 0.39189999999999997,
+        "stage4": 0.39189999999999997,
+        "match": true
+      },
+      {
+        "quantity": "A5 mean ece",
+        "stage5": 0.20989999999999998,
+        "stage4": 0.20989999999999998,
+        "match": true
+      },
+      {
+        "quantity": "A5 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.5806,
+        "stage5_hi": 0.8087,
+        "stage4_lo": 0.5806,
+        "stage4_hi": 0.8087,
+        "match": true
+      },
+      {
+        "quantity": "A6 mean AUROC",
+        "stage5": 0.5486,
+        "stage4": 0.5486,
+        "match": true
+      },
+      {
+        "quantity": "A6 mean f1",
+        "stage5": 0.17489999999999997,
+        "stage4": 0.17489999999999997,
+        "match": true
+      },
+      {
+        "quantity": "A6 mean precision",
+        "stage5": 0.11976666666666665,
+        "stage4": 0.11976666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A6 mean recall",
+        "stage5": 0.5936333333333333,
+        "stage4": 0.5936333333333333,
+        "match": true
+      },
+      {
+        "quantity": "A6 mean ece",
+        "stage5": 0.18180000000000004,
+        "stage4": 0.18180000000000004,
+        "match": true
+      },
+      {
+        "quantity": "A6 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.3835,
+        "stage5_hi": 0.7142666666666667,
+        "stage4_lo": 0.3835,
+        "stage4_hi": 0.7142666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A7 mean AUROC",
+        "stage5": 0.6377333333333334,
+        "stage4": 0.6377333333333334,
+        "match": true
+      },
+      {
+        "quantity": "A7 mean f1",
+        "stage5": 0.20896666666666666,
+        "stage4": 0.20896666666666666,
+        "match": true
+      },
+      {
+        "quantity": "A7 mean precision",
+        "stage5": 0.1274,
+        "stage4": 0.12739999999999999,
+        "match": true
+      },
+      {
+        "quantity": "A7 mean recall",
+        "stage5": 0.6831666666666667,
+        "stage4": 0.6831666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A7 mean ece",
+        "stage5": 0.2439,
+        "stage4": 0.2439,
+        "match": true
+      },
+      {
+        "quantity": "A7 mean of claim-level AUROC interval endpoints",
+        "stage5_lo": 0.5023333333333334,
+        "stage5_hi": 0.7660666666666667,
+        "stage4_lo": 0.5023333333333334,
+        "stage4_hi": 0.7660666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A0 mean delta",
+        "stage5": -0.029166666666666664,
+        "stage4": -0.029166666666666664,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A0 mean of 500-resample claim-level endpoints",
+        "stage5_lo": -0.18676666666666666,
+        "stage5_hi": 0.1325,
+        "stage4_lo": -0.18676666666666666,
+        "stage4_hi": 0.13249999999999998,
+        "stage4_field_named_p_gt_0": 0.3993333333333333,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A1 mean delta",
+        "stage5": -0.06436666666666667,
+        "stage4": -0.06436666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A1 mean of 500-resample claim-level endpoints",
+        "stage5_lo": -0.20386666666666667,
+        "stage5_hi": 0.08093333333333334,
+        "stage4_lo": -0.20386666666666667,
+        "stage4_hi": 0.08093333333333334,
+        "stage4_field_named_p_gt_0": 0.38999999999999996,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A2 mean delta",
+        "stage5": 0.07436666666666666,
+        "stage4": 0.07436666666666666,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A2 mean of 500-resample claim-level endpoints",
+        "stage5_lo": -0.12840000000000001,
+        "stage5_hi": 0.26520000000000005,
+        "stage4_lo": -0.12840000000000001,
+        "stage4_hi": 0.26520000000000005,
+        "stage4_field_named_p_gt_0": 0.7406666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A3 mean delta",
+        "stage5": 0.016733333333333333,
+        "stage4": 0.016733333333333333,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A3 mean of 500-resample claim-level endpoints",
+        "stage5_lo": -0.17293333333333336,
+        "stage5_hi": 0.21246666666666666,
+        "stage4_lo": -0.17293333333333336,
+        "stage4_hi": 0.21246666666666666,
+        "stage4_field_named_p_gt_0": 0.5246666666666667,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A4 mean delta",
+        "stage5": -0.0684,
+        "stage4": -0.0684,
+        "match": true
+      },
+      {
+        "quantity": "A7 - A4 mean of 500-resample claim-level endpoints",
+        "stage5_lo": -0.23413333333333333,
+        "stage5_hi": 0.11266666666666668,
+        "stage4_lo": -0.23413333333333333,
+        "stage4_hi": 0.11266666666666668,
+        "stage4_field_named_p_gt_0": 0.208,
+        "match": true
+      }
+    ]
+  },
+  "checkpoint_checks": [
+    {
+      "variant": "A0",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A1",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A2",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A3",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A4",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A5",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A6",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A7",
+      "seed": 0,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A0",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A1",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A2",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A3",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A4",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A5",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A6",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A7",
+      "seed": 1,
+      "matched_metrics_json": true,
+      "n": 162
+    },
+    {
+      "variant": "A0",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    },
+    {
+      "variant": "A1",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    },
+    {
+      "variant": "A2",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    },
+    {
+      "variant": "A3",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    },
+    {
+      "variant": "A4",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    },
+    {
+      "variant": "A5",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    },
+    {
+      "variant": "A6",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    },
+    {
+      "variant": "A7",
+      "seed": 2,
+      "matched_metrics_json": true,
+      "n": 158
+    }
+  ],
+  "tables": {
+    "0": "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet",
+    "1": "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s1.parquet",
+    "2": "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s2.parquet"
+  }
+}

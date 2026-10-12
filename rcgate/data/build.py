@@ -65,24 +65,36 @@ def _build_synthetic(cfg: Config, seed: int) -> pd.DataFrame:
 
 def _build_ragtruth(cfg: Config, seed: int) -> pd.DataFrame:
     """Load RAGTruth and run the real extractors over it."""
+    from ..claims.dealias import ANTECEDENT_VERSION
     from ..signals.extract import extract_signals
-    from .ragtruth import build_slice, write_schema_record
+    from ..utils import git_hash
+    from .ragtruth import ALIGNMENT_VERSION, FILES, build_slice, write_schema_record
 
     sl = build_slice(cfg, seed=seed)
     frame, report = extract_signals(sl.frame, cfg, sl.answers_by_question)
 
-    benchmark_record = write_schema_record(
-        PROJECT_ROOT / str(cfg.get("paths.benchmarks_dir", "data/benchmarks")) /
-        f"{cfg.get('data.benchmark', 'ragtruth')}.json",
-        sl.stats,
-    )
+    explicit = cfg.get("data.schema_record", None)
+    if explicit:
+        schema_path = PROJECT_ROOT / str(explicit)
+    else:
+        schema_path = (
+            PROJECT_ROOT / str(cfg.get("paths.benchmarks_dir", "data/benchmarks"))
+            / f"{cfg.get('data.benchmark', 'ragtruth')}.json"
+        )
+    benchmark_record = write_schema_record(schema_path, sl.stats)
     build_log = {
         "benchmark": "ragtruth",
         "seed": seed,
+        "pipeline_version": str(cfg.get("data.pipeline_version", "historical")),
+        "alignment_version": ALIGNMENT_VERSION,
+        "antecedent_version": ANTECEDENT_VERSION,
+        "git": git_hash(PROJECT_ROOT),
+        "config": cfg.source.name if cfg.source else "inline",
         "roster": sl.roster,
         "slice": sl.stats,
         "extraction": report.as_dict(),
         "benchmark_record": str(benchmark_record),
+        "raw_files": [{"name": name, "sha256": digest} for name, digest in FILES.items()],
     }
     dump_json(PROJECT_ROOT / str(cfg.get("report.out_dir", "results/summary")) /
               str(cfg.get("report.tag", "run")) / f"build_seed{seed}.json", build_log)

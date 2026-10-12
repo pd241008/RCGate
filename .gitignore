@@ -5,6 +5,13 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
+frontend/node_modules/
+frontend/dist/
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
 .ipynb_checkpoints/
 
 # API cache and raw downloads can be large / may contain paid responses

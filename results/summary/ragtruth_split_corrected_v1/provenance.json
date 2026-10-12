@@ -1,0 +1,30 @@
+{
+  "stage": "ragtruth_split_corrected_v1",
+  "git_head": "4709001",
+  "git_head_does_not_include_uncommitted_stage6_edits": true,
+  "split_method": "group_stratified",
+  "split_definition": "Within each question_id positive-count stratum, shuffle sorted group ids with Generator(SeedSequence([seed, stratum])) and cut with round(0.6 n), round(0.2 n), remainder test.",
+  "signal_tables": [
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s1.parquet",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s2.parquet"
+  ],
+  "signal_table_sha256": {
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet": "082e524ccc3c062cfcec423b00e970f5fa846eefa2646c3d0c4139cd73954245",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s1.parquet": "98aece3e06f20ed017178f2c9f092ef73584d0965953c63c2bbf073f57c9f917",
+    "/Users/nishant/Documents/GitHub/RCGate/data/signal_tables/ragtruth_corrected_integrity_v1_s2.parquet": "074cfcd5e769b4d1770ad7c50590bf1ae2dc780d59732ded70425cd68bcdd86b"
+  },
+  "stage5_dir": "/Users/nishant/Documents/GitHub/RCGate/results/summary/ragtruth_corrected_stats_v1",
+  "stage4_dir": "/Users/nishant/Documents/GitHub/RCGate/results/summary/ragtruth_corrected_integrity_v1",
+  "historical_directories_unchanged": true,
+  "models": "refit with the same fit_variant path; hyperparameters from the Stage 4 config",
+  "thresholds": "tune_threshold on the new validation split; not chosen from test A7",
+  "statistics": "Stage 5 question-grouped percentile bootstrap, 1000 resamples",
+  "interval_endpoints_averaged": false,
+  "formal_p_value_reported": false,
+  "a8": "skipped; no judge votes",
+  "logo": "not rerun",
+  "n_resamples": 1000,
+  "numpy": "2.5.3",
+  "conclusion_label": "strengthened"
+}

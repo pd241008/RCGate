@@ -1,0 +1,76 @@
+{
+  "experiment": "ragtruth_corrected_integrity_v1",
+  "git_commit": "47090018414f657bca8e5a43e97663feba2e5a7d",
+  "note": "The corrected pipeline is the working tree on top of this commit. The commit alone does not contain the integrity fixes. Reproduce from the file hashes below plus the recorded config.",
+  "git_status_short": " M rcgate/claims/dealias.py\n M rcgate/data/build.py\n M rcgate/data/ragtruth.py\n M tests/test_ragtruth.py\n M tests/test_synthetic.py\n?? \"RC Gate_Intial_Research Paper Draft.pdf\"\n?? RC-Gate_Project_Proposal.docx\n?? RC-Gate_UserGuide.pdf\n?? configs/ragtruth_corrected_integrity_v1.yaml\n?? results/summary/ragtruth_corrected_integrity_v1/\n?? results/summary/ragtruth_historical_freeze/\n?? tests/test_dealias.py\n",
+  "config": "configs/ragtruth_corrected_integrity_v1.yaml",
+  "config_sha256": "64f17b3b486c25812917a9d7a3a3712049d68268335375bb7fbc0132c60fab3a",
+  "parent_config": "configs/ragtruth.yaml",
+  "parent_config_sha256": "a99e7a7dd1669aa22f720f68a93e1bc7ab8c8116bf627ccfa5e2da3717eb43f8",
+  "pipeline_version": "ragtruth_corrected_integrity_v1",
+  "alignment_version": "offset-sentence-dealias-1",
+  "antecedent_version": "nominal-question-subject-1",
+  "dataset": {
+    "name": "RAGTruth",
+    "raw_dir": "data/raw/ragtruth",
+    "files": {
+      "response.jsonl": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "source_info.jsonl": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b"
+    },
+    "verified_sha256": {
+      "response.jsonl": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "source_info.jsonl": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b"
+    }
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "n_claims": 800,
+  "models": {
+    "nli": "cross-encoder/nli-deberta-v3-small",
+    "embed": "sentence-transformers/all-MiniLM-L6-v2",
+    "variants": [
+      "A0",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A7"
+    ],
+    "A8": "skipped, no judge_votes"
+  },
+  "unchanged_from_historical_run": [
+    "A0-A8 definitions",
+    "model hyperparameters",
+    "epochs, learning rate, gate architecture",
+    "seed definitions and grouped split",
+    "threshold procedure",
+    "roster, task filter, claim cap, six signals, BM25, arithmetic",
+    "bootstrap procedure (including its known defects)"
+  ],
+  "code_sha256": {
+    "rcgate/claims/dealias.py": "f5f4039d8d589fd7d60ea7e0073de2987041844da9d64237adafbd7eb2c7b91c",
+    "rcgate/data/ragtruth.py": "e1b3aaec6a10c96619280a3599aabfd9e555761fd81b5ae2452ae8d9356d770a",
+    "rcgate/data/build.py": "e204c3fed4b8510ecd838ec279a3e7a6f13450f8b7d76257adddde61d47286e4",
+    "rcgate/data/synthetic.py": "07f2e9ec6f72b60653a4ac2dd871af376f398e1160e48ec3d262cae1604d30f1",
+    "configs/ragtruth.yaml": "a99e7a7dd1669aa22f720f68a93e1bc7ab8c8116bf627ccfa5e2da3717eb43f8",
+    "configs/ragtruth_corrected_integrity_v1.yaml": "64f17b3b486c25812917a9d7a3a3712049d68268335375bb7fbc0132c60fab3a",
+    "configs/base.yaml": "57f1ea381d404406d5e45a8eb4fe9d5f407b10cfcb0e4130070df324d08bb469",
+    "tests/test_dealias.py": "5a789d62bb17607dda0b7a42f7176340a6116d35ffd18d723a1c2e4ad4e80165",
+    "tests/test_ragtruth.py": "30ff8418234c011417331fb8e637e6e8ac18b438bb7058082e2e51ae74144dd9",
+    "tests/test_synthetic.py": "4ff7341138a3401ecc366b965a30a634e4350f221c6a5016c9c11710d31dc0c2"
+  },
+  "result_paths": {
+    "report": "results/summary/ragtruth_corrected_integrity_v1/report.md",
+    "report_json": "results/summary/ragtruth_corrected_integrity_v1/report.json",
+    "build_logs": "results/summary/ragtruth_corrected_integrity_v1/build_seed{0,1,2}.json",
+    "checkpoints": "results/summary/ragtruth_corrected_integrity_v1/A*_seed*/",
+    "signal_tables": "data/signal_tables/ragtruth_corrected_integrity_v1_s{0,1,2}.parquet",
+    "historical_freeze": "results/summary/ragtruth_historical_freeze/MANIFEST.json",
+    "historical_results_untouched": "results/summary/ragtruth/"
+  }
+}

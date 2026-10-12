@@ -1,0 +1,32 @@
+{
+  "schema": "rcgate-independent-references-v1",
+  "note": "Optional pages saved for offline reading. used_in_rcgate_score is false for every entry. The studio does not fetch these URLs.",
+  "references": [
+    {
+      "id": "sep-game-theory-12180",
+      "source_id": "12180",
+      "claim_id": null,
+      "title": "Game Theory",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "url": "https://plato.stanford.edu/entries/game-theory/",
+      "excerpt": "We can put this another way: in a zero-sum game, my playing a strategy that maximizes my minimum payoff if you play the best you can, and your simultaneously doing the same thing, is just equivalent to our both playing our best strategies, so this pair of so-called ‘maximin’ procedures is guaranteed to find the unique solution to the game, which is its unique NE.",
+      "verified_on": "2026-10-10",
+      "source_revision": "substantive revision 3 September 2023",
+      "relevance": "The stored question asks how a Nash equilibrium differs from a maximin solution. This encyclopedia entry discusses Nash equilibrium and, in the saved excerpt, describes maximin play in a zero-sum game. The page was not one of the RAGTruth passages, and it is not an RC-Gate input.",
+      "used_in_rcgate_score": false
+    },
+    {
+      "id": "nara-dred-scott-12172",
+      "source_id": "12172",
+      "claim_id": null,
+      "title": "Dred Scott v. Sandford (1857)",
+      "publisher": "National Archives",
+      "url": "https://www.archives.gov/milestone-documents/dred-scott-v-sandford",
+      "excerpt": "On March 6, 1857, Chief Justice Roger B. Taney read the majority opinion of the Court, which stated that enslaved people were not citizens of the United States and, therefore, could not expect any protection from the federal government or the courts. The opinion also stated that Congress had no authority to ban slavery from a federal territory. This decision moved the nation a step closer to the Civil War.",
+      "verified_on": "2026-10-10",
+      "source_revision": null,
+      "relevance": "The stored question asks about the Supreme Court’s role during the Civil War. This National Archives page is the Dred Scott v. Sandford decision and says that decision moved the nation closer to the Civil War. It is one primary document, not a full history of the Court during the war, and it was not part of the passages supplied to the original models.",
+      "used_in_rcgate_score": false
+    }
+  ]
+}

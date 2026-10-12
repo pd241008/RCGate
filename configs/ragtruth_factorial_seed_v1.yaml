@@ -1,0 +1,7 @@
+extends: ragtruth_multi_seed_v1.yaml
+
+# Stage 8: split seed and model seed are crossed.
+# The fit table, splitter, variants, hyperparameters, and validation
+# threshold rule are unchanged. Results go to a new tag.
+report:
+  tag: ragtruth_factorial_seed_v1

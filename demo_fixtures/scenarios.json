@@ -1,0 +1,548 @@
+{
+  "library_id": "rcgate-demo-fixtures-v1",
+  "kind": "recorded_demo",
+  "official_benchmark_result": false,
+  "live_provider_calls": false,
+  "playback_label": "Recorded demo · precomputed responses",
+  "generation_method": "RCGateModel.predict on stored rows of the corrected seed-0 signal table. The checkpoint was loaded. Nothing was trained or tuned.",
+  "checkpoint": {
+    "path": "results/summary/ragtruth_factorial_seed_v1/A7_split0_model0/model.joblib",
+    "sha256": "0426165fe822d694ae14435d5672a03e6a3e1453db82358cd41ae563418d2b40",
+    "variant": "A7",
+    "split_seed": 0,
+    "model_seed": 0,
+    "namespace": "ragtruth_factorial_seed_v1",
+    "note": "One saved checkpoint from the Stage 8 directory (split seed 0, model seed 0). Demo probabilities from this file are not that run's test AUROC and not the Stage 8 mean."
+  },
+  "signal_table": {
+    "path": "data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet",
+    "sha256": "082e524ccc3c062cfcec423b00e970f5fa846eefa2646c3d0c4139cd73954245",
+    "claim_scope": "first_sentence",
+    "note": "Corrected seed-0 table. Each stored claim is sentence index 0. A probability applies only to that sentence."
+  },
+  "sources_file": "data/raw/ragtruth/source_info.jsonl",
+  "responses_file": "data/raw/ragtruth/response.jsonl",
+  "roster": [
+    "gpt-4-0613",
+    "gpt-3.5-turbo-0613",
+    "mistral-7B-instruct",
+    "llama-2-7b-chat",
+    "llama-2-13b-chat",
+    "llama-2-70b-chat"
+  ],
+  "experts": {
+    "fusion_input": "logit",
+    "standardize_signals": false,
+    "cross": {
+      "signals": [
+        "agree",
+        "contra",
+        "sem_dist"
+      ],
+      "weights": [
+        -0.415039,
+        0.005901,
+        0.020679
+      ],
+      "bias": 0.259431
+    },
+    "evidence": {
+      "signals": [
+        "support",
+        "src_quality",
+        "conflict"
+      ],
+      "weights": [
+        -0.047612,
+        0.147699,
+        0.450623
+      ],
+      "bias": -0.411551
+    },
+    "fusion": {
+      "weights": [
+        0.353868,
+        -0.465859
+      ],
+      "bias": -0.163831
+    },
+    "formula": "z_cross = W_cross · [agree, contra, sem_dist] + b_cross; z_evid = W_evid · [support, src_quality, conflict] + b_evid; logit = W_fusion · [w_cross * z_cross, w_evid * z_evid] + b_fusion; probability = sigmoid(logit). Routing weights come from softmax of a gate that sees only claim type and generator identity."
+  },
+  "research": {
+    "a0_mean_auroc": "0.6280",
+    "a4_mean_auroc": "0.6839",
+    "a7_mean_auroc": "0.5717",
+    "mean_a7_minus_a4": "−0.1122",
+    "mean_a7_minus_a0": "−0.0563",
+    "slice": "one corrected 800-sentence RAGTruth slice",
+    "n_sentences": 800,
+    "n_questions": 134,
+    "n_group_splits": 20,
+    "n_model_initialisations": 3,
+    "independent_datasets": false,
+    "evaluates_demo_claim": false,
+    "report_path": "docs/RC-Gate_Final_Research_Report_v1.md",
+    "index_path": "docs/RC-Gate_Experiment_Index.md"
+  },
+  "scenarios": [
+    {
+      "id": "flight-time",
+      "topic": "Numbers & calculations",
+      "summary": "A stored question asks how long a 370-mile flight takes at 100 mph. The six recorded answers do not state the same duration.",
+      "provenance_label": "RAGTruth QA · source MARCO · source id 12226 · recorded responses",
+      "question": "how long would it take to fly 370 miles while flying at 100 mph",
+      "source_id": "12226",
+      "task_type": "QA",
+      "dataset_source": "MARCO",
+      "scored_claim_id": "16406#0",
+      "claim_scope": "first_sentence",
+      "responses": [
+        {
+          "generator_id": 0,
+          "model_id": "gpt-4-0613",
+          "model_name": "GPT-4-0613",
+          "response_id": "16404",
+          "claim_id": "16404#0",
+          "text": "Unable to answer based on given passages.",
+          "opening_sentence": "Unable to answer based on given passages.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 1,
+          "provenance": "RAGTruth response.jsonl id 16404",
+          "scored": false
+        },
+        {
+          "generator_id": 1,
+          "model_id": "gpt-3.5-turbo-0613",
+          "model_name": "GPT-3.5-turbo-0613",
+          "response_id": "16405",
+          "claim_id": "16405#0",
+          "text": "Unable to answer based on given passages.",
+          "opening_sentence": "Unable to answer based on given passages.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 1,
+          "provenance": "RAGTruth response.jsonl id 16405",
+          "scored": false
+        },
+        {
+          "generator_id": 2,
+          "model_id": "mistral-7B-instruct",
+          "model_name": "Mistral-7B-Instruct",
+          "response_id": "16406",
+          "claim_id": "16406#0",
+          "text": "Based on the given passages, it would take approximately 0.67 hours (or 40 minutes) to fly 370 miles at a constant speed of 100 mph. This can be calculated using the ratio 100 miles / 1 hour = 100 miles / 60 minutes = 1.66667 miles / minute = 0.8571 minutes / mile. Therefore, 370 miles = 370 miles x 0.8571 minutes = 317.967 minutes, or 5.3 hours and 5 minutes.",
+          "opening_sentence": "Based on the given passages, it would take approximately 0.67 hours (or 40 minutes) to fly 370 miles at a constant speed of 100 mph.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 3,
+          "provenance": "RAGTruth response.jsonl id 16406",
+          "scored": true
+        },
+        {
+          "generator_id": 3,
+          "model_id": "llama-2-7b-chat",
+          "model_name": "Llama-2-7B-chat",
+          "response_id": "16407",
+          "claim_id": "16407#0",
+          "text": "Based on the provided passages, we can determine the time it would take to fly 370 miles while flying at 100 mph as follows:\n\nPassage 1 tells us that if the average speed is 60 mph for a road trip, it will take approximately one hour for the trip. However, as Passage 2 notes, this does not apply to air travel due to wind resistance.\n\nPassage 3 provides a ratio for calculating airspeed: 70 mph = 70 miles / 60 minutes = 0.8571 miles/minute. Therefore, to travel 30 miles, it would take 25.7143 minutes, or 25 minutes, 42.85 seconds.\n\nTo find the time it takes to fly 370 miles, we can multiply the ratio from Passage 3 by the distance of 370 miles: 370 miles x 0.8571 minutes/mile = 308.35 minutes.\n\nTherefore, based on the provided passages, it would take approximately 308.35 minutes (or 5 hours, 8 minutes, and 19.35 seconds) to fly 370 miles while flying at 100 mph.",
+          "opening_sentence": "Based on the provided passages, we can determine the time it would take to fly 370 miles while flying at 100 mph as follows:\n\nPassage 1 tells us that if the average speed is 60 mph for a road trip, it will take approximately one hour for the trip.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 6,
+          "provenance": "RAGTruth response.jsonl id 16407",
+          "scored": false
+        },
+        {
+          "generator_id": 4,
+          "model_id": "llama-2-13b-chat",
+          "model_name": "Llama-2-13B-chat",
+          "response_id": "16408",
+          "claim_id": "16408#0",
+          "text": "Based on the given passages, I can provide an answer to the question.\n\nAccording to Passage 3, if you are traveling at a speed of 100 mph, it would take:\n\n100 miles / 0.8571 minutes/mile = 117.647 minutes\n\nTherefore, it would take approximately 1 hour, 59 minutes, and 28.85 seconds to fly 370 miles at a speed of 100 mph.",
+          "opening_sentence": "Based on the given passages, I can provide an answer to the question.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 2,
+          "provenance": "RAGTruth response.jsonl id 16408",
+          "scored": false
+        },
+        {
+          "generator_id": 5,
+          "model_id": "llama-2-70b-chat",
+          "model_name": "Llama-2-70B-chat",
+          "response_id": "16409",
+          "claim_id": "16409#0",
+          "text": "Unable to answer based on given passages.\n\nThe passages provided do not contain the necessary information to calculate the time it would take to fly 370 miles while flying at 100 mph. The passages only provide information about driving distances and speeds, and do not mention anything about flying or airspeed. Therefore, it is not possible to use the given information to calculate the time it would take to fly a certain distance at a certain speed.",
+          "opening_sentence": "Unable to answer based on given passages.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 4,
+          "provenance": "RAGTruth response.jsonl id 16409",
+          "scored": false
+        }
+      ],
+      "sources": [
+        {
+          "id": "passage-1",
+          "title": "Supplied context passage 1",
+          "collection": "MARCO",
+          "excerpt": "Air Speed / Ground Speed Taking a 60 mile long road trip by car, the driver is fairly sure that if the average speed is 60 miles per hour (mph) for the trip, then it will probably take approximately one hour for the trip (60/60 = 1).",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        },
+        {
+          "id": "passage-2",
+          "title": "Supplied context passage 2",
+          "collection": "MARCO",
+          "excerpt": "Calculations. Air Speed / Ground Speed Taking a 60 mile long road trip by car, the driver is fairly sure that if the average speed is 60 miles per hour (mph) for the trip, then it will probably take approximately one hour for the trip (60/60 = 1). This would not be as certain with an airplane because of wind.",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        },
+        {
+          "id": "passage-3",
+          "title": "Supplied context passage 3",
+          "collection": "MARCO",
+          "excerpt": "This problem is easily solved using ratios: Traveling at 70 MPH = 70 miles / h = 70 miles / 60 minutes = 1.66667 miles / minute = 0.8571 minutes / mile. Thus, at that rate, to travel 30 miles = 30 miles x 0.8571 minutes = 25.7143 minutes, or 25 minutes, 42.85 seconds.",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        }
+      ],
+      "additional_references": [],
+      "prediction": {
+        "claim_id": "16406#0",
+        "claim_text": "Based on the given passages, it would take approximately 0.67 hours (or 40 minutes) to fly 370 miles at a constant speed of 100 mph.",
+        "sentence_index": 0,
+        "claim_type": 0,
+        "claim_type_name": "numeric",
+        "generator_id": 2,
+        "model_id": "mistral-7B-instruct",
+        "model_name": "Mistral-7B-Instruct",
+        "prob": 0.4764,
+        "predicted_class": "Likely supported",
+        "w_cross": 0.8439,
+        "w_evid": 0.1561,
+        "z_cross": 0.2733,
+        "z_evid": 0.1665,
+        "signals": {
+          "agree": 0.0026,
+          "contra": 0.9959,
+          "sem_dist": 0.4373,
+          "support": 0.0083,
+          "src_quality": 0.9,
+          "conflict": 0.9887
+        },
+        "cross_n_others": 5,
+        "evidence_source": "context",
+        "evidence_n_passages": 3,
+        "arithmetic_verdict": "unverifiable",
+        "explanation": "numeric claim; likely supported (0.48); evidence down-weighted (w_evid 0.16)",
+        "human_span_label": 0,
+        "generation_method": "RCGateModel.predict on this stored signal-table row. Not an official benchmark result."
+      }
+    },
+    {
+      "id": "civil-war-court",
+      "topic": "History & facts",
+      "summary": "A stored question asks about the Supreme Court during the Civil War. The supplied passages mention the appeal process and the Dred Scott decision.",
+      "provenance_label": "RAGTruth QA · source MARCO · source id 12172 · recorded responses",
+      "question": "role of the supreme court during the civil war",
+      "source_id": "12172",
+      "task_type": "QA",
+      "dataset_source": "MARCO",
+      "scored_claim_id": "16091#0",
+      "claim_scope": "first_sentence",
+      "responses": [
+        {
+          "generator_id": 0,
+          "model_id": "gpt-4-0613",
+          "model_name": "GPT-4-0613",
+          "response_id": "16086",
+          "claim_id": "16086#0",
+          "text": "Unable to answer based on given passages.",
+          "opening_sentence": "Unable to answer based on given passages.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 1,
+          "provenance": "RAGTruth response.jsonl id 16086",
+          "scored": false
+        },
+        {
+          "generator_id": 1,
+          "model_id": "gpt-3.5-turbo-0613",
+          "model_name": "GPT-3.5-turbo-0613",
+          "response_id": "16087",
+          "claim_id": "16087#0",
+          "text": "Unable to answer based on given passages.",
+          "opening_sentence": "Unable to answer based on given passages.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 1,
+          "provenance": "RAGTruth response.jsonl id 16087",
+          "scored": false
+        },
+        {
+          "generator_id": 2,
+          "model_id": "mistral-7B-instruct",
+          "model_name": "Mistral-7B-Instruct",
+          "response_id": "16088",
+          "claim_id": "16088#0",
+          "text": "Based on the given passages, it is clear that the Supreme Court played an important role in defining the laws and regulations related to slavery and citizenship rights during the Civil War era. The Dred Scott Decision, in particular, made a significant contribution to the ongoing debate over slavery and its legality in the United States. However, it is unclear what other roles the Supreme Court may have had during this time.",
+          "opening_sentence": "Based on the given passages, it is clear that the Supreme Court played an important role in defining the laws and regulations related to slavery and citizenship rights during the Civil War era.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 3,
+          "provenance": "RAGTruth response.jsonl id 16088",
+          "scored": false
+        },
+        {
+          "generator_id": 3,
+          "model_id": "llama-2-7b-chat",
+          "model_name": "Llama-2-7B-chat",
+          "response_id": "16089",
+          "claim_id": "16089#0",
+          "text": "Based on the provided passages, the Supreme Court played the following roles during the American Civil War:\n\n1. Defined its most influential role through the appeal process: According to passage 1, the Supreme Court's most significant role was established through the appeal process, which involved reviewing cases involving state and local legislatures, as well as Congress.\n2. Impacted by the Civil War: Passage 2 highlights the Supreme Court's experience during the Civil War, indicating that the institution was affected by the conflict. However, the passages do not provide specific details about the Court's role during this time.\n3. Denied freedom to a slave: The Dred Scott decision (summarized in passage 3) denied a slave named Dred Scott his freedom, ruling that he was not a citizen and had no legal rights. This decision reinforced the institution of slavery and highlights the Supreme Court's role in upholding it.\n\nTherefore, the Supreme Court's role during the American Civil War can be summarized as:\n\n* Establishing its most influential role through the appeal process\n* Being impacted by the Civil War\n* Upholding the institution of slavery through decisions such as the Dred Scott case.\n\nUnable to answer based on given passages.",
+          "opening_sentence": "Based on the provided passages, the Supreme Court played the following roles during the American Civil War:\n\n1.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 10,
+          "provenance": "RAGTruth response.jsonl id 16089",
+          "scored": false
+        },
+        {
+          "generator_id": 4,
+          "model_id": "llama-2-13b-chat",
+          "model_name": "Llama-2-13B-chat",
+          "response_id": "16090",
+          "claim_id": "16090#0",
+          "text": "Based on the given passages, the Supreme Court played an important role during the Civil War era. Passage 2 states that the exhibition \"War and In Peace\" examines the Supreme Court during this time period and the impact of the Civil War on the institution. Additionally, passage 3 mentions the significant Dred Scott decision made by the Court in 1857, which denied the freedom of a slave named Dred Scott and established that African Americans were not citizens. Therefore, the Supreme Court played a role in shaping the legal framework of the Civil War and its aftermath.",
+          "opening_sentence": "Based on the given passages, the Supreme Court played an important role during the Civil War era.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 4,
+          "provenance": "RAGTruth response.jsonl id 16090",
+          "scored": false
+        },
+        {
+          "generator_id": 5,
+          "model_id": "llama-2-70b-chat",
+          "model_name": "Llama-2-70B-chat",
+          "response_id": "16091",
+          "claim_id": "16091#0",
+          "text": "The Supreme Court played a significant role during the Civil War era, particularly in the Dred Scott case, which denied a slave's plea for freedom and established that African Americans were not considered citizens. The Court also had the power to review decisions made by state and local courts, as well as those made by Congress, further solidifying its influence during this time.\n\nHowever, it is worth noting that the Court's role during the Civil War was not explicitly defined in the Constitution. Instead, its influence was established over time through its appeal process and the precedents set in landmark cases such as Dred Scott.\n\nTherefore, based on the given passages, the Supreme Court's role during the Civil War was shaped by its ability to review decisions made by other branches of government and its power to set legal precedents, as demonstrated in the Dred Scott case.",
+          "opening_sentence": "The Supreme Court played a significant role during the Civil War era, particularly in the Dred Scott case, which denied a slave's plea for freedom and established that African Americans were not considered citizens.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 5,
+          "provenance": "RAGTruth response.jsonl id 16091",
+          "scored": true
+        }
+      ],
+      "sources": [
+        {
+          "id": "passage-1",
+          "title": "Supplied context passage 1",
+          "collection": "MARCO",
+          "excerpt": "The Founding Fathers created the Supreme Court in Article III of the Constitution of the United States. The most influential role of the Court, however, was defined later through the appeal process, in cases involving the laws of state and local legislatures and Congress.",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        },
+        {
+          "id": "passage-2",
+          "title": "Supplied context passage 2",
+          "collection": "MARCO",
+          "excerpt": "In War and In Peace: The Supreme Court and the Civil War. Marking the 150th anniversary of the Civil War, this exhibition looks at the Supreme Court during this volatile period in American history and the conflict's impact on the institution.",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        },
+        {
+          "id": "passage-3",
+          "title": "Supplied context passage 3",
+          "collection": "MARCO",
+          "excerpt": "Dred Scott Decision summary: Dred Scott was a slave who sought his freedom through the American legal system. The 1857 decision by the United States Supreme Court in the Dred Scott case denied his plea, determining that no Negro, the term then used to describe anyone with African blood, was or could ever be a citizen.",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        }
+      ],
+      "additional_references": [],
+      "prediction": {
+        "claim_id": "16091#0",
+        "claim_text": "The Supreme Court played a significant role during the Civil War era, particularly in the Dred Scott case, which denied a slave's plea for freedom and established that African Americans were not considered citizens.",
+        "sentence_index": 0,
+        "claim_type": 1,
+        "claim_type_name": "entity",
+        "generator_id": 5,
+        "model_id": "llama-2-70b-chat",
+        "model_name": "Llama-2-70B-chat",
+        "prob": 0.4705,
+        "predicted_class": "Likely supported",
+        "w_cross": 0.9089,
+        "w_evid": 0.0911,
+        "z_cross": 0.1054,
+        "z_evid": -0.2793,
+        "signals": {
+          "agree": 0.3974,
+          "contra": 0.0019,
+          "sem_dist": 0.5274,
+          "support": 0.0649,
+          "src_quality": 0.9,
+          "conflict": 0.0053
+        },
+        "cross_n_others": 5,
+        "evidence_source": "context",
+        "evidence_n_passages": 3,
+        "arithmetic_verdict": "unverifiable",
+        "explanation": "entity claim; likely supported (0.47); evidence down-weighted despite its larger raw logit (w_evid 0.09)",
+        "human_span_label": 0,
+        "generation_method": "RCGateModel.predict on this stored signal-table row. Not an official benchmark result."
+      }
+    },
+    {
+      "id": "nash-equilibrium",
+      "topic": "Logic & reasoning",
+      "summary": "A stored question asks how a Nash equilibrium differs from a maximin solution. The recorded answers define the two ideas in different words.",
+      "provenance_label": "RAGTruth QA · source MARCO · source id 12180 · recorded responses",
+      "question": "how does a nash equilibrium differ from a game maximin solution",
+      "source_id": "12180",
+      "task_type": "QA",
+      "dataset_source": "MARCO",
+      "scored_claim_id": "16135#0",
+      "claim_scope": "first_sentence",
+      "responses": [
+        {
+          "generator_id": 0,
+          "model_id": "gpt-4-0613",
+          "model_name": "GPT-4-0613",
+          "response_id": "16134",
+          "claim_id": "16134#0",
+          "text": "Unable to answer based on given passages.",
+          "opening_sentence": "Unable to answer based on given passages.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 1,
+          "provenance": "RAGTruth response.jsonl id 16134",
+          "scored": false
+        },
+        {
+          "generator_id": 1,
+          "model_id": "gpt-3.5-turbo-0613",
+          "model_name": "GPT-3.5-turbo-0613",
+          "response_id": "16135",
+          "claim_id": "16135#0",
+          "text": "A Nash equilibrium is a solution concept in game theory where each player in a game has chosen a strategy that is a best response to the strategies chosen by the other players. In other words, no player has an incentive to unilaterally deviate from their chosen strategy.\n\nOn the other hand, a maximin solution is a strategy that maximizes the minimum payoff for a player in a game. This means that a player chooses a strategy that ensures the highest possible payoff in the worst-case scenario, assuming the other players are playing optimally.\n\nBased on the given passages, it can be inferred that a Nash equilibrium can involve mixed strategies, where players choose their strategies probabilistically, while a maximin solution focuses on the worst-case scenario and does not necessarily involve mixed strategies. However, the passages do not explicitly compare the two concepts, so the answer is not fully conclusive.",
+          "opening_sentence": "A Nash equilibrium is a solution concept in game theory where each player in a game has chosen a strategy that is a best response to the strategies chosen by the other players.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 6,
+          "provenance": "RAGTruth response.jsonl id 16135",
+          "scored": true
+        },
+        {
+          "generator_id": 2,
+          "model_id": "mistral-7B-instruct",
+          "model_name": "Mistral-7B-Instruct",
+          "response_id": "16136",
+          "claim_id": "16136#0",
+          "text": "Unable to answer based on given passages.",
+          "opening_sentence": "Unable to answer based on given passages.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 1,
+          "provenance": "RAGTruth response.jsonl id 16136",
+          "scored": false
+        },
+        {
+          "generator_id": 3,
+          "model_id": "llama-2-7b-chat",
+          "model_name": "Llama-2-7B-chat",
+          "response_id": "16137",
+          "claim_id": "16137#0",
+          "text": "Based on the provided passages, a Nash equilibrium and a game minimax solution are different concepts in game theory. A Nash equilibrium is a concept that describes a stable state where no player can improve their payoff by unilaterally changing their strategy, assuming all other players keep their strategies unchanged. In contrast, a game minimax solution is a specific instance of the Nash theorem that assumes a two-player zero-sum game. It is a profile of strategies that are optimal for both players, given the other player's strategy. The minimax theorem states that if a game has a value, then there exists a mixed strategy equilibrium, which means that every feasible strategy profile leads to an equilibrium outcome. However, not all games necessarily have a mixed strategy Nash equilibrium, as stated in passage 1. Therefore, while both concepts are related to game theory, they are distinct ideas that serve different purposes in analyzing strategic interactions between agents.",
+          "opening_sentence": "Based on the provided passages, a Nash equilibrium and a game minimax solution are different concepts in game theory.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 7,
+          "provenance": "RAGTruth response.jsonl id 16137",
+          "scored": false
+        },
+        {
+          "generator_id": 4,
+          "model_id": "llama-2-13b-chat",
+          "model_name": "Llama-2-13B-chat",
+          "response_id": "16138",
+          "claim_id": "16138#0",
+          "text": "Based on the provided passages, here is how a Nash equilibrium differs from a game minimax solution:\n\nA Nash equilibrium is a set of strategies for each player that no player can improve upon by unilaterally changing their strategy, assuming all other players keep their strategies unchanged. In contrast, a game minimax solution is a strategy that maximizes the minimum payoff that a player can expect to achieve, given the strategies of the other players.\n\nThe main difference between the two concepts is that a Nash equilibrium does not require the existence of a value function or a unique optimal strategy for each player, whereas a game minimax solution is based on the concept of a value function and the optimal strategy for each player.\n\nAccording to Passage 1, a game may have a Nash equilibrium but not have a mixed strategy equilibrium, implying that the concept of a Nash equilibrium is more general than the concept of a mixed strategy equilibrium. Additionally, Passage 3 confirms that a game may not have a mixed strategy Nash equilibrium even if it has a value.\n\nTherefore, a Nash equilibrium is a broader concept that encompasses a range of possible outcomes, while a game minimax solution is a specific instance of a Nash equilibrium that maximizes the minimum payoff for each player.",
+          "opening_sentence": "Based on the provided passages, here is how a Nash equilibrium differs from a game minimax solution:\n\nA Nash equilibrium is a set of strategies for each player that no player can improve upon by unilaterally changing their strategy, assuming all other players keep their strategies unchanged.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 6,
+          "provenance": "RAGTruth response.jsonl id 16138",
+          "scored": false
+        },
+        {
+          "generator_id": 5,
+          "model_id": "llama-2-70b-chat",
+          "model_name": "Llama-2-70B-chat",
+          "response_id": "16139",
+          "claim_id": "16139#0",
+          "text": "A Nash equilibrium differs from a game minimax solution in that the former does not necessarily require the game to have a value, whereas the latter assumes that the game has a value and focuses on finding the optimal strategy that maximizes the payoff for one player while considering the possible moves of the other player. In other words, a Nash equilibrium is a broader concept that can apply to games without a known value, whereas a minimax solution is a specific type of strategy that aims to maximize the payoff in a game with a known value.\n\nTherefore, the main difference between a Nash equilibrium and a game minimax solution is that the former does not assume the existence of a game value, whereas the latter assumes that a game value exists and focuses on finding the optimal strategy to maximize it.",
+          "opening_sentence": "A Nash equilibrium differs from a game minimax solution in that the former does not necessarily require the game to have a value, whereas the latter assumes that the game has a value and focuses on finding the optimal strategy that maximizes the payoff for one player while considering the possible moves of the other player.",
+          "sentence_index": 0,
+          "n_sentences_in_answer": 3,
+          "provenance": "RAGTruth response.jsonl id 16139",
+          "scored": false
+        }
+      ],
+      "sources": [
+        {
+          "id": "passage-1",
+          "title": "Supplied context passage 1",
+          "collection": "MARCO",
+          "excerpt": "If a game has a value, it need not to have a mixed strategy Nash equilibrium. In the Von Neumann's Minimax theorem stated above, it is assumed that, for each player, the set of mixed strategy best responses is nonempty given the other player's mixed strategy.",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        },
+        {
+          "id": "passage-2",
+          "title": "Supplied context passage 2",
+          "collection": "MARCO",
+          "excerpt": "Every finite game has a mixed strategy equilibrium. Now, to me, it seems that the Minimax theorem is simply a specific instance of the Nash theorem, for a two-player zero-sum game (the moment an equilibrium is established, the results concerning the game value follow immediately).",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        },
+        {
+          "id": "passage-3",
+          "title": "Supplied context passage 3",
+          "collection": "MARCO",
+          "excerpt": "add a comment |. up vote 1 down vote. If a game has a value, it need not to have a mixed strategy Nash equilibrium. In the Von Neumann's Minimax theorem stated above, it is assumed that, for each player, the set of mixed strategy best responses is nonempty given the other player's mixed strategy.",
+          "url": null,
+          "used_in_scoring": true,
+          "kind": "supplied_context"
+        }
+      ],
+      "additional_references": [],
+      "prediction": {
+        "claim_id": "16135#0",
+        "claim_text": "A Nash equilibrium is a solution concept in game theory where each player in a game has chosen a strategy that is a best response to the strategies chosen by the other players.",
+        "sentence_index": 0,
+        "claim_type": 1,
+        "claim_type_name": "entity",
+        "generator_id": 1,
+        "model_id": "gpt-3.5-turbo-0613",
+        "model_name": "GPT-3.5-turbo-0613",
+        "prob": 0.4829,
+        "predicted_class": "Likely supported",
+        "w_cross": 0.9329,
+        "w_evid": 0.0671,
+        "z_cross": 0.264,
+        "z_evid": -0.2667,
+        "signals": {
+          "agree": 0.0137,
+          "contra": 0.0283,
+          "sem_dist": 0.488,
+          "support": 0.0875,
+          "src_quality": 0.9,
+          "conflict": 0.0357
+        },
+        "cross_n_others": 5,
+        "evidence_source": "context",
+        "evidence_n_passages": 3,
+        "arithmetic_verdict": "unverifiable",
+        "explanation": "entity claim; likely supported (0.48); evidence down-weighted despite its larger raw logit (w_evid 0.07)",
+        "human_span_label": 0,
+        "generation_method": "RCGateModel.predict on this stored signal-table row. Not an official benchmark result."
+      }
+    }
+  ]
+}

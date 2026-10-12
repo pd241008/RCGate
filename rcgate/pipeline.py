@@ -71,6 +71,7 @@ class RunContext:
             "variant": self.variant,
             "seed": self.seed,
             "split_seed": self.split_seed,
+            "split_method": str(self.cfg.get("data.split_method", "grouped")),
             "git": self.git,
             "config": self.cfg.source.name if self.cfg.source else "inline",
             "table": str(self.table),
@@ -106,7 +107,9 @@ class RunResult:
         return {
             "variant": self.variant,
             "seed": self.seed,
-            "threshold": round(self.threshold, 6),
+            # Exact validation threshold. Rounding to 6 decimals changed
+            # 6.453e-6 into 6e-6 and flipped a test call that sat between them.
+            "threshold": self.threshold,
             "val_auroc": None if np.isnan(self.val_auroc) else round(self.val_auroc, 4),
             "test": self.test.as_dict(),
             "fit_info": self.fit_info,
@@ -128,10 +131,30 @@ def load_table(path: str | Path) -> pd.DataFrame:
 
 
 def make_split(df: pd.DataFrame, ctx: RunContext):
-    """Grouped split by ``question_id``. The split seed varies, the model seed varies."""
-    from .data.splits import grouped_split
+    """Build the question-grouped split for one run.
 
-    return grouped_split(df, seed=int(ctx.split_seed or ctx.seed))
+    ``data.split_method`` defaults to ``grouped``, the historical sort-then-permute
+    splitter, so a config that does not set the key keeps the published splits.
+    ``group_stratified`` is the Stage 6 construction. The model seed is unchanged
+    either way: both splitters draw from their own ``Generator`` and do not touch
+    the global NumPy or torch state that ``RunContext.start`` just set.
+    """
+    from .data.splits import (
+        SPLIT_GROUP_STRATIFIED,
+        SPLIT_GROUPED,
+        group_stratified_split,
+        grouped_split,
+    )
+
+    method = str(ctx.cfg.get("data.split_method", SPLIT_GROUPED))
+    seed = int(ctx.split_seed or ctx.seed)
+    if method == SPLIT_GROUPED:
+        return grouped_split(df, seed=seed)
+    if method == SPLIT_GROUP_STRATIFIED:
+        return group_stratified_split(df, seed=seed)
+    raise ValueError(
+        f"unknown data.split_method {method!r}; expected {SPLIT_GROUPED!r} or {SPLIT_GROUP_STRATIFIED!r}"
+    )
 
 
 def fit_variant(ctx: RunContext, df: pd.DataFrame | None = None, split=None) -> RunResult:

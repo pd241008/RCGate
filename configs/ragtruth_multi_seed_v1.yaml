@@ -1,0 +1,14 @@
+extends: ragtruth_split_corrected_v1.yaml
+
+# Stage 7: 20-seed robustness of the Stage 6 group-stratified split.
+#
+# The fit table is the frozen seed-0 corrected table for every split seed.
+# The path has no {seed} placeholder, so a run cannot build s3..s19.
+# Hyperparameters, variants, signals, and the validation threshold rule are inherited.
+# Results go to a new tag. Stage 4, Stage 5, and Stage 6 directories are not outputs.
+report:
+  tag: ragtruth_multi_seed_v1
+
+data:
+  split_method: group_stratified
+  table: "data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet"
