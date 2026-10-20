@@ -25,6 +25,7 @@ Protocols differ. A cell from one protocol is not pooled with a cell from anothe
 | [`results/summary/ragtruth_factorial_seed_v1/seed_metrics.csv`](../results/summary/ragtruth_factorial_seed_v1/seed_metrics.csv) | Per-cell metrics |
 | [`results/summary/ragtruth_factorial_seed_v1/paired_deltas.csv`](../results/summary/ragtruth_factorial_seed_v1/paired_deltas.csv) | Paired AUROC differences |
 | [`results/summary/ragtruth_factorial_seed_v1/provenance.json`](../results/summary/ragtruth_factorial_seed_v1/provenance.json) | Run provenance, including the recorded git HEAD |
+| [`docs/RC-Gate_Stage8_Reproduction_Note.md`](RC-Gate_Stage8_Reproduction_Note.md) | Later check of that provenance against commit `6d3ef70` and the local artifacts. It does not replace the run record |
 
 ## Corrected integrity and statistical reports
 

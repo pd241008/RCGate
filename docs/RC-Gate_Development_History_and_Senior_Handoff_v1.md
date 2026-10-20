@@ -12,7 +12,17 @@ Three kinds of statement are kept apart:
 
 This document does not replace [`RC-Gate_Final_Research_Report_v1.md`](RC-Gate_Final_Research_Report_v1.md). That report remains the scientific record. This file is the map of how the repository got there, plus the Git and application handoff.
 
-No branch was created. Nothing was committed, pushed, reset, cleaned, or deleted. No model was trained. No benchmark was refit. Existing research reports were not edited.
+When this handoff was written on 10 October 2026, no branch had been created and nothing had been committed, pushed, reset, cleaned, or deleted. No model was trained. No benchmark was refit. Existing research reports were not edited. The tree checked at commit `6d3ef70` is in the status section below. This documentation commit does not change the hashed fit sources and does not move `main`.
+
+## Repository status on 20 October 2026
+
+Checked with `git status`, `git rev-parse HEAD`, `git branch -vv`, `git ls-files -o --exclude-standard`, and `git check-ignore -v`. This section does not replace the 10 October inventory later in the document.
+
+- On 20 October 2026, before this documentation commit, branch `review/rcgate-handoff-v1` and `origin/review/rcgate-handoff-v1` were both at `6d3ef709367d55a27a413477c624fc9f96a215ce` (`6d3ef70`), message `Record the RC-Gate integrity repairs, Stage 8 findings, and offline research studio.`
+- `main` was, and remains, `47090018414f657bca8e5a43e97663feba2e5a7d`. A clone of `main` still has the milestone tree only.
+- At the start of this check, no tracked file was modified. `git ls-files -o --exclude-standard` listed 2,628 untracked files, all under the Stage 4–8 result directories named in [`docs/RC-Gate_Stage8_Reproduction_Note.md`](RC-Gate_Stage8_Reproduction_Note.md). `git status --porcelain` collapses them to 732 lines.
+- The committed `.gitignore` rule `node_modules/` ignores both the repository-root `node_modules/` directory and `frontend/node_modules/`. Both directories are on disk. Neither is tracked. `node_modules/.vitest/.vitest-secret-token` matches that rule and is not staged.
+- The twelve source hashes in Stage 8 `provenance.json` match the files in `6d3ef70`. The 480 fits were not rerun. Exact reproduction from Git alone is not established. The limits are in the reproduction note.
 
 ## 2. Executive summary
 
@@ -24,7 +34,7 @@ The repairs were real. Sentence boundaries had been merged by a non-strict align
 
 A read-only look at the official RAGTruth files, recorded in the final report, found that a generator-by-claim-type reliability surface is not adequately identified under a pre-stated support rule. This audit rechecked the file sizes, row counts, task counts, and SHA-256 hashes of the local JSONL files and the seed-0 signal table. It did not re-derive the sentence-level generator-by-type grid. No full-scale QA experiment was run.
 
-The current application is a local offline Research Studio: a Python API on `127.0.0.1:8765` and a React/Vite page. It browses the RAGTruth files on disk and can score a stored sentence from one saved checkpoint. It does not call a model provider. A clean clone of `main` cannot run that studio. The raw JSONL files, the corrected signal table, the checkpoint, and the local NLI and embedding weights are absent from Git.
+The current application is a local offline Research Studio: a Python API on `127.0.0.1:8765` and a React/Vite page. It browses the RAGTruth files on disk and can score a stored sentence from one saved checkpoint. It does not call a model provider. A clean clone of `main` cannot run that studio, because `main` does not contain the studio. A clone of `review/rcgate-handoff-v1` at `6d3ef70` contains the studio source and still cannot browse or score until the local files in Section 15 are present. The raw JSONL files, the corrected signal table, the checkpoint, and the local NLI and embedding weights are absent from Git.
 
 GitHub Desktop’s large change count is the expanded untracked tree. Measured on 10 October 2026:
 
@@ -41,6 +51,8 @@ GitHub Desktop’s large change count is the expanded untracked tree. Measured o
 | Tracked files | 348 |
 
 Collapsed `git status --short` prints about 50 lines because Git hides the contents of untracked directories. GitHub Desktop expands them. The bulk is one config, one metrics file, one checkpoint, and often one predictions table per fitted cell, not 2,000 hand-edited source files.
+
+That table is the 10 October working tree, before commit `6d3ef70`. The 20 October status section records the branch that now contains the source.
 
 **Immediate recommendation.** Freeze the current interface. Do not start another fit on this 800-sentence slice unless the question is narrower than “can we make A7’s AUROC higher?” Publication readiness has not been established.
 
@@ -112,7 +124,7 @@ The inherited reproducibility problems that later stages actually addressed were
 
 Filesystem modification times order the result reports on 9 October 2026 (Stage 4 verdict 00:57, Stage 5 report 01:27, Stage 6 report 01:51, Stage 7 report 10:25, Stage 8 report 11:14) and the final report at 08:55 on 10 October 2026. Many application files share a later timestamp of 22:13 on 10 October 2026, so that clock does not by itself order the interface stages. Stage 8’s own `provenance.json` records a dirty tree that already contained the integrity, statistics, split, and factorial modules, and records that checking out HEAD alone does not reproduce the run. The studio, frontend, fixtures, and the two new docs are not in that provenance snapshot’s porcelain list, so they were added after that snapshot was written.
 
-Stages 9 and 10 have no standalone Markdown file in Git. The experiment index names two local canvases outside the repository, `rcgate-novelty-audit.canvas.tsx` and `ragtruth-feasibility.canvas.tsx`. This audit confirmed that both files exist on this machine under the Cursor project canvases directory. They are not Git-tracked. The numbers below for those stages are the final report’s numbers. This audit did not re-read the canvases as an independent literature or feasibility review. No conversation transcripts were recovered.
+Stages 9 and 10 have no standalone Markdown file in Git. The experiment index names two local canvases outside the repository, `rcgate-novelty-audit.canvas.tsx` and `ragtruth-feasibility.canvas.tsx`. This audit confirmed that both files exist on this machine under the Cursor project canvases directory. They are not Git-tracked. The numbers below for those stages are the final report’s numbers. This audit did not re-read the canvases as an independent literature or feasibility review. No conversation transcripts were recovered. Phrases such as “unstaged” in the table describe the tree before commit `6d3ef70`. Those source files are in that commit.
 
 | Stage | Objective | Main findings | Exact changes | Evidence files | Outcome and remaining work |
 | --- | --- | --- | --- | --- | --- |
@@ -207,7 +219,7 @@ Neither application generates new model answers.
 
 Historical claim-type counts and any AUROC that depended on the old entity strings are historical. The original result directory was not overwritten. [`results/summary/ragtruth_historical_freeze/MANIFEST.json`](../results/summary/ragtruth_historical_freeze/MANIFEST.json) says its purpose is an immutable record of the RAGTruth result before the integrity corrections, and it points at the already tracked `results/summary/ragtruth/` directory.
 
-The code changes that implement the repair are unstaged modifications of `rcgate/claims/dealias.py`, `rcgate/data/ragtruth.py`, `rcgate/data/build.py`, and `rcgate/data/__init__.py`, plus new `tests/test_dealias.py` and extensions of `tests/test_ragtruth.py`.
+The code changes that implement the repair are in commit `6d3ef70`: `rcgate/claims/dealias.py`, `rcgate/data/ragtruth.py`, `rcgate/data/build.py`, and `rcgate/data/__init__.py`, plus `tests/test_dealias.py` and the extensions of `tests/test_ragtruth.py`. On 10 October those edits were still unstaged.
 
 ## 8. Statistical and split methodology repairs
 
@@ -404,7 +416,7 @@ If the API is not running, the library view says “The local question library i
 
 ## 15. Dataset, model-resource, and offline requirements
 
-A reviewer who clones `main` at `4709001` and does not receive the working tree gets the milestone code and the original tracked summaries. They do not get the integrity repairs, the Stage 4–8 reports, the studio, or the frontend.
+A reviewer who clones `main` at `4709001` and does not receive the working tree gets the milestone code and the original tracked summaries. They do not get the integrity repairs, the Stage 4–8 reports, the studio, or the frontend. A reviewer who clones `review/rcgate-handoff-v1` at `6d3ef70` gets that source and the tracked Stage 4–8 reports. The local data and weights below are still required. Record browsing needs the two JSONL files and the seed-0 parquet. Precomputed scoring also needs `results/summary/ragtruth_factorial_seed_v1/A7_split0_model0/model.joblib`. On-demand scoring of any other sentence also needs the local NLI and embedding snapshots named in the README. The reproduction note lists the same paths and the checks that were run against them.
 
 A reviewer who receives the source tree but not the local data still cannot run the studio. These paths are required on disk and are not in a clean clone:
 
@@ -415,7 +427,8 @@ A reviewer who receives the source tree but not the local data still cannot run 
 | Studio checkpoint | `results/summary/ragtruth_factorial_seed_v1/A7_split0_model0/model.joblib` | Untracked | part of the Stage 8 tree |
 | NLI and embedding weights | `.cache/models/hub/` snapshots for `nli-deberta-v3-small` and `all-MiniLM-L6-v2` | Ignored by `.cache/` | inside the 685 MB `.cache` directory |
 | Python environment | `.venv/` | Ignored | 1.2 GB |
-| Frontend packages | `frontend/node_modules/` | Ignored once the unstaged `.gitignore` lines are kept | 103 MB |
+| Frontend packages | `frontend/node_modules/` | Ignored by the committed `node_modules/` rule. The directory is on disk and is not tracked | 103 MB |
+| Accidental root install | `node_modules/` | Ignored by the same committed rule, including `.vitest/.vitest-secret-token` | 244 KB on 10 October |
 
 `python -m rcgate.demo.fixtures` needs the same raw files, the seed-0 table, and the checkpoint in order to rewrite `scenarios.json`. The checked-in copy of that JSON, once it is shared, lets the frontend unit tests import three scenarios without rebuilding them. It does not let the corpus browser run.
 
@@ -425,11 +438,15 @@ Do not push the raw dataset or the model weights merely to make a clone easier t
 
 **What exists in the tree.** New or extended tests cover de-aliasing, sentence alignment, grouped bootstrap labelling, the group-stratified splitter, the multi-seed and factorial helpers, demo generator identity and checkpoint provenance, the three-scenario fixture, and the studio catalog, scoring, and HTTP handlers. Frontend tests cover playback, fusion against the fixture, layout, and the app shell. Commands are `pytest` (dev extra), `ruff`, `npm test`, and `npm run lint`.
 
-**What this handoff did not do.** It did not re-run pytest, ruff, vitest, the TypeScript check, or the production build. It did not open the studio in a browser. A green test log from an earlier session is not stored as a file this audit could read. The existence of the tests is verified. Their latest pass is not.
+**What this handoff did not do.** On 10 October it did not re-run pytest, ruff, vitest, the TypeScript check, or the production build. It did not open the studio in a browser. A green test log from an earlier session is not stored as a file this audit could read.
+
+**Checked on 20 October 2026.** `.venv/bin/pytest -q` exited 0: 317 tests, with three pre-existing warnings (a non-writable NumPy tensor, a loky core-count fallback, and a torch.jit.script deprecation). `ruff check tests/test_stage8_record.py` exited 0. A full-tree ruff run was not part of this check. In `frontend/`, `npm test` passed 10 tests, `npm run lint` (`tsc --noEmit`) exited 0, and `npm run build` exited 0. The studio was not opened in a browser.
 
 **Screenshots.** The repository contains historical result plots (`results/summary/ragtruth.gate_weights.png`, `synthetic.gate_weights.png`, the Stage 4 `report.gate_weights.png`, and two smoke-test plots). It does not contain Research Studio screenshots. A reviewer cannot see the visual verification from Git.
 
 ## 17. Complete file-change inventory and Git audit
+
+The counts in this section are the 10 October 2026 audit, before commit `6d3ef70`. They are not the branch state recorded in the 20 October status section.
 
 Commands actually run for this section included `git status`, `git status --short`, `git status --short -uall`, `git status --ignored --short -uall`, `git diff --stat`, `git diff --numstat`, `git diff --check`, `git diff` on `.gitignore` and the three status-note files, `git branch -vv`, `git branch -a`, `git log`, `git ls-files`, `git check-ignore -v`, and `git remote -v`. `git diff --check` exited 0. There were no whitespace errors in the tracked diff.
 
@@ -500,7 +517,7 @@ Ignored files are mostly `.venv` (32,761), `.cache` (10,087), and `frontend/node
 
 ### Category classification
 
-**A. Required application source.** The 17 modified Python and documentation files that are real code or status notes, plus 12 new Python modules, `scripts/dev_studio.sh`, and 33 frontend source and config files. Tracked once committed. Currently unstaged or untracked.
+**A. Required application source.** The 17 modified Python and documentation files that are real code or status notes, plus 12 new Python modules, `scripts/dev_studio.sh`, and 33 frontend source and config files. On 10 October they were unstaged or untracked. Commit `6d3ef70` tracks them.
 
 **B. Tests.** 7 new test modules, plus the three modified test files. Small. Required with the source.
 
@@ -560,7 +577,7 @@ node_modules/
 
 **Incomplete**
 
-- The working tree is uncommitted. HEAD alone does not reproduce Stage 8, as `provenance.json` already says.
+- Exact reproduction of the 480 Stage 8 fits from Git is not established. The hashed fit sources match `6d3ef70`. The signal table and per-cell checkpoints remain outside the commit. [`docs/RC-Gate_Stage8_Reproduction_Note.md`](RC-Gate_Stage8_Reproduction_Note.md) records the check.
 - Official-split evaluation was not run.
 - A8 was not run.
 - Generator-by-type AUROC on the full QA file was not fit.
@@ -609,7 +626,7 @@ The scientific roadmap starts from a named uncertainty and a fair baseline. It d
 | C2 | Test the interaction of claim type, generator family, and signal reliability with the matched flat baseline | That interaction is the content of H1 | Large | C1 or an explicit subset | H1 | A flat model that captures the same interaction removes the reason for the constrained gate |
 | C3 | Change the architecture only after C1 or B2 identifies a failure the current gate cannot express | An architecture change now would be aimed at the same under-identified slice | Unknown | A precise negative result | Whether the loss is the metadata-only constraint or the data | Do not treat a higher AUROC from tuning as a new scientific result |
 
-**Engineering notes that are not experiments.** The milestone `make` targets remain the old pipeline. Dependency installation is `pip install -e ".[dev,demo]"` and `npm install` inside `frontend/`. Reproducibility from Git requires the uncommitted source plus the local data and at least the cited checkpoints. Branch hygiene is Section 23.
+**Engineering notes that are not experiments.** The milestone `make` targets remain the old pipeline. Dependency installation is `pip install -e ".[dev,demo]"` and `npm install` inside `frontend/`. A clone of `6d3ef70` contains the hashed Stage 8 fit sources and the tracked summaries. Reproducing the 480 fits still requires the local signal table, and that rerun has not been verified. The limits are in [`docs/RC-Gate_Stage8_Reproduction_Note.md`](RC-Gate_Stage8_Reproduction_Note.md). Branch hygiene is Section 23.
 
 **Not recommended.** Broad hyperparameter tuning to improve A7’s AUROC on this slice. Another 20-seed fit on the same 800 sentences without a new question. Presenting the synthetic recovery as evidence about real generators.
 
@@ -637,7 +654,7 @@ Share one review branch plus this document. Do not send 2,000 files as individua
 
 | # | Material | Why |
 | --- | --- | --- |
-| 1 | The review-branch URL, after the branch exists | One controlled snapshot. It does not exist yet. Creating it is a later step |
+| 1 | Branch `review/rcgate-handoff-v1` | The implementation check was made at `6d3ef70`, then the tip of that branch and of `origin/review/rcgate-handoff-v1`. `main` remains `4709001`. This documentation commit is a descendant of `6d3ef70` |
 | 2 | This handoff, `docs/RC-Gate_Development_History_and_Senior_Handoff_v1.md` | The map |
 | 3 | [`docs/RC-Gate_Final_Research_Report_v1.md`](RC-Gate_Final_Research_Report_v1.md) | The scientific record |
 | 4 | [`docs/RC-Gate_Experiment_Index.md`](RC-Gate_Experiment_Index.md) | Which file is current |
@@ -656,7 +673,7 @@ The preserved proposal, user guide, and initial draft may be included on the bra
 
 ### Can a reviewer run the studio from a clean clone?
 
-No. A clone of current `main` lacks the uncommitted source. A clone of a future branch that contains the source still lacks:
+No. A clone of `main` at `4709001` lacks the studio source. A clone of `review/rcgate-handoff-v1` at `6d3ef70` contains the source and still lacks:
 
 - `data/raw/ragtruth/response.jsonl` and `source_info.jsonl`
 - `data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet`
@@ -680,9 +697,9 @@ Without the JSONL files the API cannot build the library. Without the parquet, p
 
 **Recommended branch name:** `review/rcgate-handoff-v1`
 
-Create it later from the current `main` worktree so the uncommitted files come along. Do not create it from a clean checkout of `4709001`. That checkout does not contain this work.
+That branch exists. Commit `6d3ef709367d55a27a413477c624fc9f96a215ce` is on it and on `origin/review/rcgate-handoff-v1`. On 20 October 2026 that commit was the tip. This documentation commit is a descendant of it. The commands below are the 10 October procedure. They were not run while this handoff was first written. They are not the next action, and creating the branch again from a later worktree would duplicate it.
 
-The commands below are the intended later procedure. They were not run for this handoff.
+The procedure was written to be run later from the then-current `main` worktree so the uncommitted files would come along. A clean checkout of `4709001` still does not contain this work.
 
 ```bash
 # From the repository root, with the current working tree intact.
@@ -732,7 +749,7 @@ Do not open the pull request against a force-push of `main`. The review branch s
 
 ## 24. Risks, caveats, and unresolved questions
 
-- **Dirty tree at the principal experiment.** Stage 8 provenance says HEAD alone does not reproduce the run. That is still true.
+- **Stage 8 provenance.** `provenance.json` records a dirty tree at `47090018414f657bca8e5a43e97663feba2e5a7d` and says that HEAD alone does not reproduce the run. That remains true for `main`. On `6d3ef70` the twelve hashed fit sources match the provenance digests. Unhashed dirty-tree files have no stored run-time digest, the table was not rebuilt, and the 480 fits were not rerun. See [`docs/RC-Gate_Stage8_Reproduction_Note.md`](RC-Gate_Stage8_Reproduction_Note.md).
 - **One question pool.** Twenty splits are repeated partitions of 134 questions. Training sentences overlap across splits.
 - **First-sentence prefix.** Every evaluated claim is sentence index 0. Later sentences in the answers were not the fitted sample.
 - **Mixed tasks.** The 800-row table is 402 QA and 398 Summary. Recent News is absent. Data-to-text was not in the fit.
@@ -744,8 +761,8 @@ Do not open the pull request against a force-push of `main`. The review branch s
 - **Synthetic plant.** Recovery is not evidence about real generators.
 - **Literature scope.** Stage 9 is not a systematic review. Several citations remain unresolved in the final report.
 - **Canvases outside Git.** Stages 9 and 10, and an integrity canvas, are local Cursor files. They can disappear without the repository noticing. The Git record is the final report.
-- **No stored UI screenshots and no fresh test run in this handoff.**
-- **GitHub Desktop count.** The expanded untracked count is 2,727, not the collapsed status of about 50 lines. Almost all of the expanded count is the result archive.
+- **No stored UI screenshots.** The 20 October test commands are in Section 16. The studio was not opened in a browser.
+- **GitHub Desktop count.** On 10 October the expanded untracked count was 2,727, not the collapsed status of about 50 lines. On 20 October, after `6d3ef70`, `git ls-files -o --exclude-standard` listed 2,628 untracked files, all result artifacts. `git status --porcelain` showed 732 collapsed lines.
 - **Accidental root `node_modules`.** The directory remains on disk and is ignored. Its `.vitest-secret-token` is not staged. Generated dependencies are not included in the review branch.
 - **Preserved documents disagree with the repository.** The status notes and the final report, Section 8.5, are the warning. The original sentences were kept on purpose.
 - **Historical A8 metrics** contain an old absolute filesystem path. It is not a secret. It is a reminder that inherited artifacts carry the machine they were written on.
@@ -759,6 +776,8 @@ Unresolved questions that are scientific rather than clerical:
 This audit does not answer those questions.
 
 ## 25. Appendix: claims, artifacts, and Git state
+
+The rows below are the 10 October 2026 checks. The 20 October branch state and the Stage 8 hash check are in the status section and in [`docs/RC-Gate_Stage8_Reproduction_Note.md`](RC-Gate_Stage8_Reproduction_Note.md).
 
 | Claim | Where it was checked | Git state of that artifact |
 | --- | --- | --- |
@@ -796,5 +815,5 @@ Checked while writing:
 
 - Conversation transcripts. None were opened.
 - The local canvases. Their presence was confirmed. Their contents were not used as a second source of experimental numbers.
-- A fresh pytest, ruff, vitest, or browser pass. Not run.
+- A fresh pytest, ruff, vitest, or browser pass was not part of the 10 October audit. The 20 October check in Section 16 ran pytest, the new-file ruff check, vitest, `tsc --noEmit`, and the production build. It did not open the studio in a browser, and it did not run ruff on the whole tree.
 - A re-derivation of the official QA sentence grid or of the 30/15 cell counts.

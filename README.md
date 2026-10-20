@@ -84,30 +84,34 @@ make m7        # glass-box demo, headless verification
 
 The `make` targets reproduce the milestone pipeline. They do not replace the Stage 8 protocol, and they do not establish the headline results above. Signal extraction is cached. NLI and embeddings run on CPU.
 
+Install the page from `frontend/` (`npm install`). That creates `frontend/node_modules/`. A `node_modules/` directory at the repository root, if one is present, is an accidental install. The committed `.gitignore` rule `node_modules/` ignores it at any depth, including `frontend/node_modules/` and `node_modules/.vitest/.vitest-secret-token`. Those directories stay on disk and are not tracked.
+
 ## Local files the Research Studio needs
 
 A clean clone does not contain these paths, and this repository does not download them. The startup commands above are sufficient only after the files are already on disk.
 
-`python -m rcgate.studio` reads three files before it can browse the library (`rcgate/studio/catalog.py`):
+Record browsing, precomputed scoring, and on-demand scoring need different local files. `python -m rcgate.studio` reads three files before it can browse the library (`rcgate/studio/catalog.py`):
 
 - `data/raw/ragtruth/response.jsonl`
 - `data/raw/ragtruth/source_info.jsonl`
 - `data/signal_tables/ragtruth_corrected_integrity_v1_s0.parquet`
 
-Without those three, the library API does not start. The how-it-works, research, and glossary pages are static and do not need the API.
+Without those three, the library API does not start. The how-it-works, research, and glossary pages are static and do not need the API. `data/raw/` and `data/signal_tables/` are gitignored, so a clone does not contain the JSONL files or the signal table.
 
 Scoring a sentence whose features are already in that seed-0 table also needs:
 
 - `results/summary/ragtruth_factorial_seed_v1/A7_split0_model0/model.joblib`
 
-That checkpoint is one Stage 8 cell, not the Stage 8 mean. Those stored rows do not need the NLI or embedding weights.
+That checkpoint is one Stage 8 cell (split seed 0, model seed 0), not the Stage 8 mean. It is untracked. Those stored rows do not need the NLI or embedding weights.
 
 Scoring any other sentence calculates features on this machine. That path needs the same checkpoint plus local weight snapshots under `.cache/models/hub/`:
 
 - `models--cross-encoder--nli-deberta-v3-small`
 - `models--sentence-transformers--all-MiniLM-L6-v2`
 
-Each snapshot must contain a `.safetensors` or `.bin` file. If either snapshot is missing, the API leaves that sentence unscored and does not invent features. Stored answers can still be read. `python -m rcgate.demo.fixtures` needs the same three library files and the checkpoint in order to rebuild `demo_fixtures/scenarios.json`.
+Each snapshot must contain a `.safetensors` or `.bin` file. `.cache/` is gitignored. The weight files are third-party snapshots and are not part of this repository. If either snapshot is missing, the API leaves that sentence unscored and does not invent features. Stored answers can still be read. `python -m rcgate.demo.fixtures` needs the same three library files and the checkpoint in order to rebuild `demo_fixtures/scenarios.json`.
+
+What commit `6d3ef70` does and does not reproduce is recorded in [`docs/RC-Gate_Stage8_Reproduction_Note.md`](docs/RC-Gate_Stage8_Reproduction_Note.md).
 
 ## Repository layout
 
@@ -131,6 +135,7 @@ DECISIONS.md          # milestone judgment log (historical; see the final report
 | --- | --- |
 | [Final research report](docs/RC-Gate_Final_Research_Report_v1.md) | current scientific account |
 | [Experiment index](docs/RC-Gate_Experiment_Index.md) | which result file to cite |
+| [Stage 8 reproduction note](docs/RC-Gate_Stage8_Reproduction_Note.md) | what was verified about the Stage 8 commit, inputs, and local artifacts |
 | [DECISIONS.md](DECISIONS.md) | milestone log; earlier numbers there are historical |
 | [docs/adr/](docs/adr/) | metadata-only gate, logit fusion, four claim types, span-overlap labelling, blocked benchmarks, compute-cache split |
 | [docs/postmortems/rcgate/](docs/postmortems/rcgate/) | stale-table reuse, the original M6 negative, an inverted explanation line |
