@@ -50,7 +50,7 @@ m3:
 
 m4:
 	python -m rcgate.evaluate --config $(CONFIG_SYNTH) --bootstrap $(BOOTSTRAP)
-	@echo "M4 ok: results/summary/$(CONFIG_SYNTH).md + JSON twin + gate heatmap written."
+	@echo "M4 ok: results/summary/$(CONFIG_SYNTH).md + JSON twin + results/tables/*.tex + results/figures/*.pdf written."
 
 m5:
 	python -m rcgate.data.build --config $(CONFIG_RAG)

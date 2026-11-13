@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rcgate.local/pilot/annotation-schema-proposal-v0.json",
+  "title": "RC-Gate pilot annotation export proposal",
+  "description": "Proposal derived from RCGate_Annotation_Protocol_v0_1.md. Not a frozen codebook. Labels are restricted to the codebook enumerations. Edges are pairwise and may be partial, directed, and non-transitive. UNKNOWN values are stored explicitly. source_origin_family_id is optional and must stay null when origin is DEPENDENCE_RELATION_UNKNOWN. This schema does not define clusters and does not ask a tool to close edges under transitivity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "codebook_version",
+    "claims",
+    "passages",
+    "evidence_fragments",
+    "evidence_sets",
+    "raw_annotations",
+    "edges"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "rcgate-annotation-proposal-0.1"
+    },
+    "codebook_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Version string of RCGate_Annotation_Protocol. Scored exports wait until that codebook is frozen."
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/claim" }
+    },
+    "passages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/passage" }
+    },
+    "evidence_fragments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidence_fragment" }
+    },
+    "evidence_sets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidence_set" }
+    },
+    "raw_annotations": {
+      "type": "array",
+      "description": "One object per annotator per unit. These objects are immutable. Adjudication lives in adjudications and must not replace these objects.",
+      "items": { "$ref": "#/$defs/raw_annotation" }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Typed relations between evidence fragments. Absence of an edge is not a label. Pairs that are in scope and unresolved are stored with UNKNOWN / UNKNOWN_LINEAGE / DEPENDENCE_RELATION_UNKNOWN. Multiple edges may touch one fragment. Do not infer an edge because a path exists.",
+      "items": { "$ref": "#/$defs/edge" }
+    },
+    "adjudications": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/adjudication" }
+    }
+  },
+  "$defs": {
+    "claim_truth": {
+      "enum": ["TRUE", "FALSE", "UNRESOLVED", "TIME_DEPENDENT_OR_AMBIGUOUS"]
+    },
+    "stance": {
+      "enum": ["ENTAILS_OR_ASSERTS", "CONTRADICTS", "NEITHER", "MIXED"]
+    },
+    "evidence_set_status": {
+      "enum": ["ADEQUATE_SUPPORT", "ADEQUATE_REFUTATION", "INSUFFICIENT", "CONFLICTING"]
+    },
+    "text_relation": {
+      "enum": [
+        "EXACT_REUSE",
+        "NEAR_VERBATIM_REUSE",
+        "PARAPHRASED_REUSE",
+        "TOPICALLY_SIMILAR_NO_REUSE_EVIDENCE",
+        "DISIMILAR_OR_UNRELATED",
+        "UNKNOWN"
+      ]
+    },
+    "lineage_edge_type": {
+      "enum": [
+        "COPIED_OR_SYNDICATED_FROM",
+        "QUOTES_OR_CITES",
+        "ATTRIBUTED_TO_OR_REPORTED_FROM",
+        "SHARES_PRIMARY_ARTIFACT_OR_DATASET",
+        "INDEPENDENT_COLLECTION_EVIDENCED",
+        "PARTIAL_OR_MIXED_LINEAGE",
+        "UNKNOWN_LINEAGE"
+      ]
+    },
+    "origin_relation": {
+      "enum": [
+        "SAME_UNDERLYING_ORIGIN",
+        "SHARED_ORIGIN_WITH_ADDED_INDEPENDENT_COMPONENT",
+        "INDEPENDENT_ORIGIN_EVIDENCED",
+        "DEPENDENCE_RELATION_UNKNOWN",
+        "MULTIPLE_ORIGINS_OR_CONFLICT"
+      ]
+    },
+    "origin_confidence": {
+      "enum": ["HIGH", "MEDIUM", "LOW"]
+    },
+    "condition_id": {
+      "enum": [
+        "BASE",
+        "NATURALISTIC_DEPENDENT",
+        "CONTROLLED_DEPENDENT",
+        "TOPICAL_PLACEBO",
+        "INDEPENDENT_CORROBORATION",
+        "SIMILAR_BUT_INDEPENDENT"
+      ],
+      "description": "Codebook §2. Protocol strings DEPENDENT_ADD_CONTROLLED and TOPICAL_PLACEBO_CONTROL are not included. Map them before annotation rather than extending this enum silently. Any further condition must be written into the codebook first; this proposal does not allow free-string conditions."
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "claim_family_id",
+        "claim_text",
+        "reference_time",
+        "claim_truth",
+        "truth_rationale"
+      ],
+      "properties": {
+        "claim_id": { "type": "string", "minLength": 1 },
+        "claim_family_id": { "type": "string", "minLength": 1 },
+        "claim_text": { "type": "string", "minLength": 1 },
+        "reference_time": { "type": "string", "minLength": 1 },
+        "reference_timezone": { "type": ["string", "null"] },
+        "scope_note": { "type": "string" },
+        "claim_truth": { "$ref": "#/$defs/claim_truth" },
+        "truth_rationale": { "type": "string", "minLength": 1 },
+        "supporting_artifact": { "type": ["string", "null"] },
+        "refuting_artifact": { "type": ["string", "null"] },
+        "partition": {
+          "enum": ["calibration", "development", "pilot"],
+          "description": "calibration items are excluded from scored metrics. This field is a bookkeeping tag from the pilot protocol, not a codebook label."
+        }
+      }
+    },
+    "passage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passage_id", "passage_text_sha256"],
+      "properties": {
+        "passage_id": { "type": "string", "minLength": 1 },
+        "passage_url": { "type": ["string", "null"] },
+        "archive_id_or_hash": { "type": ["string", "null"] },
+        "published_at": { "type": ["string", "null"] },
+        "updated_at": { "type": ["string", "null"] },
+        "publisher": { "type": ["string", "null"] },
+        "author": { "type": ["string", "null"] },
+        "passage_text_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "cited_sources": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "evidence_fragment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_fragment_id", "passage_id", "claim_id"],
+      "properties": {
+        "evidence_fragment_id": { "type": "string", "minLength": 1 },
+        "passage_id": { "type": "string", "minLength": 1 },
+        "claim_id": { "type": "string", "minLength": 1 },
+        "span_start": { "type": ["integer", "null"], "minimum": 0 },
+        "span_end": { "type": ["integer", "null"], "minimum": 0 },
+        "fragment_text_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "evidence_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_set_id", "claim_id", "condition_id", "passage_ids"],
+      "properties": {
+        "evidence_set_id": { "type": "string", "minLength": 1 },
+        "claim_id": { "type": "string", "minLength": 1 },
+        "condition_id": { "$ref": "#/$defs/condition_id" },
+        "passage_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "order_seed": { "type": ["string", "null"] },
+        "passage_order": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Permutation applied for this condition. Stored so order can be replayed. Not a label."
+        },
+        "exclusion_reason": {
+          "type": ["string", "null"],
+          "description": "Free text citing codebook §11. The codebook does not define a code list. Empty means not excluded. Do not delete excluded sets."
+        },
+        "primary_contrast_eligible": {
+          "type": ["boolean", "null"],
+          "description": "True only when annotators judge the gold evidence-set status unchanged and the required origin relation is known. Bookkeeping from codebook §11, decided before model output."
+        }
+      }
+    },
+    "raw_annotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "annotator_id",
+        "annotation_version",
+        "claim_id",
+        "target_type",
+        "target_id"
+      ],
+      "properties": {
+        "annotator_id": { "type": "string", "minLength": 1 },
+        "annotation_version": { "type": "string", "minLength": 1 },
+        "claim_id": { "type": "string", "minLength": 1 },
+        "target_type": {
+          "enum": ["claim_truth", "passage_stance", "evidence_set_status", "edge"]
+        },
+        "target_id": { "type": "string", "minLength": 1 },
+        "claim_truth": { "$ref": "#/$defs/claim_truth" },
+        "truth_rationale": { "type": "string" },
+        "claim_passage_stance": { "$ref": "#/$defs/stance" },
+        "evidence_set_status": { "$ref": "#/$defs/evidence_set_status" },
+        "evidence_set_rationale": { "type": "string" },
+        "domain_standard_citation": { "type": "string" },
+        "minutes": { "type": ["number", "null"], "minimum": 0 }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edge_id",
+        "claim_id",
+        "evidence_fragment_id_from",
+        "evidence_fragment_id_to",
+        "text_relation",
+        "lineage_edge_types",
+        "origin_relation",
+        "origin_confidence",
+        "origin_rationale",
+        "annotator_id",
+        "annotation_version"
+      ],
+      "properties": {
+        "edge_id": { "type": "string", "minLength": 1 },
+        "claim_id": { "type": "string", "minLength": 1 },
+        "evidence_fragment_id_from": { "type": "string", "minLength": 1 },
+        "evidence_fragment_id_to": { "type": "string", "minLength": 1 },
+        "direction_known": {
+          "type": "boolean",
+          "description": "False when lineage direction cannot be justified. The from/to ids still identify the pair."
+        },
+        "text_relation": { "$ref": "#/$defs/text_relation" },
+        "lineage_edge_types": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/lineage_edge_type" },
+          "description": "Codebook §7 allows one or more lineage labels on an edge."
+        },
+        "origin_relation": { "$ref": "#/$defs/origin_relation" },
+        "origin_confidence": { "$ref": "#/$defs/origin_confidence" },
+        "origin_rationale": { "type": "string", "minLength": 1 },
+        "source_origin_family_id": {
+          "type": ["string", "null"],
+          "description": "Null unless the origin is sufficiently evidenced. Must be null when origin_relation is DEPENDENCE_RELATION_UNKNOWN. A family id is not a cluster of all passages in a document, and it does not imply transitive membership."
+        },
+        "annotator_id": { "type": "string", "minLength": 1 },
+        "annotation_version": { "type": "string", "minLength": 1 },
+        "supporting_artifact": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "origin_relation": { "const": "DEPENDENCE_RELATION_UNKNOWN" }
+            },
+            "required": ["origin_relation"]
+          },
+          "then": {
+            "properties": {
+              "source_origin_family_id": { "type": "null" }
+            },
+            "required": ["source_origin_family_id"]
+          }
+        }
+      ]
+    },
+    "adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_type",
+        "target_id",
+        "adjudication_status",
+        "adjudicated_label",
+        "annotation_version"
+      ],
+      "description": "Separate from raw_annotations. Codebook §12 requires adjudication_status and adjudicated_label and does not enumerate adjudication_status.",
+      "properties": {
+        "target_type": {
+          "enum": ["claim_truth", "passage_stance", "evidence_set_status", "edge"]
+        },
+        "target_id": { "type": "string", "minLength": 1 },
+        "adjudication_status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Vocabulary is not defined by the codebook. Do not standardize values until the decision record freezes them."
+        },
+        "adjudicated_label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Must be one of the codebook enums for the target layer. Not enforced here as a single enum because the target layer varies. A validator should check it against the matching enum after the status vocabulary is frozen."
+        },
+        "adjudicator_id": { "type": "string" },
+        "annotation_version": { "type": "string", "minLength": 1 },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

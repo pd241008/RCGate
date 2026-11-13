@@ -3,7 +3,7 @@
   "fit_info": {
     "val_auroc": 0.6717123935666981
   },
-  "git": "9865b61",
+  "git": "ee8ffb7",
   "seed": 0,
   "skipped": null,
   "split_seed": 0,
@@ -28,8 +28,8 @@
     "api_calls": 0,
     "api_usd": 0.0,
     "predict_s": 0.005,
-    "train_s": 0.528,
-    "wall_s": 0.575
+    "train_s": 0.501,
+    "wall_s": 0.545
   },
   "val_auroc": 0.6717,
   "variant": "A4"

@@ -5,7 +5,7 @@
     "n_grid": 101,
     "val_auroc": 0.7360038610038611
   },
-  "git": "9865b61",
+  "git": "ee8ffb7",
   "seed": 1,
   "skipped": null,
   "split_seed": 1,
@@ -30,8 +30,8 @@
     "api_calls": 0,
     "api_usd": 0.0,
     "predict_s": 0.001,
-    "train_s": 0.398,
-    "wall_s": 0.434
+    "train_s": 0.376,
+    "wall_s": 0.413
   },
   "val_auroc": 0.736,
   "variant": "A3"

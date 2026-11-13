@@ -1,0 +1,216 @@
+{
+  "files": {
+    "response_sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+    "source_sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+    "response_sha256_expected": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+    "source_sha256_expected": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+    "response_bytes": 21458735,
+    "source_bytes": 15117971
+  },
+  "n_responses": 17790,
+  "n_sources": 2965,
+  "response_key_patterns": {
+    "('id', 'labels', 'model', 'quality', 'response', 'source_id', 'split', 'temperature')": 17790
+  },
+  "source_key_patterns": {
+    "('prompt', 'source', 'source_id', 'source_info', 'task_type')": 2965
+  },
+  "label_key_patterns": {
+    "('due_to_null', 'end', 'implicit_true', 'label_type', 'meta', 'start', 'text')": 14289
+  },
+  "label_types": {
+    "Evident Baseless Info": 6237,
+    "Evident Conflict": 5324,
+    "Subtle Baseless Info": 2527,
+    "Subtle Conflict": 201
+  },
+  "implicit_true": {
+    "False": 12361,
+    "True": 1928
+  },
+  "due_to_null": {
+    "False": 12647,
+    "True": 1642
+  },
+  "quality": {
+    "good": 17617,
+    "incorrect_refusal": 144,
+    "truncated": 29
+  },
+  "temperature": {
+    "0.7": 10089,
+    "1.0": 3601,
+    "0.775": 1610,
+    "0.85": 1478,
+    "0.925": 1012
+  },
+  "models": {
+    "gpt-4-0613": 2965,
+    "gpt-3.5-turbo-0613": 2965,
+    "mistral-7B-instruct": 2965,
+    "llama-2-7b-chat": 2965,
+    "llama-2-13b-chat": 2965,
+    "llama-2-70b-chat": 2965
+  },
+  "official_split": {
+    "train": 15090,
+    "test": 2700
+  },
+  "task_counts": {
+    "Data2txt": 1033,
+    "QA": 989,
+    "Summary": 943
+  },
+  "task_model_responses": {
+    "Data2txt|gpt-3.5-turbo-0613": 1033,
+    "Data2txt|gpt-4-0613": 1033,
+    "Data2txt|llama-2-13b-chat": 1033,
+    "Data2txt|llama-2-70b-chat": 1033,
+    "Data2txt|llama-2-7b-chat": 1033,
+    "Data2txt|mistral-7B-instruct": 1033,
+    "QA|gpt-3.5-turbo-0613": 989,
+    "QA|gpt-4-0613": 989,
+    "QA|llama-2-13b-chat": 989,
+    "QA|llama-2-70b-chat": 989,
+    "QA|llama-2-7b-chat": 989,
+    "QA|mistral-7B-instruct": 989,
+    "Summary|gpt-3.5-turbo-0613": 943,
+    "Summary|gpt-4-0613": 943,
+    "Summary|llama-2-13b-chat": 943,
+    "Summary|llama-2-70b-chat": 943,
+    "Summary|llama-2-7b-chat": 943,
+    "Summary|mistral-7B-instruct": 943
+  },
+  "task_split_responses": {
+    "Data2txt|test": 900,
+    "Data2txt|train": 5298,
+    "QA|test": 900,
+    "QA|train": 5034,
+    "Summary|test": 900,
+    "Summary|train": 4758
+  },
+  "response_with_any_hallucination_span_by_task": {
+    "Data2txt": 4254,
+    "QA": 1724,
+    "Summary": 1686
+  },
+  "responses_per_task": {
+    "Summary": 5658,
+    "Data2txt": 6198,
+    "QA": 5934
+  },
+  "panel_size_counts": {
+    "6": 2965
+  },
+  "sources_whose_responses_have_mixed_official_splits": 0,
+  "responses_missing_source": 0,
+  "sources_missing_responses": 0,
+  "duplicate_response_ids": 0,
+  "duplicate_source_ids": 0,
+  "empty_responses": 0,
+  "empty_source_text": 0,
+  "spans_total": 14289,
+  "span_text_mismatch": 0,
+  "span_out_of_range": 0,
+  "span_crosses_sentence": 996,
+  "span_hits_no_sentence": 0,
+  "cross_boundary_spans_by_task": {
+    "QA": 904,
+    "Summary": 55,
+    "Data2txt": 37
+  },
+  "spans_by_task": {
+    "Data2txt": 9290,
+    "QA": 2927,
+    "Summary": 2072
+  },
+  "responses_with_zero_sentences": 0,
+  "n_sentences": 133684,
+  "n_positive_any_overlap": 14670,
+  "n_positive_half_coverage": 6383,
+  "n_positive_span_contained_in_sentence": 11567,
+  "n_positive_excluding_implicit_true": 12816,
+  "n_positive_implicit_true_only": 1854,
+  "n_conflict_only_sentences": 4584,
+  "n_baseless_only_sentences": 9525,
+  "n_both_families_sentences": 561,
+  "sentences_with_multiple_spans": 1472,
+  "sentences_by_task": {
+    "Data2txt": 55497,
+    "QA": 46592,
+    "Summary": 31595
+  },
+  "positive_sentences_by_task": {
+    "Data2txt": 7852,
+    "QA": 4754,
+    "Summary": 2064
+  },
+  "sentences_by_model": {
+    "gpt-3.5-turbo-0613": 25353,
+    "llama-2-13b-chat": 23778,
+    "llama-2-7b-chat": 22299,
+    "llama-2-70b-chat": 22276,
+    "mistral-7B-instruct": 21290,
+    "gpt-4-0613": 18688
+  },
+  "positive_sentences_by_model": {
+    "llama-2-7b-chat": 3659,
+    "llama-2-13b-chat": 3640,
+    "mistral-7B-instruct": 3553,
+    "llama-2-70b-chat": 2814,
+    "gpt-3.5-turbo-0613": 548,
+    "gpt-4-0613": 456
+  },
+  "sentences_by_task_model": {
+    "Data2txt|gpt-3.5-turbo-0613": 13676,
+    "Data2txt|gpt-4-0613": 8358,
+    "Data2txt|llama-2-13b-chat": 9540,
+    "Data2txt|llama-2-70b-chat": 8289,
+    "Data2txt|llama-2-7b-chat": 6682,
+    "Data2txt|mistral-7B-instruct": 8952,
+    "QA|gpt-3.5-turbo-0613": 4617,
+    "QA|gpt-4-0613": 5334,
+    "QA|llama-2-13b-chat": 9493,
+    "QA|llama-2-70b-chat": 9065,
+    "QA|llama-2-7b-chat": 11132,
+    "QA|mistral-7B-instruct": 6951,
+    "Summary|gpt-3.5-turbo-0613": 7060,
+    "Summary|gpt-4-0613": 4996,
+    "Summary|llama-2-13b-chat": 4745,
+    "Summary|llama-2-70b-chat": 4922,
+    "Summary|llama-2-7b-chat": 4485,
+    "Summary|mistral-7B-instruct": 5387
+  },
+  "positive_sentences_by_task_model": {
+    "Data2txt|gpt-3.5-turbo-0613": 358,
+    "Data2txt|gpt-4-0613": 318,
+    "Data2txt|llama-2-13b-chat": 2281,
+    "Data2txt|llama-2-70b-chat": 1614,
+    "Data2txt|llama-2-7b-chat": 1481,
+    "Data2txt|mistral-7B-instruct": 1800,
+    "QA|gpt-3.5-turbo-0613": 126,
+    "QA|gpt-4-0613": 52,
+    "QA|llama-2-13b-chat": 1028,
+    "QA|llama-2-70b-chat": 956,
+    "QA|llama-2-7b-chat": 1663,
+    "QA|mistral-7B-instruct": 929,
+    "Summary|gpt-3.5-turbo-0613": 64,
+    "Summary|gpt-4-0613": 86,
+    "Summary|llama-2-13b-chat": 331,
+    "Summary|llama-2-70b-chat": 244,
+    "Summary|llama-2-7b-chat": 515,
+    "Summary|mistral-7B-instruct": 824
+  },
+  "quality_sentence_rows": {
+    "good": 132934,
+    "truncated": 592,
+    "incorrect_refusal": 158
+  },
+  "exact_prompt_strings_in_both_official_splits": 0,
+  "normalized_prompts_in_both_official_splits": 0,
+  "normalized_source_hashes_in_both_official_splits": 0,
+  "exact_prompts_shared_by_multiple_source_ids": 1,
+  "normalized_prompts_shared_by_multiple_source_ids": 1,
+  "normalized_source_hashes_shared_by_multiple_source_ids": 1,
+  "max_sources_per_normalized_source_hash": 2
+}
