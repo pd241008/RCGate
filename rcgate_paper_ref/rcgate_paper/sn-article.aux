@@ -1,0 +1,161 @@
+\relax 
+\bibstyle{sn-mathphys}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\Newlabel{1}{1}
+\citation{ji2023survey}
+\citation{manakul2023selfcheckgpt}
+\citation{chen2024beacon}
+\citation{min2023factscore,dhuliawala2023chain}
+\citation{ding2024rowen}
+\citation{zhao2024medico}
+\citation{wolpert1992stacked}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{2}{Introduction}{section.1}{}}
+\citation{niu2024ragtruth}
+\citation{manakul2023selfcheckgpt}
+\citation{zhang2023sac3}
+\citation{goel2025finchzk}
+\citation{chen2024beacon}
+\citation{bakman2025wild}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{3}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{3}{Related Work}{section.2}{}}
+\citation{min2023factscore}
+\citation{ding2024rowen}
+\citation{zhao2024medico}
+\citation{dubanowska2025ood}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Cross-Model and Sampling-Based Consistency}{4}{subsection.2.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Cross-Model Peer Consistency Verification}}{4}{algorithm.1}\protected@file@percent }
+\newlabel{alg:peer_consistency}{{1}{4}{Cross-Model and Sampling-Based Consistency}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Evidence-Grounded Verification and Hybrid Detectors}{4}{subsection.2.2}\protected@file@percent }
+\citation{manakul2023selfcheckgpt}
+\citation{min2023factscore}
+\citation{niu2024ragtruth}
+\citation{kostka2026uncertainty}
+\citation{shen2026egc}
+\citation{bouke2026gasp}
+\citation{fadeeva2026franq}
+\citation{huang2026rlseek}
+\citation{itkin2026temporal}
+\citation{wolpert1992stacked}
+\citation{kostka2026uncertainty}
+\citation{shen2026egc}
+\citation{bouke2026gasp}
+\citation{fadeeva2026franq}
+\citation{huang2026rlseek}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Comparison with Closest Contemporary Competitors}{5}{subsection.2.3}\protected@file@percent }
+\newlabel{subsec:competitor_comparison}{{2.3}{5}{Comparison with Closest Contemporary Competitors}{subsection.2.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comprehensive comparison of representative hallucination detection methodologies. Columns detail paper titles, authors, publication years, primary features, key empirical findings, and operational relevance to RC-Gate.}}{6}{table.1}\protected@file@percent }
+\newlabel{tab:related_work}{{1}{6}{Comprehensive comparison of representative hallucination detection methodologies. Columns detail paper titles, authors, publication years, primary features, key empirical findings, and operational relevance to RC-Gate}{table.1}{}}
+\citation{niu2024ragtruth}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Research Gap and Methodological Justification}{7}{subsection.2.4}\protected@file@percent }
+\newlabel{subsec:gap_justification}{{2.4}{7}{Research Gap and Methodological Justification}{subsection.2.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Datasets and Experimental Signal Tables}{7}{section.3}\protected@file@percent }
+\newlabel{sec:datasets}{{3}{7}{Datasets and Experimental Signal Tables}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Real-World Benchmark: RAGTruth}{8}{subsection.3.1}\protected@file@percent }
+\newlabel{subsec:ragtruth_ds}{{3.1}{8}{Real-World Benchmark: RAGTruth}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Data Selection, Attributes, and Processing}{8}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Span-Overlap Labelling Policy}{8}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Synthetic Benchmark with Planted Conditional Reliability}{9}{subsection.3.2}\protected@file@percent }
+\newlabel{subsec:synthetic_ds}{{3.2}{9}{Synthetic Benchmark with Planted Conditional Reliability}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{9}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{4}{9}{Methodology}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Architectural Formulation}{9}{subsection.4.1}\protected@file@percent }
+\newlabel{subsec:arch_formulation}{{4.1}{9}{Architectural Formulation}{subsection.4.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Mathematical notation employed in the RC-Gate architecture, signal extraction pipeline, and evaluation protocols.}}{10}{table.2}\protected@file@percent }
+\newlabel{tab:notation}{{2}{10}{Mathematical notation employed in the RC-Gate architecture, signal extraction pipeline, and evaluation protocols}{table.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Detailed architectural schematic of RC-Gate. The gating network observes exclusively metadata ($t, g$), isolated from verification signals by a non-leakage barrier. Specialist linear experts score signal vectors independently into unconstrained logits ($z_{\mathrm  {cross}}, z_{\mathrm  {evid}}$). Logits are modulated by dynamic routing weights $(w_{\mathrm  {cross}}, w_{\mathrm  {evid}})$ and fused via stacked meta-learner $\Phi $. The glass-box output returns both the risk score $\hat  {p}$ and explicit attribution weights.}}{10}{figure.1}\protected@file@percent }
+\newlabel{fig:arch}{{1}{10}{Detailed architectural schematic of RC-Gate. The gating network observes exclusively metadata ($t, g$), isolated from verification signals by a non-leakage barrier. Specialist linear experts score signal vectors independently into unconstrained logits ($z_{\mathrm {cross}}, z_{\mathrm {evid}}$). Logits are modulated by dynamic routing weights $(w_{\mathrm {cross}}, w_{\mathrm {evid}})$ and fused via stacked meta-learner $\Phi $. The glass-box output returns both the risk score $\hat {p}$ and explicit attribution weights}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Stage 1: Metadata Isolation Barrier and Gating Network}{10}{subsubsection.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Stage 2: Specialist Linear Experts}{11}{subsubsection.4.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}Stage 3: Stacked Logit Fusion}{11}{subsubsection.4.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Parameter Complexity and Glass-Box Attribution}{11}{subsection.4.2}\protected@file@percent }
+\newlabel{subsec:glass_box}{{4.2}{11}{Parameter Complexity and Glass-Box Attribution}{subsection.4.2}{}}
+\citation{kingma2015adam}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Training Protocol and Cold-Start Regularization}{12}{subsection.4.3}\protected@file@percent }
+\newlabel{subsec:training}{{4.3}{12}{Training Protocol and Cold-Start Regularization}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Setup}{12}{section.5}\protected@file@percent }
+\newlabel{sec:setup}{{5}{12}{Experimental Setup}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Taxonomy of Evaluated Variants}{12}{subsection.5.1}\protected@file@percent }
+\newlabel{subsec:variants}{{5.1}{12}{Taxonomy of Evaluated Variants}{subsection.5.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Taxonomy of evaluated system variants, baseline algorithms, and experimental controls.}}{12}{table.3}\protected@file@percent }
+\newlabel{tab:variants_full}{{3}{12}{Taxonomy of evaluated system variants, baseline algorithms, and experimental controls}{table.3}{}}
+\citation{efron1993bootstrap}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Evaluation Metrics and Paired Bootstrap Tests}{13}{subsection.5.2}\protected@file@percent }
+\newlabel{subsec:metrics}{{5.2}{13}{Evaluation Metrics and Paired Bootstrap Tests}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Experimental Results}{13}{section.6}\protected@file@percent }
+\newlabel{sec:results}{{6}{13}{Experimental Results}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Synthetic Benchmark: Machinery Validation and Tabular Control}{13}{subsection.6.1}\protected@file@percent }
+\newlabel{subsec:results_synthetic}{{6.1}{13}{Synthetic Benchmark: Machinery Validation and Tabular Control}{subsection.6.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Synthetic benchmark: Main test results across all claims (mean over 5 tables $\times $ 5 seeds; $N \approx 2,701$ test claims per run). AUROC reported with mean 95\% bootstrap confidence intervals. \textbf  {Note: Synthetic data validates architectural machinery, not empirical real-world efficacy.}}}{14}{table.4}\protected@file@percent }
+\newlabel{tab:syn_main}{{4}{14}{Synthetic benchmark: Main test results across all claims (mean over 5 tables $\times $ 5 seeds; $N \approx 2,701$ test claims per run). AUROC reported with mean 95\% bootstrap confidence intervals. \textbf {Note: Synthetic data validates architectural machinery, not empirical real-world efficacy.}}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Synthetic benchmark: Test AUROC disaggregated by claim type (mean $\pm $ standard deviation across 25 runs). Bold indicates best performance per slice.}}{14}{table.5}\protected@file@percent }
+\newlabel{tab:syn_type}{{5}{14}{Synthetic benchmark: Test AUROC disaggregated by claim type (mean $\pm $ standard deviation across 25 runs). Bold indicates best performance per slice}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Synthetic benchmark: Paired-bootstrap AUROC differences ($\Delta = \mathrm  {AUROC}(\text  {A7}) - \mathrm  {AUROC}(\text  {Baseline})$) with 95\% confidence intervals.}}{14}{table.6}\protected@file@percent }
+\newlabel{tab:syn_paired}{{6}{14}{Synthetic benchmark: Paired-bootstrap AUROC differences ($\Delta = \mathrm {AUROC}(\text {A7}) - \mathrm {AUROC}(\text {Baseline})$) with 95\% confidence intervals}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Gate Weight Inspection}{14}{subsection.6.2}\protected@file@percent }
+\newlabel{subsec:results_weights}{{6.2}{14}{Gate Weight Inspection}{subsection.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Test AUROC disaggregated by claim type across key variants (bars denote mean over seeds; whiskers denote $\pm 1$ standard deviation; dotted horizontal line denotes chance level 0.50). Left: Synthetic benchmark. Right: Real-world RAGTruth benchmark.}}{15}{figure.2}\protected@file@percent }
+\newlabel{fig:bars}{{2}{15}{Test AUROC disaggregated by claim type across key variants (bars denote mean over seeds; whiskers denote $\pm 1$ standard deviation; dotted horizontal line denotes chance level 0.50). Left: Synthetic benchmark. Right: Real-world RAGTruth benchmark}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Learned mean cross-model routing weights $w_{\mathrm  {cross}}$ across claim types and generator identities. Left: Synthetic benchmark, demonstrating clean selective routing. Right: Real-world RAGTruth benchmark, where routing weights compress into a narrow, near-uniform band.}}{15}{figure.3}\protected@file@percent }
+\newlabel{fig:gw}{{3}{15}{Learned mean cross-model routing weights $w_{\mathrm {cross}}$ across claim types and generator identities. Left: Synthetic benchmark, demonstrating clean selective routing. Right: Real-world RAGTruth benchmark, where routing weights compress into a narrow, near-uniform band}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Leave-One-Generator-Out (LOGO) Cold-Start Generalization}{15}{subsection.6.3}\protected@file@percent }
+\newlabel{subsec:results_logo}{{6.3}{15}{Leave-One-Generator-Out (LOGO) Cold-Start Generalization}{subsection.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces A7 Gate routing weights on synthetic test data. Values show mean cross-model trust weight $w_{\mathrm  {cross}}$ per cell; evidence trust is $w_{\mathrm  {evid}} = 1 - w_{\mathrm  {cross}}$.}}{16}{table.7}\protected@file@percent }
+\newlabel{tab:weights_num}{{7}{16}{A7 Gate routing weights on synthetic test data. Values show mean cross-model trust weight $w_{\mathrm {cross}}$ per cell; evidence trust is $w_{\mathrm {evid}} = 1 - w_{\mathrm {cross}}$}{table.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Synthetic leave-one-generator-out (LOGO) cold-start evaluation. Columns report AUROC on held-out $\textsc  {unk}$ rows with 95\% bootstrap confidence intervals versus seen in-distribution test rows.}}{16}{table.8}\protected@file@percent }
+\newlabel{tab:syn_logo}{{8}{16}{Synthetic leave-one-generator-out (LOGO) cold-start evaluation. Columns report AUROC on held-out $\textsc {unk}$ rows with 95\% bootstrap confidence intervals versus seen in-distribution test rows}{table.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Real-World Benchmark: RAGTruth Negative Result}{16}{subsection.6.4}\protected@file@percent }
+\newlabel{subsec:results_ragtruth}{{6.4}{16}{Real-World Benchmark: RAGTruth Negative Result}{subsection.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces RAGTruth real-world benchmark: Main test results across all claims (mean over 3 seeds; $N \approx 160$ test claims, $\approx 11$ positives per run). \textbf  {Honest reporting: RC-Gate does not outperform flat baselines on this benchmark.}}}{16}{table.9}\protected@file@percent }
+\newlabel{tab:rag_main}{{9}{16}{RAGTruth real-world benchmark: Main test results across all claims (mean over 3 seeds; $N \approx 160$ test claims, $\approx 11$ positives per run). \textbf {Honest reporting: RC-Gate does not outperform flat baselines on this benchmark.}}{table.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces RAGTruth real-world benchmark: Test AUROC disaggregated by claim type (mean $\pm $ standard deviation across 3 seeds).}}{17}{table.10}\protected@file@percent }
+\newlabel{tab:rag_type}{{10}{17}{RAGTruth real-world benchmark: Test AUROC disaggregated by claim type (mean $\pm $ standard deviation across 3 seeds)}{table.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces RAGTruth real-world benchmark: Paired-bootstrap AUROC differences ($\Delta = \mathrm  {AUROC}(\text  {A7}) - \mathrm  {AUROC}(\text  {Baseline})$) with 95\% confidence intervals.}}{17}{table.11}\protected@file@percent }
+\newlabel{tab:rag_paired}{{11}{17}{RAGTruth real-world benchmark: Paired-bootstrap AUROC differences ($\Delta = \mathrm {AUROC}(\text {A7}) - \mathrm {AUROC}(\text {Baseline})$) with 95\% confidence intervals}{table.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces RAGTruth leave-one-generator-out (LOGO) evaluation across the six generator families. Entries marked ``--'' denote test partitions lacking positive claims.}}{17}{table.12}\protected@file@percent }
+\newlabel{tab:rag_logo}{{12}{17}{RAGTruth leave-one-generator-out (LOGO) evaluation across the six generator families. Entries marked ``--'' denote test partitions lacking positive claims}{table.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Computational and Resource Profiling}{17}{subsection.6.5}\protected@file@percent }
+\newlabel{subsec:results_cost}{{6.5}{17}{Computational and Resource Profiling}{subsection.6.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Computational profiling: Mean training seconds, inference latency per test batch, API calls, and API monetary expenditure across variants.}}{18}{table.13}\protected@file@percent }
+\newlabel{tab:cost_profile}{{13}{18}{Computational profiling: Mean training seconds, inference latency per test batch, API calls, and API monetary expenditure across variants}{table.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{18}{section.7}\protected@file@percent }
+\newlabel{sec:discussion}{{7}{18}{Discussion}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Status of Research Hypotheses}{18}{subsection.7.1}\protected@file@percent }
+\newlabel{subsec:hyp_status}{{7.1}{18}{Status of Research Hypotheses}{subsection.7.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Final empirical status of the three formal research hypotheses across testbeds.}}{18}{table.14}\protected@file@percent }
+\newlabel{tab:hyp_status}{{14}{18}{Final empirical status of the three formal research hypotheses across testbeds}{table.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Autopsy of the Real-Data Domain Transfer Gap}{18}{subsection.7.2}\protected@file@percent }
+\newlabel{subsec:autopsy}{{7.2}{18}{Autopsy of the Real-Data Domain Transfer Gap}{subsection.7.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Why the Flat Tabular Control Wins}{19}{subsection.7.3}\protected@file@percent }
+\newlabel{subsec:why_gbm_wins}{{7.3}{19}{Why the Flat Tabular Control Wins}{subsection.7.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Constructive Future Work}{19}{section.8}\protected@file@percent }
+\newlabel{sec:future_work}{{8}{19}{Constructive Future Work}{section.8}{}}
+\citation{niu2024ragtruth}
+\bibdata{refs}
+\bibcite{ji2023survey}{{1}{2023}{{Ji et~al.}}{{}}}
+\bibcite{manakul2023selfcheckgpt}{{2}{2023}{{Manakul et~al.}}{{}}}
+\bibcite{chen2024beacon}{{3}{2024}{{Chen et~al.}}{{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{20}{section.9}\protected@file@percent }
+\newlabel{sec:conclusion}{{9}{20}{Conclusion}{section.9}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Data and Code Availability}{20}{section*.2}\protected@file@percent }
+\bibcite{min2023factscore}{{4}{2023}{{Min et~al.}}{{}}}
+\bibcite{dhuliawala2023chain}{{5}{2023}{{Dhuliawala et~al.}}{{}}}
+\bibcite{ding2024rowen}{{6}{2024}{{Ding et~al.}}{{}}}
+\bibcite{zhao2024medico}{{7}{2024}{{Zhao et~al.}}{{}}}
+\bibcite{wolpert1992stacked}{{8}{1992}{{Wolpert}}{{}}}
+\bibcite{niu2024ragtruth}{{9}{2024}{{Niu et~al.}}{{}}}
+\bibcite{zhang2023sac3}{{10}{2023}{{Zhang et~al.}}{{}}}
+\bibcite{goel2025finchzk}{{11}{2025}{{Goel et~al.}}{{}}}
+\bibcite{bakman2025wild}{{12}{2025}{{Bakman et~al.}}{{}}}
+\bibcite{dubanowska2025ood}{{13}{2025}{{Dubanowska et~al.}}{{}}}
+\bibcite{kostka2026uncertainty}{{14}{2026}{{Kostka and Chudziak}}{{}}}
+\bibcite{shen2026egc}{{15}{2026}{{Shen}}{{}}}
+\bibcite{bouke2026gasp}{{16}{2026}{{Bouke}}{{}}}
+\bibcite{fadeeva2026franq}{{17}{2026}{{Fadeeva et~al.}}{{}}}
+\bibcite{huang2026rlseek}{{18}{2026}{{Huang et~al.}}{{}}}
+\bibcite{itkin2026temporal}{{19}{2026}{{Itkin}}{{}}}
+\bibcite{kingma2015adam}{{20}{2015}{{Kingma and Ba}}{{}}}
+\bibcite{efron1993bootstrap}{{21}{1993}{{Efron and Tibshirani}}{{}}}
+\gdef \@abspage@last{22}

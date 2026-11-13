@@ -30,6 +30,7 @@ from .metrics import (
     paired_bootstrap_delta,
     slice_metrics,
 )
+from .paths import FIGURES_DIR, LATEX_TABLES_DIR, PROJECT_ROOT
 from .pipeline import RunContext, fit_variant, load_table, persist
 from .utils import git_hash
 from .variants import ALL_VARIANTS, VARIANTS
@@ -104,8 +105,17 @@ def score_run(result, cfg: Config, seed: int, n_bootstrap: int, n_bins: int) -> 
         if name in CI_SLICES or name.startswith("benchmark"):
             ci = bootstrap_auroc_ci(ys, ps, n_resamples=n_bootstrap, seed=seed)
         m = slice_metrics(
-            ys, ps, name=name, threshold=result.threshold, n_bins=n_bins, ci=ci,
-            extra={"variant": result.variant, "seed": seed, "n_questions": int(df.loc[mask, "question_id"].nunique())},
+            ys,
+            ps,
+            name=name,
+            threshold=result.threshold,
+            n_bins=n_bins,
+            ci=ci,
+            extra={
+                "variant": result.variant,
+                "seed": seed,
+                "n_questions": int(df.loc[mask, "question_id"].nunique()),
+            },
         )
         run.rows.append(m.as_dict())
         run.y[name] = ys
@@ -124,7 +134,16 @@ def aggregate(runs: dict[str, list[SeedRun]], cfg: Config, n_bootstrap: int) -> 
     if not frames:
         return pd.DataFrame()
     df = pd.concat(frames, ignore_index=True)
-    numeric = ["auroc", "f1", "precision", "recall", "ece", "auroc_ci_lo", "auroc_ci_hi", "mean_prob"]
+    numeric = [
+        "auroc",
+        "f1",
+        "precision",
+        "recall",
+        "ece",
+        "auroc_ci_lo",
+        "auroc_ci_hi",
+        "mean_prob",
+    ]
     present = [c for c in numeric if c in df.columns]
     grouped = df.groupby(["variant", "slice"], dropna=False)
     agg = grouped[present].mean().add_suffix("_mean")
@@ -139,7 +158,9 @@ def aggregate(runs: dict[str, list[SeedRun]], cfg: Config, n_bootstrap: int) -> 
 # ---------------------------------------------------------------------------
 
 
-def logo_runs(cfg: Config, variants: list[str], df: pd.DataFrame, n_generators: int) -> pd.DataFrame:
+def logo_runs(
+    cfg: Config, variants: list[str], df: pd.DataFrame, n_generators: int
+) -> pd.DataFrame:
     """Hold out each generator, relabel it UNK in test, and score only the UNK rows."""
     rows = []
     for g in range(n_generators):
@@ -231,7 +252,9 @@ def markdown_report(
         out = [f"## {title}", ""]
         if note:
             out += [note, ""]
-        out.append("| variant | slice | n | AUROC (95% CI) | AUROC mean ± sd | F1 | precision | recall | ECE |")
+        out.append(
+            "| variant | slice | n | AUROC (95% CI) | AUROC mean ± sd | F1 | precision | recall | ECE |"
+        )
         out.append("|---|---|---:|---|---|---:|---:|---:|---:|")
         for _, r in sub.iterrows():
             ci = ""
@@ -247,16 +270,23 @@ def markdown_report(
 
     lines += table_for("all", "Overall")
     lines += table_for("benchmark=", "Per benchmark")
-    lines += table_for("claim_type=", "Per claim type",
-                       "Claim types: 0 numeric, 1 entity, 2 extractive, 3 abstractive. "
-                       "The proposal's \"numeric/extractive\" reporting group is types 0 and 2.")
+    lines += table_for(
+        "claim_type=",
+        "Per claim type",
+        "Claim types: 0 numeric, 1 entity, 2 extractive, 3 abstractive. "
+        'The proposal\'s "numeric/extractive" reporting group is types 0 and 2.',
+    )
 
     gen = agg[agg["slice"].str.startswith("generator_id=")] if len(agg) else pd.DataFrame()
     if not gen.empty:
-        lines += ["## Per generator", "",
-                  "`UNK` (-1) only appears in the leave-one-generator-out table below.", "",
-                  "| variant | generator | n | AUROC (95% CI) | AUROC mean ± sd | F1 | ECE |",
-                  "|---|---|---:|---|---|---:|---:|"]
+        lines += [
+            "## Per generator",
+            "",
+            "`UNK` (-1) only appears in the leave-one-generator-out table below.",
+            "",
+            "| variant | generator | n | AUROC (95% CI) | AUROC mean ± sd | F1 | ECE |",
+            "|---|---|---:|---|---|---:|---:|",
+        ]
         for _, r in gen.iterrows():
             ci = ""
             if pd.notna(r.get("auroc_ci_lo")) and pd.notna(r.get("auroc_ci_hi")):
@@ -270,10 +300,14 @@ def markdown_report(
 
     cells = agg[agg["slice"].str.startswith("cell=")] if len(agg) else pd.DataFrame()
     if not cells.empty:
-        lines += ["## Per (claim type, generator) cell", "",
-                  "Point estimates only; bootstrap CIs are not computed for 20 cells x "
-                  f"{n_seeds} seeds.", "",
-                  "| variant | cell | n | AUROC mean ± sd |", "|---|---|---:|---|"]
+        lines += [
+            "## Per (claim type, generator) cell",
+            "",
+            f"Point estimates only; bootstrap CIs are not computed for 20 cells x {n_seeds} seeds.",
+            "",
+            "| variant | cell | n | AUROC mean ± sd |",
+            "|---|---|---:|---|",
+        ]
         for _, r in cells.iterrows():
             lines.append(
                 f"| {r['variant']} | `{r['slice'][5:]}` | {int(r['n'])} | "
@@ -282,11 +316,16 @@ def markdown_report(
         lines.append("")
 
     if deltas is not None and not deltas.empty:
-        lines += ["## H2 test: A7 minus baseline, paired bootstrap", "",
-                  "Both models are scored on the *same* test rows, so this is a paired "
-                  "comparison and much tighter than differencing two separate CIs. "
-                  "`p_gt_0` is the bootstrap fraction of resamples favouring A7.", "",
-                  "| slice | comparison | ΔAUROC | 95% CI | p_gt_0 |", "|---|---|---:|---|---:|"]
+        lines += [
+            "## H2 test: A7 minus baseline, paired bootstrap",
+            "",
+            "Both models are scored on the *same* test rows, so this is a paired "
+            "comparison and much tighter than differencing two separate CIs. "
+            "`p_gt_0` is the bootstrap fraction of resamples favouring A7.",
+            "",
+            "| slice | comparison | ΔAUROC | 95% CI | p_gt_0 |",
+            "|---|---|---:|---|---:|",
+        ]
         for _, r in deltas.iterrows():
             lines.append(
                 f"| `{r['slice']}` | {r['variant']} - {r['baseline']} | {_fmt(r['delta'])} | "
@@ -295,21 +334,31 @@ def markdown_report(
         lines.append("")
 
     if gate_summary is not None and not gate_summary.empty:
-        lines += ["## Gate weights (A7)", "",
-                  "Mean softmax weights over the test split, by claim type and by generator. "
-                  "Both columns should sum to 1 per cell.", "",
-                  "| claim type | " + " | ".join(f"w_cross g{g}" for g in sorted(gate_summary.columns))
-                  + " |", "|---|" + "---|" * len(gate_summary.columns)]
+        lines += [
+            "## Gate weights (A7)",
+            "",
+            "Mean softmax weights over the test split, by claim type and by generator. "
+            "Both columns should sum to 1 per cell.",
+            "",
+            "| claim type | "
+            + " | ".join(f"w_cross g{g}" for g in sorted(gate_summary.columns))
+            + " |",
+            "|---|" + "---|" * len(gate_summary.columns),
+        ]
         for tname, row in gate_summary.iterrows():
             lines.append(f"| {tname} | " + " | ".join(f"{v:.3f}" for v in row.to_numpy()) + " |")
         lines.append("")
 
     if logo is not None and not logo.empty:
-        lines += ["## Leave-one-generator-out (UNK cold start)", "",
-                  "Each generator is removed from train and val, relabelled `UNK` in test, and "
-                  "scored on the UNK rows only. `seen_auroc` is the rest of the test set.", "",
-                  "| held out | variant | n UNK | UNK AUROC | 95% CI | seen AUROC | in train? |",
-                  "|---|---|---:|---:|---|---:|---|"]
+        lines += [
+            "## Leave-one-generator-out (UNK cold start)",
+            "",
+            "Each generator is removed from train and val, relabelled `UNK` in test, and "
+            "scored on the UNK rows only. `seen_auroc` is the rest of the test set.",
+            "",
+            "| held out | variant | n UNK | UNK AUROC | 95% CI | seen AUROC | in train? |",
+            "|---|---|---:|---:|---|---:|---|",
+        ]
         for _, r in logo.iterrows():
             ci = ""
             if r.get("unk_ci_lo") is not None and pd.notna(r.get("unk_ci_lo")):
@@ -321,12 +370,16 @@ def markdown_report(
             )
         lines.append("")
 
-    lines += ["## Cost and latency", "",
-              "Wall clock per run, and API accounting. API calls are zero for every table that "
-              "was already built; they are non-zero only for tables whose signals came from a "
-              "live extractor.", "",
-              "| variant | mean train s | mean predict s | API calls | API USD |",
-              "|---|---:|---:|---:|---:|"]
+    lines += [
+        "## Cost and latency",
+        "",
+        "Wall clock per run, and API accounting. API calls are zero for every table that "
+        "was already built; they are non-zero only for tables whose signals came from a "
+        "live extractor.",
+        "",
+        "| variant | mean train s | mean predict s | API calls | API USD |",
+        "|---|---:|---:|---:|---:|",
+    ]
     for variant, rs in runs.items():
         if not rs or rs[0].timing is None:
             continue
@@ -397,6 +450,17 @@ def run(
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(report)
 
+    tag = out_path.stem
+    benchmark = str(cfg.get("data.benchmark", "?"))
+    written = _write_latex_tables(tag, benchmark, agg, runs, logo, gate_summary)
+
+    if gate_summary is not None:
+        _write_heatmap(
+            gate_summary,
+            out_path.with_suffix(".gate_weights.png"),
+            FIGURES_DIR / f"{tag}_gate_weights.pdf",
+        )
+
     json_path = out_path.with_suffix(".json")
     import json
 
@@ -405,6 +469,7 @@ def run(
             {
                 "config": cfg.to_dict(),
                 "git": git_hash(),
+                "seeds": seeds,
                 "aggregated": agg.to_dict(orient="records"),
                 "deltas": None if deltas is None else deltas.to_dict(orient="records"),
                 "logo": None if logo is None else logo.to_dict(orient="records"),
@@ -415,10 +480,10 @@ def run(
         )
     )
 
-    if gate_summary is not None:
-        _write_heatmap(gate_summary, out_path.with_suffix(".gate_weights.png"))
-
-    print(f"\nwrote {out_path}\nwrote {json_path}")
+    tex = ", ".join(written)
+    print(
+        f"\nwrote {out_path}\nwrote {json_path}\nwrote {tex}\nwrote {FIGURES_DIR / f'{tag}_gate_weights.pdf'}"
+    )
     return out_path
 
 
@@ -433,7 +498,11 @@ def _deltas(runs, target: str, baselines: tuple[str, ...], n_bootstrap: int) -> 
             continue
         for a, b in zip(runs[target], runs[baseline], strict=True):
             for slice_name in sorted(slices):
-                if slice_name not in a.y or slice_name not in b.y or len(a.y[slice_name]) != len(b.y[slice_name]):
+                if (
+                    slice_name not in a.y
+                    or slice_name not in b.y
+                    or len(a.y[slice_name]) != len(b.y[slice_name])
+                ):
                     continue
                 if slice_name.startswith("cell="):
                     continue
@@ -444,7 +513,15 @@ def _deltas(runs, target: str, baselines: tuple[str, ...], n_bootstrap: int) -> 
                     n_resamples=min(n_bootstrap, 500),
                     seed=a.seed,
                 )
-                rows.append({"variant": target, "baseline": baseline, "slice": slice_name, "seed": a.seed, **d})
+                rows.append(
+                    {
+                        "variant": target,
+                        "baseline": baseline,
+                        "slice": slice_name,
+                        "seed": a.seed,
+                        **d,
+                    }
+                )
     frame = pd.DataFrame(rows)
     if frame.empty:
         return frame
@@ -458,12 +535,14 @@ def _gate_heatmap(runs_a7: list[SeedRun]) -> pd.DataFrame | None:
     if not frames:
         return None
     g = pd.concat(frames, ignore_index=True)
-    piv = g.pivot_table(index="claim_type", columns="generator_id", values="w_cross", aggfunc="mean")
+    piv = g.pivot_table(
+        index="claim_type", columns="generator_id", values="w_cross", aggfunc="mean"
+    )
     piv.index = [CLAIM_TYPE_NAMES[int(t)] for t in piv.index]
     return piv.sort_index()
 
 
-def _write_heatmap(summary: pd.DataFrame, path: Path) -> None:
+def _write_heatmap(summary: pd.DataFrame, png_path: Path, pdf_path: Path | None = None) -> None:
     import matplotlib
 
     matplotlib.use("Agg")
@@ -476,16 +555,263 @@ def _write_heatmap(summary: pd.DataFrame, path: Path) -> None:
     for i in range(summary.shape[0]):
         for j in range(summary.shape[1]):
             value = summary.to_numpy(dtype=float)[i, j]
-            ax.text(j, i, f"{value:.2f}", ha="center", va="center",
-                    color="white" if abs(value - 0.5) > 0.28 else "black")
+            ax.text(
+                j,
+                i,
+                f"{value:.2f}",
+                ha="center",
+                va="center",
+                color="white" if abs(value - 0.5) > 0.28 else "black",
+            )
     ax.set_xlabel("generator_id")
     ax.set_ylabel("claim type")
     ax.set_title("A7 gate weight w_cross  (blue = trusts cross-model, red = trusts evidence)")
     fig.colorbar(im, ax=ax, label="w_cross")
     fig.tight_layout()
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(path, dpi=140)
+    png_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(png_path, dpi=140)
+    if pdf_path is not None:
+        pdf_path.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(pdf_path)  # vector PDF
     plt.close(fig)
+
+
+# ---------------------------------------------------------------------------
+# LaTeX table output (agent.md: results/tables/*.tex, \input-ready)
+# ---------------------------------------------------------------------------
+
+_ABLATION_VARIANTS = ("A3", "A4", "A5", "A6", "A7")
+
+
+def _cell(mean, std=None, lo=None, hi=None, digits: int = 3) -> str:
+    """One LaTeX math cell: ``mean \\pm std`` with an optional ``[lo, hi]`` CI."""
+    if mean is None or (isinstance(mean, float) and np.isnan(mean)):
+        return "-"
+    part = f"{mean:.{digits}f}"
+    if std is not None and not (isinstance(std, float) and np.isnan(std)):
+        part = f"{part} \\pm {std:.{digits}f}"
+    if lo is not None and hi is not None and not (np.isnan(lo) or np.isnan(hi)):
+        part = f"{part} $[{lo:.{digits}f}, {hi:.{digits}f}]$"
+    return f"${part}$"
+
+
+def _variants_in_order(sub: pd.DataFrame) -> pd.DataFrame:
+    """Order rows by the canonical ALL_VARIANTS order, dropping absent variants."""
+    if sub.empty:
+        return sub
+    order = {v: i for i, v in enumerate(ALL_VARIANTS)}
+    sub = sub.copy()
+    sub["_ord"] = sub["variant"].map(lambda v: order.get(v, len(ALL_VARIANTS)))
+    return sub.sort_values("_ord").drop(columns="_ord")
+
+
+def _table(caption: str, label: str, columns: list[str], rows: list[list[str]]) -> str:
+    colspec = "l" + "r" * (len(columns) - 1)
+    lines = [
+        "\\begin{table}[htbp]",
+        "\\centering",
+        f"\\caption{{{caption}}}",
+        f"\\label{{{label}}}",
+        f"\\begin{{tabular}}{{{colspec}}}",
+        "\\toprule",
+        " & ".join(columns) + " \\\\",
+        "\\midrule",
+    ]
+    for row in rows:
+        lines.append(" & ".join(row) + " \\\\")
+    lines += ["\\bottomrule", "\\end{tabular}", "\\end{table}"]
+    return "\n".join(lines)
+
+
+def _slice_rows(sub: pd.DataFrame, prefix: str | None) -> list[list[str]]:
+    """Render (variant, slice) rows for AUROC/F1/ECE with CI and mean ± std."""
+    rows: list[list[str]] = []
+    if prefix is not None:
+        sub = sub[sub["slice"].str.startswith(prefix)]
+    for _, r in _variants_in_order(sub).iterrows():
+        auroc = _cell(
+            r.get("auroc_mean"),
+            r.get("auroc_std"),
+            r.get("auroc_ci_lo"),
+            r.get("auroc_ci_hi"),
+        )
+        f1 = _cell(r.get("f1_mean"), r.get("f1_std"))
+        ece = _cell(r.get("ece_mean"), r.get("ece_std"))
+        rows.append([str(r["variant"]), str(int(r["n"])), auroc, f1, ece])
+    return rows
+
+
+def _claim_type_label(slice_name: str) -> str:
+    idx = int(slice_name.split("=", 1)[1])
+    return CLAIM_TYPE_NAMES[idx] if 0 <= idx < len(CLAIM_TYPE_NAMES) else str(idx)
+
+
+def _write_latex_tables(
+    tag: str,
+    benchmark: str,
+    agg: pd.DataFrame,
+    runs: dict[str, list],
+    logo: pd.DataFrame | None,
+    gate_summary: pd.DataFrame | None,
+) -> list[str]:
+    """Write every paper table to results/tables/<tag>_<name>.tex. Returns paths."""
+    LATEX_TABLES_DIR.mkdir(parents=True, exist_ok=True)
+    written: list[str] = []
+
+    main = _slice_rows(agg, "all")
+    if main:
+        path = LATEX_TABLES_DIR / f"{tag}_main.tex"
+        path.write_text(
+            _table(
+                f"Main results --- {benchmark}. "
+                "AUROC, F1 and ECE with 95\\% bootstrap CI and mean $\\pm$ std over seeds.",
+                f"tab:{tag}:main",
+                ["Variant", "N", "AUROC", "F1", "ECE"],
+                main,
+            )
+        )
+        written.append(str(path))
+
+    ct_rows: list[list[str]] = []
+    for _, r in _variants_in_order(agg[agg["slice"].str.startswith("claim_type=")]).iterrows():
+        auroc = _cell(
+            r.get("auroc_mean"),
+            r.get("auroc_std"),
+            r.get("auroc_ci_lo"),
+            r.get("auroc_ci_hi"),
+        )
+        f1 = _cell(r.get("f1_mean"), r.get("f1_std"))
+        ece = _cell(r.get("ece_mean"), r.get("ece_std"))
+        ct_rows.append(
+            [
+                str(r["variant"]),
+                _claim_type_label(str(r["slice"])),
+                str(int(r["n"])),
+                auroc,
+                f1,
+                ece,
+            ]
+        )
+    if ct_rows:
+        path = LATEX_TABLES_DIR / f"{tag}_claim_type.tex"
+        path.write_text(
+            _table(
+                f"Results by claim type --- {benchmark}. "
+                "AUROC, F1 and ECE with 95\\% bootstrap CI and mean $\\pm$ std over seeds.",
+                f"tab:{tag}:claim_type",
+                ["Variant", "Claim type", "N", "AUROC", "F1", "ECE"],
+                ct_rows,
+            )
+        )
+        written.append(str(path))
+
+    # ablation table: only A3-A7 on the "all" slice
+    abl_rows: list[list[str]] = []
+    for _, r in _variants_in_order(agg).iterrows():
+        if r["variant"] not in _ABLATION_VARIANTS or str(r["slice"]) != "all":
+            continue
+        auroc = _cell(
+            r.get("auroc_mean"),
+            r.get("auroc_std"),
+            r.get("auroc_ci_lo"),
+            r.get("auroc_ci_hi"),
+        )
+        f1 = _cell(r.get("f1_mean"), r.get("f1_std"))
+        ece = _cell(r.get("ece_mean"), r.get("ece_std"))
+        abl_rows.append([str(r["variant"]), str(int(r["n"])), auroc, f1, ece])
+    if abl_rows:
+        path = LATEX_TABLES_DIR / f"{tag}_ablation.tex"
+        path.write_text(
+            _table(
+                f"Ablation --- {benchmark}. A3 static blend, A4 flat GBM+metadata, "
+                "A5 gate on claim type, A6 gate on generator, A7 full RC-Gate. "
+                "AUROC, F1 and ECE with 95\\% bootstrap CI and mean $\\pm$ std over seeds.",
+                f"tab:{tag}:ablation",
+                ["Variant", "N", "AUROC", "F1", "ECE"],
+                abl_rows,
+            )
+        )
+        written.append(str(path))
+
+    if logo is not None and not logo.empty:
+        rows = []
+        for _, r in logo.iterrows():
+            ci = ""
+            if r.get("unk_ci_lo") is not None and pd.notna(r.get("unk_ci_lo")):
+                ci = f" $[{r['unk_ci_lo']:.3f}, {r['unk_ci_hi']:.3f}]$"
+            unk = f"${r['unk_auroc']:.3f}${ci}" if pd.notna(r.get("unk_auroc")) else "-"
+            rows.append(
+                [
+                    str(r["held_out_generator"]),
+                    str(r["variant"]),
+                    str(int(r["n_unk"])),
+                    unk,
+                    f"${r['seen_auroc']:.3f}$",
+                    str(bool(r.get("train_contains_generator", False))),
+                ]
+            )
+        path = LATEX_TABLES_DIR / f"{tag}_logo.tex"
+        path.write_text(
+            _table(
+                f"Leave-one-generator-out (UNK cold start) --- {benchmark}. "
+                "Each generator is held out of train/val, relabelled UNK in test, and "
+                "scored on the UNK rows only.",
+                f"tab:{tag}:logo",
+                ["Held-out", "Variant", "N UNK", "UNK AUROC", "Seen AUROC", "In train?"],
+                rows,
+            )
+        )
+        written.append(str(path))
+
+    if gate_summary is not None and not gate_summary.empty:
+        gens = [f"g{c}" for c in gate_summary.columns]
+        rows = []
+        for tname, row in gate_summary.iterrows():
+            rows.append([str(tname)] + [f"{v:.3f}" for v in row.to_numpy()])
+        path = LATEX_TABLES_DIR / f"{tag}_gate_weights.tex"
+        path.write_text(
+            _table(
+                f"A7 gate weights --- {benchmark}. Mean softmax cross-model weight "
+                "$w_\\mathrm{cross}$ per (claim type, generator) cell; $w_\\mathrm{evid} = "
+                "1 - w_\\mathrm{cross}$ per cell.",
+                f"tab:{tag}:gate_weights",
+                ["Claim type"] + gens,
+                rows,
+            )
+        )
+        written.append(str(path))
+
+    # Cost & latency table from per-seed timing.
+    cost_rows = []
+    tot_train = tot_pred = tot_calls = 0.0
+    tot_usd = 0.0
+    for variant, rs in runs.items():
+        if not rs or rs[0].timing is None:
+            continue
+        tr = float(np.mean([r.timing.get("train_s", 0.0) for r in rs]))
+        pr = float(np.mean([r.timing.get("predict_s", 0.0) for r in rs]))
+        calls = int(sum(r.timing.get("api_calls", 0) for r in rs))
+        usd = float(sum(r.timing.get("api_usd", 0.0) for r in rs))
+        tot_train += tr
+        tot_pred += pr
+        tot_calls += calls
+        tot_usd += usd
+        cost_rows.append([variant, f"{tr:.2f}", f"{pr:.3f}", str(calls), f"{usd:.4f}"])
+    cost_rows.append(
+        ["TOTAL", f"{tot_train:.2f}", f"{tot_pred:.3f}", str(int(tot_calls)), f"{tot_usd:.4f}"]
+    )
+    path = LATEX_TABLES_DIR / f"{tag}_cost.tex"
+    path.write_text(
+        _table(
+            f"Cost and latency --- {benchmark}. Mean train / predict seconds, API calls "
+            "and API spend per variant, summed over seeds.",
+            f"tab:{tag}:cost",
+            ["Variant", "Train (s)", "Predict (s)", "API calls", "API (USD)"],
+            cost_rows,
+        )
+    )
+    written.append(str(path))
+    return written
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -504,21 +830,36 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    from .paths import PROJECT_ROOT, SUMMARY_DIR
+    from .paths import SUMMARY_DIR
     from .pipeline import load_config_or_die
 
     args = build_parser().parse_args(argv)
     cfg = load_config_or_die(args.config)
     seeds = list(range(args.seeds if args.seeds is not None else int(cfg.get("eval.n_seeds", 5))))
-    n_bootstrap = args.bootstrap if args.bootstrap is not None else int(cfg.get("eval.n_bootstrap", 1000))
+    n_bootstrap = (
+        args.bootstrap if args.bootstrap is not None else int(cfg.get("eval.n_bootstrap", 1000))
+    )
     variants = args.variants or list(ALL_VARIANTS)
 
-    out = Path(args.out) if args.out else PROJECT_ROOT / str(cfg.get("report.out_dir", "results/summary")) / f"{cfg.get('report.tag', 'run')}.md"
+    out = (
+        Path(args.out)
+        if args.out
+        else PROJECT_ROOT
+        / str(cfg.get("report.out_dir", "results/summary"))
+        / f"{cfg.get('report.tag', 'run')}.md"
+    )
     if not out.is_absolute():
         out = PROJECT_ROOT / out
 
-    run(cfg, variants, seeds, n_bootstrap, out, with_logo=not args.no_logo,
-        logo_variants=tuple(args.logo_variants))
+    run(
+        cfg,
+        variants,
+        seeds,
+        n_bootstrap,
+        out,
+        with_logo=not args.no_logo,
+        logo_variants=tuple(args.logo_variants),
+    )
     _ = SUMMARY_DIR
     return 0
 

@@ -15,7 +15,7 @@
     ],
     "val_auroc": 0.9535989635995956
   },
-  "git": "b7b5889",
+  "git": "ee8ffb7",
   "seed": 0,
   "skipped": null,
   "split_seed": 0,
@@ -39,9 +39,9 @@
   "timing": {
     "api_calls": 0,
     "api_usd": 0.0,
-    "predict_s": 0.0,
-    "train_s": 0.007,
-    "wall_s": 0.149
+    "predict_s": 0.001,
+    "train_s": 0.005,
+    "wall_s": 0.084
   },
   "val_auroc": 0.9536,
   "variant": "A2"

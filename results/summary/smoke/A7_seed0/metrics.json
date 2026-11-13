@@ -9,7 +9,7 @@
     "unk_dropout": 0.1,
     "val_auroc": 0.7707596056622851
   },
-  "git": "b7b5889",
+  "git": "ee8ffb7",
   "seed": 0,
   "skipped": null,
   "split_seed": 0,
@@ -34,8 +34,8 @@
     "api_calls": 0,
     "api_usd": 0.0,
     "predict_s": 0.002,
-    "train_s": 0.237,
-    "wall_s": 0.326
+    "train_s": 0.226,
+    "wall_s": 0.317
   },
   "val_auroc": 0.7708,
   "variant": "A7"

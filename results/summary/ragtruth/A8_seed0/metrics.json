@@ -1,7 +1,7 @@
 {
   "config": "ragtruth.yaml",
   "fit_info": {},
-  "git": "9865b61",
+  "git": "ee8ffb7",
   "seed": 0,
   "skipped": "no judge outputs in the signal table; A8 skipped by design",
   "split_seed": 0,
